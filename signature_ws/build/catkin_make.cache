@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/spyros/signature_ws/devel -DCMAKE_INSTALL_PREFIX=/home/spyros/signature_ws/install -G Unix Makefiles
