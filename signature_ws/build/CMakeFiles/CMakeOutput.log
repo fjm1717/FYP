@@ -10,7 +10,7 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is GNU, found in "/home/spyros/signature_ws/build/CMakeFiles/3.10.2/CompilerIdC/a.out"
+The C compiler identification is GNU, found in "/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/3.10.2/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
@@ -23,33 +23,33 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is GNU, found in "/home/spyros/signature_ws/build/CMakeFiles/3.10.2/CompilerIdCXX/a.out"
+The CXX compiler identification is GNU, found in "/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/3.10.2/CompilerIdCXX/a.out"
 
 Determining if the C compiler works passed with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_fa5fb/fast"
-/usr/bin/make -f CMakeFiles/cmTC_fa5fb.dir/build.make CMakeFiles/cmTC_fa5fb.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_fa5fb.dir/testCCompiler.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_fa5fb.dir/testCCompiler.c.o   -c /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_fa5fb
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fa5fb.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_fa5fb.dir/testCCompiler.c.o  -o cmTC_fa5fb 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_cdb7d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_cdb7d.dir/build.make CMakeFiles/cmTC_cdb7d.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_cdb7d.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_cdb7d.dir/testCCompiler.c.o   -c /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_cdb7d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cdb7d.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_cdb7d.dir/testCCompiler.c.o  -o cmTC_cdb7d 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_7096f/fast"
-/usr/bin/make -f CMakeFiles/cmTC_7096f.dir/build.make CMakeFiles/cmTC_7096f.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_7096f.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_7096f.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.10/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_7096f
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7096f.dir/link.txt --verbose=1
-/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_7096f.dir/CMakeCCompilerABI.c.o  -o cmTC_7096f 
+Run Build Command:"/usr/bin/make" "cmTC_781c4/fast"
+/usr/bin/make -f CMakeFiles/cmTC_781c4.dir/build.make CMakeFiles/cmTC_781c4.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_781c4.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_781c4.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.10/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_781c4
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_781c4.dir/link.txt --verbose=1
+/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_781c4.dir/CMakeCCompilerABI.c.o  -o cmTC_781c4 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper
@@ -61,24 +61,24 @@ Thread model: posix
 gcc version 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_7096f' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/cc8tJLAH.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_7096f /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_7096f.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_7096f' '-mtune=generic' '-march=x86-64'
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_781c4' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/cczXydR1.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_781c4 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_781c4.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_781c4' '-mtune=generic' '-march=x86-64'
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_7096f/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_7096f.dir/build.make CMakeFiles/cmTC_7096f.dir/build]
-  ignore line: [make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_7096f.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTC_7096f.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.10/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_7096f]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7096f.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_7096f.dir/CMakeCCompilerABI.c.o  -o cmTC_7096f ]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_781c4/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_781c4.dir/build.make CMakeFiles/cmTC_781c4.dir/build]
+  ignore line: [make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_781c4.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTC_781c4.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.10/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_781c4]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_781c4.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_781c4.dir/CMakeCCompilerABI.c.o  -o cmTC_781c4 ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper]
@@ -90,13 +90,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_7096f' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/cc8tJLAH.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_7096f /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_7096f.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_781c4' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/cczXydR1.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_781c4 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_781c4.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/cc8tJLAH.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/cczXydR1.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -115,7 +115,7 @@ Parsed C implicit link information from above output:
     arg [-znow] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_7096f] ==> ignore
+    arg [cmTC_781c4] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o] ==> ignore
@@ -127,7 +127,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/7/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../..]
-    arg [CMakeFiles/cmTC_7096f.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_781c4.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--push-state] ==> ignore
     arg [--as-needed] ==> ignore
@@ -157,17 +157,17 @@ Parsed C implicit link information from above output:
 
 
 Detecting C [-std=c11] compiler features compiled with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_9163c/fast"
-/usr/bin/make -f CMakeFiles/cmTC_9163c.dir/build.make CMakeFiles/cmTC_9163c.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_9163c.dir/feature_tests.c.o
-/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_9163c.dir/feature_tests.c.o   -c /home/spyros/signature_ws/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_9163c
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9163c.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_9163c.dir/feature_tests.c.o  -o cmTC_9163c 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_40398/fast"
+/usr/bin/make -f CMakeFiles/cmTC_40398.dir/build.make CMakeFiles/cmTC_40398.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_40398.dir/feature_tests.c.o
+/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_40398.dir/feature_tests.c.o   -c /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_40398
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_40398.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_40398.dir/feature_tests.c.o  -o cmTC_40398 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -177,17 +177,17 @@ make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
 Detecting C [-std=c99] compiler features compiled with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_cd79d/fast"
-/usr/bin/make -f CMakeFiles/cmTC_cd79d.dir/build.make CMakeFiles/cmTC_cd79d.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_cd79d.dir/feature_tests.c.o
-/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_cd79d.dir/feature_tests.c.o   -c /home/spyros/signature_ws/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_cd79d
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cd79d.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_cd79d.dir/feature_tests.c.o  -o cmTC_cd79d 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_b3a1b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b3a1b.dir/build.make CMakeFiles/cmTC_b3a1b.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b3a1b.dir/feature_tests.c.o
+/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_b3a1b.dir/feature_tests.c.o   -c /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_b3a1b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b3a1b.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_b3a1b.dir/feature_tests.c.o  -o cmTC_b3a1b 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -197,17 +197,17 @@ make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
 Detecting C [-std=c90] compiler features compiled with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_23d51/fast"
-/usr/bin/make -f CMakeFiles/cmTC_23d51.dir/build.make CMakeFiles/cmTC_23d51.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_23d51.dir/feature_tests.c.o
-/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_23d51.dir/feature_tests.c.o   -c /home/spyros/signature_ws/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_23d51
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_23d51.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_23d51.dir/feature_tests.c.o  -o cmTC_23d51 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_0b900/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0b900.dir/build.make CMakeFiles/cmTC_0b900.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0b900.dir/feature_tests.c.o
+/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_0b900.dir/feature_tests.c.o   -c /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_0b900
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0b900.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_0b900.dir/feature_tests.c.o  -o cmTC_0b900 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -215,30 +215,30 @@ make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
     Feature record: C_FEATURE:0c_static_assert
     Feature record: C_FEATURE:0c_variadic_macros
 Determining if the CXX compiler works passed with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_6892c/fast"
-/usr/bin/make -f CMakeFiles/cmTC_6892c.dir/build.make CMakeFiles/cmTC_6892c.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_6892c.dir/testCXXCompiler.cxx.o
-/usr/bin/c++     -o CMakeFiles/cmTC_6892c.dir/testCXXCompiler.cxx.o -c /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_6892c
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6892c.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_6892c.dir/testCXXCompiler.cxx.o  -o cmTC_6892c 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_7e879/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7e879.dir/build.make CMakeFiles/cmTC_7e879.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_7e879.dir/testCXXCompiler.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_7e879.dir/testCXXCompiler.cxx.o -c /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_7e879
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7e879.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_7e879.dir/testCXXCompiler.cxx.o  -o cmTC_7e879 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_324dc/fast"
-/usr/bin/make -f CMakeFiles/cmTC_324dc.dir/build.make CMakeFiles/cmTC_324dc.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_324dc.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++     -o CMakeFiles/cmTC_324dc.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_324dc
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_324dc.dir/link.txt --verbose=1
-/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_324dc.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_324dc 
+Run Build Command:"/usr/bin/make" "cmTC_f52dc/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f52dc.dir/build.make CMakeFiles/cmTC_f52dc.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_f52dc.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++     -o CMakeFiles/cmTC_f52dc.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_f52dc
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f52dc.dir/link.txt --verbose=1
+/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_f52dc.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_f52dc 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper
@@ -250,24 +250,24 @@ Thread model: posix
 gcc version 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_324dc' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccoIvHRc.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_324dc /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_324dc.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_324dc' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_f52dc' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccsbjHMq.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_f52dc /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_f52dc.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_f52dc' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_324dc/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_324dc.dir/build.make CMakeFiles/cmTC_324dc.dir/build]
-  ignore line: [make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_324dc.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_324dc.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_324dc]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_324dc.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_324dc.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_324dc ]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_f52dc/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_f52dc.dir/build.make CMakeFiles/cmTC_f52dc.dir/build]
+  ignore line: [make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_f52dc.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_f52dc.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_f52dc]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f52dc.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_f52dc.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_f52dc ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper]
@@ -279,13 +279,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_324dc' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccoIvHRc.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_324dc /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_324dc.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_f52dc' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccsbjHMq.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_f52dc /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_f52dc.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccoIvHRc.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccsbjHMq.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -304,7 +304,7 @@ Parsed CXX implicit link information from above output:
     arg [-znow] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_324dc] ==> ignore
+    arg [cmTC_f52dc] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o] ==> ignore
@@ -316,7 +316,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/7/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../..]
-    arg [CMakeFiles/cmTC_324dc.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_f52dc.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -342,17 +342,17 @@ Parsed CXX implicit link information from above output:
 
 
 Detecting CXX [-std=c++1z] compiler features compiled with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_82faa/fast"
-/usr/bin/make -f CMakeFiles/cmTC_82faa.dir/build.make CMakeFiles/cmTC_82faa.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_82faa.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_82faa.dir/feature_tests.cxx.o -c /home/spyros/signature_ws/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_82faa
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_82faa.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_82faa.dir/feature_tests.cxx.o  -o cmTC_82faa 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_3af4d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_3af4d.dir/build.make CMakeFiles/cmTC_3af4d.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_3af4d.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_3af4d.dir/feature_tests.cxx.o -c /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_3af4d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3af4d.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_3af4d.dir/feature_tests.cxx.o  -o cmTC_3af4d 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -415,17 +415,17 @@ make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_1dad0/fast"
-/usr/bin/make -f CMakeFiles/cmTC_1dad0.dir/build.make CMakeFiles/cmTC_1dad0.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_1dad0.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_1dad0.dir/feature_tests.cxx.o -c /home/spyros/signature_ws/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_1dad0
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1dad0.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_1dad0.dir/feature_tests.cxx.o  -o cmTC_1dad0 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_859be/fast"
+/usr/bin/make -f CMakeFiles/cmTC_859be.dir/build.make CMakeFiles/cmTC_859be.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_859be.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_859be.dir/feature_tests.cxx.o -c /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_859be
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_859be.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_859be.dir/feature_tests.cxx.o  -o cmTC_859be 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -488,17 +488,17 @@ make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_bb725/fast"
-/usr/bin/make -f CMakeFiles/cmTC_bb725.dir/build.make CMakeFiles/cmTC_bb725.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_bb725.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_bb725.dir/feature_tests.cxx.o -c /home/spyros/signature_ws/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_bb725
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bb725.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_bb725.dir/feature_tests.cxx.o  -o cmTC_bb725 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_7e611/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7e611.dir/build.make CMakeFiles/cmTC_7e611.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_7e611.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_7e611.dir/feature_tests.cxx.o -c /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_7e611
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7e611.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_7e611.dir/feature_tests.cxx.o  -o cmTC_7e611 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -561,17 +561,17 @@ make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_22578/fast"
-/usr/bin/make -f CMakeFiles/cmTC_22578.dir/build.make CMakeFiles/cmTC_22578.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_22578.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_22578.dir/feature_tests.cxx.o -c /home/spyros/signature_ws/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_22578
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_22578.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_22578.dir/feature_tests.cxx.o  -o cmTC_22578 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_6c6ba/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6c6ba.dir/build.make CMakeFiles/cmTC_6c6ba.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_6c6ba.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_6c6ba.dir/feature_tests.cxx.o -c /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_6c6ba
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6c6ba.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_6c6ba.dir/feature_tests.cxx.o  -o cmTC_6c6ba 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -632,30 +632,30 @@ make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
     Feature record: CXX_FEATURE:0cxx_variadic_macros
     Feature record: CXX_FEATURE:0cxx_variadic_templates
 Determining if the include file pthread.h exists passed with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_cf291/fast"
-/usr/bin/make -f CMakeFiles/cmTC_cf291.dir/build.make CMakeFiles/cmTC_cf291.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_cf291.dir/CheckIncludeFile.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_cf291.dir/CheckIncludeFile.c.o   -c /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-Linking C executable cmTC_cf291
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cf291.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_cf291.dir/CheckIncludeFile.c.o  -o cmTC_cf291 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_fdcc6/fast"
+/usr/bin/make -f CMakeFiles/cmTC_fdcc6.dir/build.make CMakeFiles/cmTC_fdcc6.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fdcc6.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_fdcc6.dir/CheckIncludeFile.c.o   -c /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_fdcc6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fdcc6.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_fdcc6.dir/CheckIncludeFile.c.o  -o cmTC_fdcc6 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
 Determining if the function pthread_create exists in the pthread passed with the following output:
-Change Dir: /home/spyros/signature_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ff48e/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ff48e.dir/build.make CMakeFiles/cmTC_ff48e.dir/build
-make[1]: Entering directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_ff48e.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_ff48e.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
-Linking C executable cmTC_ff48e
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ff48e.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_ff48e.dir/CheckFunctionExists.c.o  -o cmTC_ff48e -lpthread 
-make[1]: Leaving directory '/home/spyros/signature_ws/build/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_0d346/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0d346.dir/build.make CMakeFiles/cmTC_0d346.dir/build
+make[1]: Entering directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0d346.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_0d346.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_0d346
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0d346.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_0d346.dir/CheckFunctionExists.c.o  -o cmTC_0d346 -lpthread 
+make[1]: Leaving directory '/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles/CMakeTmp'
 
 
