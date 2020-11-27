@@ -1,0 +1,8 @@
+prefix=/home/spyros/Spyros/FYP/signature_ws/devel
+
+Name: fyp
+Description: Description of fyp
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/home/spyros/Spyros/FYP/signature_ws/devel
+
+Name: 0000testassem
+Description: Description of 0000testassem
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

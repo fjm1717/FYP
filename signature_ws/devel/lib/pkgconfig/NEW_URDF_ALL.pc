@@ -1,0 +1,8 @@
+prefix=/home/spyros/Spyros/FYP/signature_ws/devel
+
+Name: NEW_URDF_ALL
+Description: Description of NEW_URDF_ALL
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -35,3 +35,11 @@
 /home/spyros/Spyros/FYP/signature_ws/build/gtest/googlemock/gtest/CMakeFiles/list_install_components.dir
 /home/spyros/Spyros/FYP/signature_ws/build/gtest/googlemock/gtest/CMakeFiles/gtest.dir
 /home/spyros/Spyros/FYP/signature_ws/build/gtest/googlemock/gtest/CMakeFiles/rebuild_cache.dir
+/home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/install/strip.dir
+/home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/install/local.dir
+/home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/test.dir
+/home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/list_install_components.dir
+/home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/edit_cache.dir
+/home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/_catkin_empty_exported_target.dir
+/home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/rebuild_cache.dir
+/home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/install.dir

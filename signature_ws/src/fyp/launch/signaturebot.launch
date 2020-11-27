@@ -1,0 +1,11 @@
+<launch>
+  <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot.urdf"/>
+  <rosparam file="$(find fyp)/config/controllers.yaml" command="load"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model signaturebot"/>
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" args="arm_controller"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+</launch>

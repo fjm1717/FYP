@@ -1,0 +1,8 @@
+prefix=/home/spyros/Spyros/FYP/signature_ws/devel
+
+Name: signature_robot
+Description: Description of signature_robot
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

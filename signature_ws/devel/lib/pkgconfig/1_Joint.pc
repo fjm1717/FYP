@@ -1,0 +1,8 @@
+prefix=/home/spyros/Spyros/FYP/signature_ws/devel
+
+Name: 1_Joint
+Description: Description of 1_Joint
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

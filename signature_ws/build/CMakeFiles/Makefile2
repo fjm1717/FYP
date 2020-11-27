@@ -405,6 +405,56 @@ clean: gtest/googlemock/gtest/CMakeFiles/gtest.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Directory level rules for directory fyp
+
+# Convenience name for "all" pass in the directory.
+fyp/all:
+
+.PHONY : fyp/all
+
+# Convenience name for "clean" pass in the directory.
+fyp/clean: fyp/CMakeFiles/_catkin_empty_exported_target.dir/clean
+
+.PHONY : fyp/clean
+
+# Convenience name for "preinstall" pass in the directory.
+fyp/preinstall:
+
+.PHONY : fyp/preinstall
+
+#=============================================================================
+# Target rules for target fyp/CMakeFiles/_catkin_empty_exported_target.dir
+
+# All Build rule for target.
+fyp/CMakeFiles/_catkin_empty_exported_target.dir/all:
+	$(MAKE) -f fyp/CMakeFiles/_catkin_empty_exported_target.dir/build.make fyp/CMakeFiles/_catkin_empty_exported_target.dir/depend
+	$(MAKE) -f fyp/CMakeFiles/_catkin_empty_exported_target.dir/build.make fyp/CMakeFiles/_catkin_empty_exported_target.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles --progress-num= "Built target _catkin_empty_exported_target"
+.PHONY : fyp/CMakeFiles/_catkin_empty_exported_target.dir/all
+
+# Build rule for subdir invocation for target.
+fyp/CMakeFiles/_catkin_empty_exported_target.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 fyp/CMakeFiles/_catkin_empty_exported_target.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/spyros/Spyros/FYP/signature_ws/build/CMakeFiles 0
+.PHONY : fyp/CMakeFiles/_catkin_empty_exported_target.dir/rule
+
+# Convenience name for target.
+_catkin_empty_exported_target: fyp/CMakeFiles/_catkin_empty_exported_target.dir/rule
+
+.PHONY : _catkin_empty_exported_target
+
+# clean rule for target.
+fyp/CMakeFiles/_catkin_empty_exported_target.dir/clean:
+	$(MAKE) -f fyp/CMakeFiles/_catkin_empty_exported_target.dir/build.make fyp/CMakeFiles/_catkin_empty_exported_target.dir/clean
+.PHONY : fyp/CMakeFiles/_catkin_empty_exported_target.dir/clean
+
+# clean rule for target.
+clean: fyp/CMakeFiles/_catkin_empty_exported_target.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Special targets to cleanup operation of make.
 
 # Special rule to run CMake to check the build system integrity.

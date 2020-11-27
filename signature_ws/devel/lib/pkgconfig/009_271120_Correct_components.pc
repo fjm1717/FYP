@@ -1,0 +1,8 @@
+prefix=/home/spyros/Spyros/FYP/signature_ws/devel
+
+Name: 009_271120_Correct_components
+Description: Description of 009_271120_Correct_components
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
