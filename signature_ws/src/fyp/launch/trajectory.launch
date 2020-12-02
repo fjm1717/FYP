@@ -1,0 +1,6 @@
+<launch>
+    <include file="$(find fyp)/launch/signaturebot.launch"/>
+    <include file="$(find signaturebot_moveit_config)/launch/joystick_control.launch"/>
+    <include file="$(find signaturebot_moveit_config)/launch/move_group.launch"/>
+    <include file="$(find signaturebot_moveit_config)/launch/moveit_rviz.launch"/>
+</launch>

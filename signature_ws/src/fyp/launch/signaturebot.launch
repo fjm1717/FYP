@@ -1,6 +1,7 @@
 <launch>
   <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot.urdf"/>
   <rosparam file="$(find fyp)/config/controllers.yaml" command="load"/>
+  <rosparam file="$(find signaturebot_moveit_config)/config/Controllers.yaml" command="load"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
 
