@@ -107,20 +107,17 @@
     <limit
       lower="-0.79"
       upper="0.79"
-      effort="30"
+      effort="100"
       velocity="0.3" />
-      <dynamics
-        damping="0.1"
-        friction="0.01" />
   </joint>
 
   <transmission name="tran1">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_p_1">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor1">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -181,20 +178,17 @@
     <limit
       lower="-0.79"
       upper="0.79"
-      effort="30"
+      effort="100"
       velocity="0.3" />
-    <dynamics
-      damping="0.1"
-      friction="0.01" />
   </joint>
 
   <transmission name="tran2">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_y_1">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor2">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
@@ -255,31 +249,32 @@
     <limit
       lower="-0.1"
       upper="0.1"
-      effort="30"
+      effort="100"
       velocity="0.05" />
-    <dynamics
-      damping="0.1"
-      friction="0.01" />
   </joint>
 
   <transmission name="tran3">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint_s_1">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor3">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
   <gazebo>
-    <plugin name="control" filename='libgazebo_ros_control.so'/>
+    <plugin name="control" filename='libgazebo_ros_control.so'>
+      <robotNamespace>/signaturebot</robotNamespace>
+    </plugin>
   </gazebo>
 
   <gazebo>
     <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
-      <jointName>joint_p_1, joint_y_1, joint_s_1</jointName>
+      <jointName>joint_s_1</jointName>
+      <robotNamespace>/signaturebot</robotNamespace>
+      <updateRate>100.0</updateRate>
     </plugin>
   </gazebo>
 

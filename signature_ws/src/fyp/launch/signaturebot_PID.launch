@@ -1,0 +1,35 @@
+<launch>
+  <!--Gazebo arguments-->
+  <arg name="paused" default="false"/>
+  <arg name="gui" default="true"/>
+
+  <!--load signaturebot URDF to parameter server as robot_description-->
+  <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot.urdf"/>
+  <!--load arm_controller to parameter server-->
+  <rosparam file="$(find fyp)/config/controllers.yaml" command="load"/>
+
+  <!--launch empty_world in Gazebo with arguments-->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+   <arg name="world_name" default="worlds/empty.world"/>
+   <arg name="paused" value="$(arg paused)"/>
+   <arg name="gui" value="$(arg gui)"/>
+ </include>
+
+  <!--spawn controllers using respective controller managers-->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/signaturebot"
+    args="
+    arm_controller/position/pitch_joint
+    arm_controller/state
+    "/>
+
+  <!--convert joint states to TF transforms for rviz etc-->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    output="screen">
+    <remap from="/joint_states" to="/signaturebot/joint_states" />
+  </node>
+
+  <!--spawn robot_description into Gazebo from parameter server-->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model signaturebot"/>
+
+</launch>

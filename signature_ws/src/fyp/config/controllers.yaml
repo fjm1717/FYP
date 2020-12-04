@@ -1,7 +1,20 @@
-arm_controller:
-  type: "position_controllers/JointTrajectoryController"
-  joints:
-    - joint_p_1
-    - joint_y_1
-    - joint_s_1
-  
+signaturebot:
+  arm_controller:
+      #publish all joint states -----------------------------------
+      state:
+        type: joint_state_controller/JointStateController
+        publish_rate: 50 #Hz
+      #position Controllers ---------------------------------------
+      position:
+        pitch_joint:
+          type: effort_controllers/JointPositionController
+          joint: joint_p_1
+          pid: {p: 100.0, i: 0.0, d: 1.0}
+        yaw_joint:
+          type: effort_controllers/JointPositionController
+          joint: joint_y_1
+          pid: {p: 100.0, i: 0.0, d: 1.0}
+        extension_joint:
+          type: effort_controllers/JointPositionController
+          joint: joint_s_1
+          pid: {p: 100.0, i: 0.0, d: 1.0}
