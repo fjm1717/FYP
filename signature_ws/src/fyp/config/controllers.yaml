@@ -9,12 +9,12 @@ signaturebot:
         pitch_joint:
           type: effort_controllers/JointPositionController
           joint: joint_p_1
-          pid: {p: 100.0, i: 0.0, d: 1.0}
+          pid: {p: 25.0, i: 1.0, d: 0.002}
         yaw_joint:
           type: effort_controllers/JointPositionController
           joint: joint_y_1
-          pid: {p: 100.0, i: 0.0, d: 1.0}
+          pid: {p: 25.0, i: 1.0, d: 0.002}
         extension_joint:
           type: effort_controllers/JointPositionController
           joint: joint_s_1
-          pid: {p: 100.0, i: 0.0, d: 1.0}
+          pid: {p: 4000.0, i: 10.0, d: 0.2}

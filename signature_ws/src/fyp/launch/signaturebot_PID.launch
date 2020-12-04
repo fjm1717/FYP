@@ -5,7 +5,7 @@
 
   <!--load signaturebot URDF to parameter server as robot_description-->
   <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot.urdf"/>
-  <!--load arm_controller to parameter server-->
+  <!--load arm_controller and joint_limits to parameter server-->
   <rosparam file="$(find fyp)/config/controllers.yaml" command="load"/>
 
   <!--launch empty_world in Gazebo with arguments-->
@@ -19,11 +19,13 @@
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
     output="screen" ns="/signaturebot"
     args="
-    arm_controller/position/pitch_joint
     arm_controller/state
+    arm_controller/position/pitch_joint
+    arm_controller/position/yaw_joint
+    arm_controller/position/extension_joint
     "/>
 
-  <!--convert joint states to TF transforms for rviz etc-->
+  <!--publish joint states to /tf for rviz etc-->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
     output="screen">
     <remap from="/joint_states" to="/signaturebot/joint_states" />
