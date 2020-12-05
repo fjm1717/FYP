@@ -34,15 +34,6 @@
           rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
       </material>
     </visual>
-    <!--collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://fyp/meshes/base_link.STL" />
-      </geometry>
-    </collision-->
   </link>
 
   <joint name="fixed" type="fixed">
@@ -105,8 +96,8 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="-0.79"
-      upper="0.79"
+      lower="-1.0"
+      upper="1.0"
       effort="100"
       velocity="0.3" />
     <dynamics
@@ -144,15 +135,6 @@
           rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
       </material>
     </visual>
-    <!--collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://fyp/meshes/link_y_1.STL" />
-      </geometry>
-    </collision-->
   </link>
 
   <joint
@@ -168,8 +150,8 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-0.79"
-      upper="0.79"
+      lower="-0.6"
+      upper="0.6"
       effort="100"
       velocity="0.3" />
   </joint>
@@ -215,15 +197,6 @@
           rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
       </material>
     </visual>
-    <!--collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://fyp/meshes/link_s_1.STL" />
-      </geometry>
-    </collision-->
   </link>
 
   <joint
@@ -239,8 +212,8 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="-0.1"
-      upper="0.1"
+      lower="0"
+      upper="0.05"
       effort="100"
       velocity="0.05" />
   </joint>
