@@ -14,6 +14,8 @@ pitch = 0.0
 yaw = 0.0
 extension = 0.0
 
+rate.sleep()
+
 pub1.publish(pitch*0.0174533)
 pub2.publish(yaw*0.0174533)
 pub3.publish(extension)
