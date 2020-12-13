@@ -242,7 +242,6 @@
 
   <gazebo>
     <plugin name="control" filename='libgazebo_ros_control.so'>
-      <robotNamespace>/signaturebot</robotNamespace>
     </plugin>
   </gazebo>
 

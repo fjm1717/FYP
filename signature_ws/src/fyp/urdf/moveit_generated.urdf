@@ -59,6 +59,16 @@
         <limit lower="-1.0" upper="1.0" effort="100" velocity="0.3" />
         <dynamics damping="0.0" friction="0.0" />
     </joint>
+    <transmission name="tran1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_p_1">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor1">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
     <link name="link_y_1">
 
 <inertial>
@@ -87,10 +97,10 @@
     <transmission name="tran2">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="joint_y_1">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="motor2">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
@@ -122,33 +132,20 @@
     <transmission name="tran3">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="joint_s_1">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="motor3">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
-    <transmission name="tran1">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="joint_p_1">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="motor1">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
     <gazebo>
-        <plugin name="control" filename="libgazebo_ros_control.so">
-            <robotNamespace>/signaturebot</robotNamespace>
-        </plugin>
+        <plugin name="control" filename="libgazebo_ros_control.so" />
     </gazebo>
     <!--gazebo plugin that publishes JointState messages for all joints, works in conjuctiong with robot_state_publisher to give 3D robot state-->
     <gazebo>
         <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
             <jointName>joint_p_1, joint_y_1, joint_s_1</jointName>
-            <robotNamespace>/signaturebot</robotNamespace>
             <updateRate>100.0</updateRate>
         </plugin>
     </gazebo>
@@ -189,13 +186,46 @@
     </gazebo>
 </robot>
 
-<transmission name="tran2">
+<transmission name="tran1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_p_1">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor1">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <link name="link_y_1">
+        <inertial>
+            <origin xyz="0.0104876825955588 -0.0230156882718096 0.020941823734644" rpy="0 0 0" />
+            <mass value="0.151826725642152" />
+            <inertia ixx="6.38614671740467E-05" ixy="8.06821895942205E-06" ixz="-8.01171088344698E-07" iyy="8.82740990599378E-05" iyz="6.22836986686432E-07" izz="0.000127222977341237" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://fyp/meshes/link_y_1.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+            </material>
+        </visual>
+    </link>
+    <joint name="joint_y_1" type="revolute">
+        <origin xyz="0 0 0.02" rpy="0 0 0" />
+        <parent link="link_p_1" />
+        <child link="link_y_1" />
+        <axis xyz="0 0 1" />
+        <limit lower="-0.6" upper="0.6" effort="100" velocity="0.3" />
+    </joint>
+    <transmission name="tran2">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="joint_y_1">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="motor2">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
@@ -225,33 +255,20 @@
     <transmission name="tran3">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="joint_s_1">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="motor3">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
-    <transmission name="tran1">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="joint_p_1">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="motor1">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
     <gazebo>
-        <plugin name="control" filename="libgazebo_ros_control.so">
-            <robotNamespace>/signaturebot</robotNamespace>
-        </plugin>
+        <plugin name="control" filename="libgazebo_ros_control.so" />
     </gazebo>
     <!--gazebo plugin that publishes JointState messages for all joints, works in conjuctiong with robot_state_publisher to give 3D robot state-->
     <gazebo>
         <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
             <jointName>joint_p_1, joint_y_1, joint_s_1</jointName>
-            <robotNamespace>/signaturebot</robotNamespace>
             <updateRate>100.0</updateRate>
         </plugin>
     </gazebo>

@@ -1,6 +1,6 @@
 <launch>
   <!--launch Gazebo and Rviz-->
   <include file="$(find fyp)/launch/signaturebot.launch"/>
-  <include file="$(find signaturebot_moveit_config)/launch/move_group.launch"/>
-  <include file="$(find signaturebot_moveit_config)/launch/moveit_rviz.launch"/>
+  <include file="$(find signature_moveit_config)/launch/move_group.launch"/>
+  <include file="$(find signature_moveit_config)/launch/moveit_rviz.launch"/>
 </launch>

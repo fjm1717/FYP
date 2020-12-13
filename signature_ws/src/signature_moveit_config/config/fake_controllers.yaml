@@ -5,5 +5,5 @@ controller_list:
       - joint_y_1
       - joint_s_1
 initial:  # Define initial robot poses.
-#  - group: signature_group
-#    pose: home
+  - group: signature_group
+    pose: Home

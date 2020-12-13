@@ -1,4 +1,4 @@
-  arm_controller:
+  signaturebot_controller:
     type: "position_controllers/JointTrajectoryController"
     joints:
       - joint_p_1
