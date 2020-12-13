@@ -17,5 +17,5 @@
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args="-d $(find fyp)/urdf/signaturebot.rviz" />
+    args="-d $(find fyp)/rviz_config/signaturebot.rviz" />
 </launch>
