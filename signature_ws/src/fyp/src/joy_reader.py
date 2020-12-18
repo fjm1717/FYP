@@ -23,12 +23,15 @@ def callback(msg):
 
 rospy.init_node('joy_reader')
 
+#subscribe to /joy to recieve controller inputs
 joy_sub = rospy.Subscriber('joy',Joy,callback)
 
+#float publishers to arm_controller/position/joint/command to set joint positions
 pitch_pub = rospy.Publisher('signaturebot/arm_controller/position/pitch_joint/command', Float64, queue_size=1)
 yaw_pub = rospy.Publisher('signaturebot/arm_controller/position/yaw_joint/command', Float64, queue_size=1)
 ext_pub = rospy.Publisher('signaturebot/arm_controller/position/extension_joint/command', Float64, queue_size=1)
 
+#setup signaturebot class containing geometry plus positions in joint & physical space
 robot = kinematics.signature_bot(0.134, 0.05008, 0, 0, 0, 0.134, 0, -0.05008)
 
 print('-----------------------------')
@@ -40,19 +43,23 @@ print('-----------------------------')
 rate = rospy.Rate(50)
 
 while not rospy.is_shutdown():
+    #loop until node shutdown
 
     if zero_state == 1:
+        #set home position if A button press
         robot.th1 = 0.0
         robot.th2 = 0.0
         robot.d3 = 0.0
         robot.get_fk()
 
+    #set axis positions using controller input
     robot.z = robot.z + z_dot * 0.0005
     robot.x = robot.x - x_dot * 0.0005
     robot.y = robot.y + y_dot * 0.0005
 
     robot.get_ik()
 
+    #joint limits!
     if robot.th1 > 1.57:
         robot.th1 = 1.57
     elif robot.th1 < -1.57:
@@ -68,6 +75,7 @@ while not rospy.is_shutdown():
 
     robot.get_fk()
 
+    #publish joint variables to arm_controller/position/joint/command
     pitch_pub.publish(robot.th1)
     yaw_pub.publish(robot.th2)
     ext_pub.publish(robot.d3)

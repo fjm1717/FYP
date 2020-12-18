@@ -1,6 +1,7 @@
 #!/usr/bin/python2.7
 
 import math
+import numpy as np
 
 class signature_bot:
 
@@ -24,3 +25,11 @@ class signature_bot:
         k = self.x*math.cos(self.th1) - self.z*math.sin(self.th1)
         self.th2 = math.atan2(-1*self.y, k)
         self.d3 = k/math.cos(self.th2) - self.a
+
+    def get_Jv(self):
+        Jacobian = np.array([ [-1*math.sin(self.th1)*math.cos(self.th2)*(self.d3 + self.a) - self.b*math.cos(self.th1), -1*math.sin(self.th2)*math.cos(self.th1)*(self.d3 + self.a) - self.b*math.sin(self.th1), math.cos(self.th1)*math.cos(self.th2)], [0, -1*math.cos(self.th2)*(self.d3 + self.a), -1*math.sin(self.th2)], [self.b*math.sin(self.th1) - math.cos(self.th1)*math.cos(self.th2)*(self.d3 + self.a), math.sin(self.th1)*math.sin(self.th2)*(self.d3 + self.a), -1*math.cos(self.th2)*math.sin(self.th1)] ])
+        return Jacobian
+
+    def get_invJv(self):
+        Jacobian = np.array([ [-1*math.sin(self.th1)*math.cos(self.th2)*(self.d3 + self.a) - self.b*math.cos(self.th1), -1*math.sin(self.th2)*math.cos(self.th1)*(self.d3 + self.a) - self.b*math.sin(self.th1), math.cos(self.th1)*math.cos(self.th2)], [0, -1*math.cos(self.th2)*(self.d3 + self.a), -1*math.sin(self.th2)], [self.b*math.sin(self.th1) - math.cos(self.th1)*math.cos(self.th2)*(self.d3 + self.a), math.sin(self.th1)*math.sin(self.th2)*(self.d3 + self.a), -1*math.cos(self.th2)*math.sin(self.th1)] ])
+        return np.linalg.inv(Jacobian)
