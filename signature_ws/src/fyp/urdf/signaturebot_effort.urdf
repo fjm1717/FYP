@@ -72,15 +72,6 @@
           rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
       </material>
     </visual>
-    <!--collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://fyp/meshes/link_p_1.STL" />
-      </geometry>
-    </collision-->
   </link>
 
   <joint
@@ -99,7 +90,7 @@
       lower="-1.57"
       upper="1.57"
       effort="100"
-      velocity="0.3" />
+      velocity="1.0" />
     <dynamics
       damping="0.0"
       friction="0.0" />
@@ -112,7 +103,7 @@
     </joint>
     <actuator name="motor1">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>5</mechanicalReduction>
     </actuator>
   </transmission>
 
@@ -164,7 +155,7 @@
       lower="-1.57"
       upper="1.57"
       effort="100"
-      velocity="0.3" />
+      velocity="1.0" />
   </joint>
 
   <transmission name="tran2">
@@ -174,7 +165,7 @@
     </joint>
     <actuator name="motor2">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>10</mechanicalReduction>
     </actuator>
   </transmission>
 
@@ -226,7 +217,7 @@
       lower="0"
       upper="0.06"
       effort="100"
-      velocity="0.05" />
+      velocity="0.5" />
   </joint>
 
   <transmission name="tran3">
@@ -236,7 +227,7 @@
     </joint>
     <actuator name="motor3">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>0.03927</mechanicalReduction>
     </actuator>
   </transmission>
 

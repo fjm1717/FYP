@@ -28,7 +28,7 @@ def callback(msg):
     set_state1 = int(msg.buttons[1])
     set_state2 = int(msg.buttons[2])
 
-rospy.init_node('trajectory')
+rospy.init_node('position_trajectory')
 
 #subscribe to /joy to recieve controller inputs
 joy_sub = rospy.Subscriber('joy',Joy,callback)
@@ -46,7 +46,7 @@ final_pos = np.array([0.0, 0.0, 0.0], dtype="float")
 
 while not rospy.is_shutdown():
     #loop until node shutdown
-    
+
     rate = rospy.Rate(50)
 
     T = input('Input Time to Complete Trajectory (s)..')
@@ -153,7 +153,7 @@ while not rospy.is_shutdown():
     final_pos[2] = robot.z
 
     #plan sraight line trajectory
-    plan, dt = robot.traj_plan(initial_pos, final_pos, T, N)
+    plan, dt = robot.position_trajectory_plan(initial_pos, final_pos, T, N)
     rate = rospy.Rate(1.0 / dt)
     print('--------Trajectory Planning Complete--------')
 

@@ -40,7 +40,7 @@ class signature_bot:
         Jacobian = np.array([ [-1*math.sin(self.th1)*math.cos(self.th2)*(self.d3 + self.a) - self.b*math.cos(self.th1), -1*math.sin(self.th2)*math.cos(self.th1)*(self.d3 + self.a) - self.b*math.sin(self.th1), math.cos(self.th1)*math.cos(self.th2)], [0, -1*math.cos(self.th2)*(self.d3 + self.a), -1*math.sin(self.th2)], [self.b*math.sin(self.th1) - math.cos(self.th1)*math.cos(self.th2)*(self.d3 + self.a), math.sin(self.th1)*math.sin(self.th2)*(self.d3 + self.a), -1*math.cos(self.th2)*math.sin(self.th1)] ])
         return np.linalg.inv(Jacobian)
 
-    def traj_plan(self, initial_pos, final_pos, T, N):
+    def position_trajectory_plan(self, initial_pos, final_pos, T, N):
         dt = float(T) / float(N-1)
         plan = np.zeros((3,N))
 
@@ -49,10 +49,6 @@ class signature_bot:
         C_3 = ( 10.0 / float(pow(T,3)) ) * ( final_pos[0] - initial_pos[0] )
         C_4 = -1.0*( 15.0 / float(pow(T,4)) ) * ( final_pos[0] - initial_pos[0] )
         C_5 = ( 6.0 / float(pow(T,5)) ) * ( final_pos[0] - initial_pos[0] )
-        print(C_0)
-        print(C_3)
-        print(C_4)
-        print(C_5)
 
         for i in range(0, N):
             t = dt*i

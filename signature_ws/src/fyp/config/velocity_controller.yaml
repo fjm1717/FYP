@@ -1,0 +1,20 @@
+signaturebot:
+  arm_controller:
+      #publish all joint states -----------------------------------
+      state:
+        type: joint_state_controller/JointStateController
+        publish_rate: 50 #Hz
+      #position Controllers ---------------------------------------
+      velocity:
+        pitch_joint:
+          type: effort_controllers/JointVelocityController
+          joint: joint_p_1
+          pid: {p: 5.0, i: 20.0, i_clamp: 100}
+        yaw_joint:
+          type: effort_controllers/JointVelocityController
+          joint: joint_y_1
+          pid: {p: 5.0, i: 20.0, i_clamp: 100}
+        extension_joint:
+          type: effort_controllers/JointVelocityController
+          joint: joint_s_1
+          pid: {p: 5.0, i: 20.0, i_clamp: 100}
