@@ -4,7 +4,7 @@
   <arg name="gui" default="true"/>
 
   <!--load signaturebot URDF to parameter server as robot_description-->
-  <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot.urdf"/>
+  <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot_effort.urdf"/>
   <!--load arm_controller and joint_limits to parameter server-->
   <rosparam file="$(find fyp)/config/effort_controller.yaml" command="load"/>
 
@@ -41,6 +41,6 @@
     <param name="coalesce_interval" value="0.025" />
   </node>
 
-  <node pkg="fyp" name="joy_reader" type="joy_reader.py"/>
+  <node pkg="fyp" name="joy_reader" type="joy_reader.py" output="screen" launch-prefix="gnome-terminal --command"/>
 
 </launch>

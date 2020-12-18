@@ -1,3 +1,5 @@
+#!/usr/bin/python2.7
+
 import math
 
 class signature_bot:
