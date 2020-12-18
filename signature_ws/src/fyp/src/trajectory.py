@@ -44,10 +44,13 @@ robot = kinematics.signature_bot(0.134, 0.05008, 0, 0, 0, 0.134, 0, -0.05008, 0,
 initial_pos = np.array([0.0, 0.0, 0.0], dtype="float")
 final_pos = np.array([0.0, 0.0, 0.0], dtype="float")
 
-rate = rospy.Rate(50)
-
 while not rospy.is_shutdown():
     #loop until node shutdown
+    
+    rate = rospy.Rate(50)
+
+    T = input('Input Time to Complete Trajectory (s)..')
+    N = input('Input Number of Points along Trajectory..')
 
     print('Set Inital Position (Press B)')
 
@@ -149,4 +152,19 @@ while not rospy.is_shutdown():
     final_pos[1] = robot.y
     final_pos[2] = robot.z
 
-    rate.sleep()
+    #plan sraight line trajectory
+    plan, dt = robot.traj_plan(initial_pos, final_pos, T, N)
+    rate = rospy.Rate(1.0 / dt)
+    print('--------Trajectory Planning Complete--------')
+
+    for i in range(0,N):
+        robot.x = plan[0,i]
+        robot.y = plan[1,i]
+        robot.z = plan[2,i]
+        robot.get_ik()
+
+        pitch_pub.publish(robot.th1)
+        yaw_pub.publish(robot.th2)
+        ext_pub.publish(robot.d3)
+
+        rate.sleep()
