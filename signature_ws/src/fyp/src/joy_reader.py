@@ -6,19 +6,19 @@ import kinematics
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Float64
 
-z_dot = 0.0
-x_dot = 0.0
-y_dot = 0.0
+z_shift = 0.0
+x_shift = 0.0
+y_shift = 0.0
 zero_state = 0
 
 def callback(msg):
-    global z_dot
-    global x_dot
-    global y_dot
+    global z_shift
+    global x_shift
+    global y_shift
     global zero_state
-    z_dot = float(msg.axes[4])
-    x_dot = -1*float(msg.axes[1])
-    y_dot = -1*float(msg.axes[0])
+    z_shift = float(msg.axes[4])
+    x_shift = -1*float(msg.axes[1])
+    y_shift = -1*float(msg.axes[0])
     zero_state = int(msg.buttons[0])
 
 rospy.init_node('joy_reader')
@@ -31,8 +31,8 @@ pitch_pub = rospy.Publisher('signaturebot/arm_controller/position/pitch_joint/co
 yaw_pub = rospy.Publisher('signaturebot/arm_controller/position/yaw_joint/command', Float64, queue_size=1)
 ext_pub = rospy.Publisher('signaturebot/arm_controller/position/extension_joint/command', Float64, queue_size=1)
 
-#setup signaturebot class containing geometry plus positions in joint & physical space
-robot = kinematics.signature_bot(0.134, 0.05008, 0, 0, 0, 0.134, 0, -0.05008)
+#setup signaturebot class containing geometry plus positions/speeds in joint & physical space
+robot = kinematics.signature_bot(0.134, 0.05008, 0, 0, 0, 0.134, 0, -0.05008, 0, 0, 0, 0, 0, 0)
 
 print('-----------------------------')
 print('x: ' + str(robot.x) + ' y: ' + str(robot.y) + ' z: ' + str(robot.z))
@@ -53,9 +53,9 @@ while not rospy.is_shutdown():
         robot.get_fk()
 
     #set axis positions using controller input
-    robot.z = robot.z + z_dot * 0.0005
-    robot.x = robot.x - x_dot * 0.0005
-    robot.y = robot.y + y_dot * 0.0005
+    robot.z = robot.z + z_shift * 0.001
+    robot.x = robot.x - x_shift * 0.001
+    robot.y = robot.y + y_shift * 0.001
 
     robot.get_ik()
 
