@@ -1,9 +1,15 @@
 #!/usr/bin/python2.7
 
+import rospy
+import math
 import kinematics
 import numpy as np
+from sensor_msgs.msg import Joy, JointState
+from std_msgs.msg import Header, Float64
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
-robot = kinematics.signature_bot(0.134, 0.05008, 0, 0, 0, 0.134, 0, -0.05008, 0, 0, 0, 0.1, 0.2, -0.1)
+rospy.init_node('Trial')
 
-joint_dot = np.matmul(robot.get_invJv(),np.array([[robot.x_dot],[robot.y_dot],[robot.z_dot]]))
-print(joint_dot)
+robot = kinematics.signature_bot(0,0,0,0,0,0,0,0,0,1,0.5,0.2)
+robot.inv_vel_kin()
+print(robot.th1_dot)

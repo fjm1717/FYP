@@ -5,7 +5,7 @@ signaturebot:
         type: joint_state_controller/JointStateController
         publish_rate: 50 #Hz
       #position Controllers ---------------------------------------
-      velocity:
+      trajectory:
         pitch_joint:
           type: effort_controllers/JointVelocityController
           joint: joint_p_1

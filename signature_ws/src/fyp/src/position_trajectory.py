@@ -4,42 +4,53 @@ import rospy
 import math
 import kinematics
 import numpy as np
-from sensor_msgs.msg import Joy
+from sensor_msgs.msg import Joy, JointState
 from std_msgs.msg import Float64
 
-z_shift = 0.0
-x_shift = 0.0
-y_shift = 0.0
-zero_state = 0
-set_state1 = 0
-set_state2 = 0
+xbox = np.zeros(6)
+state = np.zeros(6)
 
-def callback(msg):
-    global z_shift
-    global x_shift
-    global y_shift
-    global zero_state
-    global set_state1
-    global set_state2
-    z_shift = float(msg.axes[4])
-    x_shift = -1*float(msg.axes[1])
-    y_shift = -1*float(msg.axes[0])
-    zero_state = int(msg.buttons[0])
-    set_state1 = int(msg.buttons[1])
-    set_state2 = int(msg.buttons[2])
+def joint_reader(msg):
+    global state
+    state[0] = float(msg.position[0])
+    state[1] = float(msg.position[1])
+    state[2] = float(msg.position[2])
+    state[3] = float(msg.velocity[0])
+    state[4] = float(msg.velocity[1])
+    state[5] = float(msg.velocity[2])
+
+def xbox_reader(msg):
+    global xbox
+    xbox[0] = float(msg.axes[4]) #z-axis
+    xbox[1] = -1*float(msg.axes[1]) #x-axis
+    xbox[2] = -1*float(msg.axes[0]) #y-axis
+    xbox[3] = int(msg.buttons[0]) #A
+    xbox[4] = int(msg.buttons[1]) #B
+    xbox[5] = int(msg.buttons[2]) #X
+
+def print_end_effector(state):
+    print('------------------------Joint State--------------------------')
+    print('th1: ' + str(state[0]) + ' th2: ' + str(state[1]) + ' d3: ' + str(state[2]))
+    print('th1_dot: ' + str(state[3]) + ' th2_dot: ' + str(state[4]) + ' d3_dot: ' + str(state[5]))
+    print('-------------------------------------------------------------')
+
 
 rospy.init_node('position_trajectory')
 
 #subscribe to /joy to recieve controller inputs
-joy_sub = rospy.Subscriber('joy',Joy,callback)
+joy_sub = rospy.Subscriber('joy',Joy,xbox_reader)
+
+#subscribe to joint_state to monitor joint position, velocities etc.
+joint_sub = rospy.Subscriber('signaturebot/joint_states',JointState,joint_reader)
 
 #float publishers to arm_controller/position/joint/command to set joint positions
 pitch_pub = rospy.Publisher('signaturebot/arm_controller/position/pitch_joint/command', Float64, queue_size=1)
 yaw_pub = rospy.Publisher('signaturebot/arm_controller/position/yaw_joint/command', Float64, queue_size=1)
 ext_pub = rospy.Publisher('signaturebot/arm_controller/position/extension_joint/command', Float64, queue_size=1)
 
-#setup signaturebot class containing geometry plus positions/speeds in joint & physical space
-robot = kinematics.signature_bot(0.134, 0.05008, 0, 0, 0, 0.134, 0, -0.05008, 0, 0 ,0 ,0 ,0 ,0)
+#setup signaturebot class containing positions/speeds in joint & physical space to use in kinematics
+robot = kinematics.signature_bot(0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0)
+robot.get_fk()
 
 initial_pos = np.array([0.0, 0.0, 0.0], dtype="float")
 final_pos = np.array([0.0, 0.0, 0.0], dtype="float")
@@ -54,10 +65,10 @@ while not rospy.is_shutdown():
 
     print('Set Inital Position (Press B)')
 
-    while set_state1 == 0:
+    while xbox[4] == 0:
     #loop until position set
 
-        if zero_state == 1:
+        if xbox[3] == 1:
             #set home position if A button press
             robot.th1 = 0.0
             robot.th2 = 0.0
@@ -65,9 +76,9 @@ while not rospy.is_shutdown():
             robot.get_fk()
 
         #set axis positions using controller input
-        robot.z = robot.z + z_shift * 0.001
-        robot.x = robot.x - x_shift * 0.001
-        robot.y = robot.y + y_shift * 0.001
+        robot.z = robot.z + xbox[0] * 0.001
+        robot.x = robot.x - xbox[1] * 0.001
+        robot.y = robot.y + xbox[2] * 0.001
 
         robot.get_ik()
 
@@ -94,9 +105,9 @@ while not rospy.is_shutdown():
 
         rate.sleep()
 
-    print('------------Initial Position Set------------')
+    print('------------------Initial Position Set-----------------------')
     print('x: ' + str(robot.x) + ' y: ' + str(robot.y) + ' z: ' + str(robot.z))
-    print('--------------------------------------------')
+    print('-------------------------------------------------------------')
 
     initial_pos[0] = robot.x
     initial_pos[1] = robot.y
@@ -104,10 +115,10 @@ while not rospy.is_shutdown():
 
     print('Set Final Position (Press X)')
 
-    while set_state2 == 0:
+    while xbox[5] == 0:
     #loop until position set
 
-        if zero_state == 1:
+        if xbox[3] == 1:
             #set home position if A button press
             robot.th1 = 0.0
             robot.th2 = 0.0
@@ -115,9 +126,9 @@ while not rospy.is_shutdown():
             robot.get_fk()
 
         #set axis positions using controller input
-        robot.z = robot.z + z_shift * 0.001
-        robot.x = robot.x - x_shift * 0.001
-        robot.y = robot.y + y_shift * 0.001
+        robot.z = robot.z + xbox[0] * 0.001
+        robot.x = robot.x - xbox[1] * 0.001
+        robot.y = robot.y + xbox[2] * 0.001
 
         robot.get_ik()
 
@@ -144,18 +155,19 @@ while not rospy.is_shutdown():
 
         rate.sleep()
 
-    print('-------------Final Position Set-------------')
+    print('--------------------Final Position Set-----------------------')
     print('x: ' + str(robot.x) + ' y: ' + str(robot.y) + ' z: ' + str(robot.z))
-    print('--------------------------------------------')
+    print('-------------------------------------------------------------')
 
     final_pos[0] = robot.x
     final_pos[1] = robot.y
     final_pos[2] = robot.z
 
     #plan sraight line trajectory
-    plan, dt = robot.position_trajectory_plan(initial_pos, final_pos, T, N)
+    plan, dt = robot.trajectory_plan(initial_pos, final_pos, T, N)
     rate = rospy.Rate(1.0 / dt)
-    print('--------Trajectory Planning Complete--------')
+    print('--------------Trajectory Planning Complete-------------------')
+    print(' ')
 
     for i in range(0,N):
         robot.x = plan[0,i]
@@ -163,8 +175,24 @@ while not rospy.is_shutdown():
         robot.z = plan[2,i]
         robot.get_ik()
 
+        robot.x_dot = plan[3,i]
+        robot.y_dot = plan[4,i]
+        robot.z_dot = plan[5,i]
+        robot.inv_vel_kin()
+
         pitch_pub.publish(robot.th1)
         yaw_pub.publish(robot.th2)
         ext_pub.publish(robot.d3)
+
+        print('-----------------------Kinematic Data------------------------')
+        print('x: ' + str(robot.x) + ' y: ' + str(robot.y) + ' z: ' + str(robot.z))
+        print('x_dot: ' + str(robot.x_dot) + ' y_dot: ' + str(robot.y_dot) + ' z_dot: ' + str(robot.z_dot))
+        print('-------------------------------------------------------------')
+        print('th1: ' + str(robot.th1) + ' th2: ' + str(robot.th2) + ' d3: ' + str(robot.d3))
+        print('th1_dot: ' + str(robot.th1_dot) + ' th2_dot: ' + str(robot.th2_dot) + ' d3_dot: ' + str(robot.d3_dot))
+        print('-------------------------------------------------------------')
+        print(' ')
+
+        #print_end_effector(state)
 
         rate.sleep()
