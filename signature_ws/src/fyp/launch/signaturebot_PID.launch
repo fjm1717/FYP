@@ -6,7 +6,7 @@
   <!--load signaturebot URDF to parameter server as robot_description-->
   <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot_effort.urdf"/>
   <!--load arm_controller and joint_limits to parameter server-->
-  <rosparam file="$(find fyp)/config/trajectory_controller.yaml" command="load"/>
+  <rosparam file="$(find fyp)/config/effort_controller.yaml" command="load"/>
 
   <!--launch empty_world in Gazebo with arguments-->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -19,8 +19,10 @@
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
     output="screen" ns="/signaturebot"
     args="
-    state
-    trajectory
+    arm_controller/state
+    arm_controller/position/pitch_joint
+    arm_controller/position/yaw_joint
+    arm_controller/position/extension_joint
     "/>
 
   <!--publish joint states to /tf for rviz etc-->
@@ -32,6 +34,6 @@
   <!--spawn robot_description into Gazebo from parameter server-->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model signaturebot"/>
 
-  <node pkg="fyp" name="velocity_trajectory" type="np_trial.py" output="screen" launch-prefix="gnome-terminal --command"/>
+  <node pkg="fyp" name="arm_command" type="arm_command.py" output="screen" launch-prefix="gnome-terminal --command"/>
 
 </launch>

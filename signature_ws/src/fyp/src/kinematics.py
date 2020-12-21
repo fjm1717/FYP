@@ -84,4 +84,4 @@ class signature_bot:
         ang_vel = np.matmul(self.get_invJv(),lin_vel)
         self.th1_dot = ang_vel[0]
         self.th2_dot = ang_vel[1]
-        self.d3_dot = ang_vel[0]
+        self.d3_dot = ang_vel[2]
