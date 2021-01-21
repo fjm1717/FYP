@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="full_geometry">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.043934 0.06035 0.070386"
+        rpy="0 0 0" />
+      <mass
+        value="0.35291" />
+      <inertia
+        ixx="0.0003254"
+        ixy="3.9578E-07"
+        ixz="2.8883E-06"
+        iyy="0.0004041"
+        iyz="1.6475E-07"
+        izz="0.00040678" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://full_geometry/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://full_geometry/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="pitch_link">
+    <inertial>
+      <origin
+        xyz="1.5557E-05 0.0066616 -0.00013792"
+        rpy="0 0 0" />
+      <mass
+        value="0.039657" />
+      <inertia
+        ixx="3.3195E-06"
+        ixy="8.0677E-10"
+        ixz="-1.6754E-10"
+        iyy="5.9864E-06"
+        iyz="1.8267E-10"
+        izz="3.7559E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://full_geometry/meshes/pitch_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.29804 0.29804 0.29804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://full_geometry/meshes/pitch_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pitch"
+    type="revolute">
+    <origin
+      xyz="0.096806 0.060005 0.15025"
+      rpy="1.5708 0 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="pitch_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="yaw_pitch">
+    <inertial>
+      <origin
+        xyz="0.010212 -0.02023 0.03871"
+        rpy="0 0 0" />
+      <mass
+        value="0.17072" />
+      <inertia
+        ixx="6.5188E-05"
+        ixy="8.0682E-06"
+        ixz="-8.0047E-07"
+        iyy="9.0376E-05"
+        iyz="5.6188E-07"
+        izz="0.00012972" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://full_geometry/meshes/yaw_pitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.77647 0.75686 0.73725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://full_geometry/meshes/yaw_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="yaw"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="pitch_link" />
+    <child
+      link="yaw_pitch" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="extension_link">
+    <inertial>
+      <origin
+        xyz="0.0037892 -0.07262 0.0066716"
+        rpy="0 0 0" />
+      <mass
+        value="0.13248" />
+      <inertia
+        ixx="0.00015884"
+        ixy="-6.501E-08"
+        ixz="-4.6699E-08"
+        iyy="0.00012513"
+        iyz="-2.127E-05"
+        izz="4.3022E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://full_geometry/meshes/extension_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.49804 0.49804 0.49804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://full_geometry/meshes/extension_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="extension"
+    type="prismatic">
+    <origin
+      xyz="0 4E-05 -0.050079"
+      rpy="-1.5708 0 -1.5708" />
+    <parent
+      link="yaw_pitch" />
+    <child
+      link="extension_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+</robot>

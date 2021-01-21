@@ -55,17 +55,17 @@
     name="pitch_link">
     <inertial>
       <origin
-        xyz="1.1547E-05 0.0084522 -0.00010354"
+        xyz="1.5557E-05 0.0066616 -0.00013792"
         rpy="0 0 0" />
       <mass
-        value="0.052828" />
+        value="0.039657" />
       <inertia
-        ixx="3.7725E-06"
-        ixy="8.6169E-10"
-        ixz="-5.1431E-09"
-        iyy="6.3069E-06"
-        iyz="4.0016E-11"
-        izz="4.2353E-06" />
+        ixx="3.3195E-06"
+        ixy="8.0677E-10"
+        ixz="-1.6754E-10"
+        iyy="5.9864E-06"
+        iyz="1.8267E-10"
+        izz="3.7559E-06" />
     </inertial>
     <visual>
       <origin
@@ -78,7 +78,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="0.29804 0.29804 0.29804 1" />
       </material>
     </visual>
     <collision>
@@ -129,17 +129,17 @@
     name="yaw_link">
     <inertial>
       <origin
-        xyz="0.011971 -0.022027 0.040808"
+        xyz="0.010212 -0.02023 0.03871"
         rpy="0 0 0" />
       <mass
-        value="0.15684" />
+        value="0.17072" />
       <inertia
-        ixx="6.4727E-05"
+        ixx="6.5188E-05"
         ixy="8.0682E-06"
         ixz="-8.0047E-07"
-        iyy="8.989E-05"
+        iyy="9.0376E-05"
         iyz="5.6188E-07"
-        izz="0.00012939" />
+        izz="0.00012972" />
     </inertial>
     <visual>
       <origin
@@ -152,7 +152,7 @@
       <material
         name="">
         <color
-          rgba="0.49804 0.49804 0.49804 1" />
+          rgba="0.77647 0.75686 0.73725 1" />
       </material>
     </visual>
     <collision>
@@ -203,17 +203,17 @@
     name="extension_link">
     <inertial>
       <origin
-        xyz="0.0061908 -0.065885 9.3556E-05"
+        xyz="0.0037892 -0.07262 0.0066716"
         rpy="0 0 0" />
       <mass
-        value="0.081074" />
+        value="0.13248" />
       <inertia
-        ixx="5.9014E-05"
-        ixy="-3.3423E-08"
-        ixz="-2.5282E-11"
-        iyy="6.0525E-05"
-        iyz="-1.0724E-09"
-        izz="4.9084E-06" />
+        ixx="0.00015884"
+        ixy="-6.501E-08"
+        ixz="-4.6699E-08"
+        iyy="0.00012513"
+        iyz="-2.127E-05"
+        izz="4.3022E-05" />
     </inertial>
     <visual>
       <origin
@@ -226,7 +226,7 @@
       <material
         name="">
         <color
-          rgba="0.79216 0.81961 0.93333 1" />
+          rgba="0.49804 0.49804 0.49804 1" />
       </material>
     </visual>
     <collision>
@@ -244,7 +244,7 @@
     name="extension"
     type="prismatic">
     <origin
-      xyz="0 -3.6757E-05 -0.050079"
+      xyz="0 4E-05 -0.050079"
       rpy="-1.5708 0 -1.5708" />
     <parent
       link="yaw_link" />

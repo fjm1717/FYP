@@ -48,7 +48,7 @@
     name="pitch_link">
     <inertial>
       <origin
-        xyz="6.0778E-11 0.0063557 1.3583E-09"
+        xyz="1.5275E-10 0.0063557 1.7129E-09"
         rpy="0 0 0" />
       <mass
         value="0.0054988" />
@@ -103,19 +103,19 @@
       velocity="0" />
   </joint>
   <link
-    name="yaw_link">
+    name="yaw_pitch">
     <inertial>
       <origin
-        xyz="1.2435E-09 6.4153E-10 0.013844"
+        xyz="-3.0803E-09 2.7983E-09 0.013844"
         rpy="0 0 0" />
       <mass
         value="0.013171" />
       <inertia
-        ixx="4.677E-07"
-        ixy="-1.4037E-08"
-        ixz="-1.9025E-23"
-        iyy="4.6474E-07"
-        iyz="2.6983E-23"
+        ixx="4.521E-07"
+        ixy="-1.5608E-11"
+        ixz="4.5412E-22"
+        iyy="4.8033E-07"
+        iyz="-1.9793E-23"
         izz="3.2054E-07" />
     </inertial>
     <visual>
@@ -124,7 +124,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://collision_geometry/meshes/yaw_link.STL" />
+          filename="package://collision_geometry/meshes/yaw_pitch.STL" />
       </geometry>
       <material
         name="">
@@ -138,7 +138,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://collision_geometry/meshes/yaw_link.STL" />
+          filename="package://collision_geometry/meshes/yaw_pitch.STL" />
       </geometry>
     </collision>
   </link>
@@ -151,7 +151,7 @@
     <parent
       link="pitch_link" />
     <child
-      link="yaw_link" />
+      link="yaw_pitch" />
     <axis
       xyz="0 0 -1" />
     <limit
@@ -164,7 +164,7 @@
     name="extension_link">
     <inertial>
       <origin
-        xyz="-3.1381E-06 -0.042372 0.015059"
+        xyz="-3.1374E-06 -0.042372 0.018772"
         rpy="0 0 0" />
       <mass
         value="0.10542" />
@@ -187,7 +187,7 @@
       <material
         name="">
         <color
-          rgba="0.79216 0.81961 0.93333 1" />
+          rgba="0.49804 0.49804 0.49804 1" />
       </material>
     </visual>
     <collision>
@@ -204,10 +204,10 @@
     name="extension"
     type="prismatic">
     <origin
-      xyz="0 -0.0016148 -0.050079"
+      xyz="0 4E-05 -0.050079"
       rpy="-1.5708 0 -1.5708" />
     <parent
-      link="yaw_link" />
+      link="yaw_pitch" />
     <child
       link="extension_link" />
     <axis
