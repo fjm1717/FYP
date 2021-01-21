@@ -105,8 +105,8 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.571"
-      upper="0.698"
+      lower="-3.14"
+      upper="3.14"
       effort="100"
       velocity="1.0" />
     <dynamics
@@ -179,8 +179,8 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="-0.96"
-      upper="1.571"
+      lower="-3.14"
+      upper="3.14"
       effort="100"
       velocity="1.0" />
     <dynamics
@@ -254,7 +254,7 @@
       xyz="0 0 1" />
     <limit
       lower="0"
-      upper="0.065"
+      upper="1"
       effort="100"
       velocity="0.5" />
     <dynamics
@@ -277,6 +277,23 @@
     <plugin name="control" filename='libgazebo_ros_control.so'>
       <robotNamespace>/signaturebot</robotNamespace>
     </plugin>
+  </gazebo>
+
+  <!--turn on self collisions for gazebo to detect mechanical interference-->
+  <gazebo reference="base_link">
+    <self_collide>1</self_collide>
+  </gazebo>
+
+  <gazebo reference="pitch_link">
+    <self_collide>1</self_collide>
+  </gazebo>
+
+  <gazebo reference="yaw_link">
+    <self_collide>1</self_collide>
+  </gazebo>
+
+  <gazebo reference="extension_link">
+    <self_collide>1</self_collide>
   </gazebo>
 
   <!--gazebo plugin that publishes JointState messages for all joints, works in conjuctiong with robot_state_publisher to give 3D robot state-->

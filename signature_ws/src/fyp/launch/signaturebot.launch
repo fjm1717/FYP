@@ -4,7 +4,7 @@
   <arg name="gui" default="false"/>
 
   <!--load signaturebot URDF to parameter server as robot_description-->
-  <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot.urdf"/>
+  <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot_full.urdf"/>
   <!--load arm_controller and joint_limits to parameter server-->
   <rosparam file="$(find fyp)/config/controller.yaml" command="load"/>
 

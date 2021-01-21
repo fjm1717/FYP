@@ -6,7 +6,7 @@ import numpy as np
 class signature_bot:
 
     def __init__(self, th1, th2, d3, x, y, z, th1_dot, th2_dot, d3_dot, x_dot, y_dot, z_dot):
-        self.a = 0.134
+        self.a = 0.13614
         self.b = 0.05008
         self.th1 = th1
         self.th2 = th2
