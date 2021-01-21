@@ -1,0 +1,8 @@
+prefix=/home/spyros/Spyros/FYP/signature_ws/install
+
+Name: collision_geometry
+Description: Description of collision_geometry
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

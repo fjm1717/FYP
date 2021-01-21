@@ -22,8 +22,8 @@ def joint_reader(msg):
 def xbox_reader(msg):
     global xbox
     xbox[0] = float(msg.axes[4]) #z-axis
-    xbox[1] = -1*float(msg.axes[0]) #x-axis
-    xbox[2] = float(msg.axes[1]) #y-axis
+    xbox[1] = float(msg.axes[1]) #x-axis
+    xbox[2] = -1*float(msg.axes[0]) #y-axis
     xbox[3] = int(msg.buttons[0]) #A
     xbox[4] = int(msg.buttons[1]) #B
     xbox[5] = int(msg.buttons[2]) #X
@@ -68,7 +68,6 @@ while not rospy.is_shutdown():
     cart_F[2] = cart_F[2] + xbox[0] * 0.1 #z-component
     cart_F[0] = cart_F[0] + xbox[1] * 0.1 #x-component
     cart_F[1] = cart_F[1] + xbox[2] * 0.1 #y-component
-    print(cart_F)
 
     #retrieve current robot pose
     robot.th1 = state[0]

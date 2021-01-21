@@ -43,7 +43,7 @@
   </joint>
 
   <link
-    name="link_p_1">
+    name="pitch_link">
     <inertial>
       <origin
         xyz="-1.19933643488029E-05 -0.000103538143994622 0.00845194310862343"
@@ -75,7 +75,7 @@
   </link>
 
   <joint
-    name="joint_p_1"
+    name="pitch"
     type="revolute">
     <origin
       xyz="0 0.016806 0.14525"
@@ -83,22 +83,22 @@
     <parent
       link="base_link" />
     <child
-      link="link_p_1" />
+      link="pitch_link" />
     <axis
       xyz="0 1 0" />
     <limit
-      lower="-1.57"
-      upper="1.57"
+      lower="-1.571"
+      upper="0.698"
       effort="100"
       velocity="1.0" />
     <dynamics
-      damping="0.0"
-      friction="0.0" />
+      damping="0.05"
+      friction="0.02" />
   </joint>
 
   <transmission name="tran1">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_p_1">
+    <joint name="pitch">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor1">
@@ -108,7 +108,7 @@
   </transmission>
 
   <link
-    name="link_y_1">
+    name="yaw_link">
     <inertial>
       <origin
         xyz="0.0104876825955588 -0.0230156882718096 0.020941823734644"
@@ -140,27 +140,30 @@
   </link>
 
   <joint
-    name="joint_y_1"
+    name="yaw"
     type="revolute">
     <origin
       xyz="0 0 0.02"
       rpy="0 0 0" />
     <parent
-      link="link_p_1" />
+      link="pitch_link" />
     <child
-      link="link_y_1" />
+      link="yaw_link" />
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.57"
-      upper="1.57"
+      lower="-0.96"
+      upper="1.571"
       effort="100"
       velocity="1.0" />
+    <dynamics
+      damping="0.05"
+      friction="0.02" />
   </joint>
 
   <transmission name="tran2">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_y_1">
+    <joint name="yaw">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor2">
@@ -170,7 +173,7 @@
   </transmission>
 
   <link
-    name="link_s_1">
+    name="extension_link">
     <inertial>
       <origin
         xyz="-0.130540936042835 -0.00352627999201047 0.0734261633534493"
@@ -202,27 +205,30 @@
   </link>
 
   <joint
-    name="joint_s_1"
+    name="extension"
     type="prismatic">
     <origin
       xyz="0.16609 4E-05 -0.070079"
       rpy="0 0 0" />
     <parent
-      link="link_y_1" />
+      link="yaw_link" />
     <child
-      link="link_s_1" />
+      link="extension_link" />
     <axis
       xyz="1 0 0" />
     <limit
       lower="0"
-      upper="0.06"
+      upper="0.065"
       effort="100"
       velocity="0.5" />
+    <dynamics
+      damping="0.05"
+      friction="0.02" />
   </joint>
 
   <transmission name="tran3">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_s_1">
+    <joint name="extension">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor3">
@@ -240,7 +246,7 @@
   <!--gazebo plugin that publishes JointState messages for all joints, works in conjuctiong with robot_state_publisher to give 3D robot state-->
   <gazebo>
     <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
-      <jointName>joint_p_1, joint_y_1, joint_s_1</jointName>
+      <jointName>pitch, yaw, extension</jointName>
       <robotNamespace>/signaturebot</robotNamespace>
       <updateRate>100.0</updateRate>
     </plugin>

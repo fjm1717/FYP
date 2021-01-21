@@ -8,17 +8,17 @@
     name="base_link">
     <inertial>
       <origin
-        xyz="-0.000350133501068065 -0.0360219064102298 0.0653000932339098"
+        xyz="0.043978 0.06035 0.0703"
         rpy="0 0 0" />
       <mass
-        value="0.352395733896831" />
+        value="0.3524" />
       <inertia
-        ixx="0.000404087077788787"
-        ixy="-3.95777299375808E-07"
-        ixz="-1.64745868933418E-07"
-        iyy="0.000325399468893167"
-        iyz="2.88826526143997E-06"
-        izz="0.00040677570479938" />
+        ixx="0.0003254"
+        ixy="3.9578E-07"
+        ixz="2.8883E-06"
+        iyy="0.00040409"
+        iyz="1.6475E-07"
+        izz="0.00040678" />
     </inertial>
     <visual>
       <origin
@@ -26,12 +26,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fyp/meshes/base_link.STL" />
+          filename="package://fyp/meshes/visual/base_link.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+          rgba="0.75294 0.75294 0.75294 1" />
       </material>
     </visual>
     <collision>
@@ -40,7 +40,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fyp/meshes/base_link.STL" />
+          filename="package://fyp/meshes/collision/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -52,20 +52,20 @@
   </joint>
 
   <link
-    name="link_p_1">
+    name="pitch_link">
     <inertial>
       <origin
-        xyz="-1.19933643488029E-05 -0.000103538143994622 0.00845194310862343"
+        xyz="1.1547E-05 0.0084522 -0.00010354"
         rpy="0 0 0" />
       <mass
-        value="0.0528284254587736" />
+        value="0.052828" />
       <inertia
-        ixx="3.77153899343092E-06"
-        ixy="-2.33326435640482E-10"
-        ixz="-8.69910097856418E-10"
-        iyy="4.23620818124235E-06"
-        iyz="2.52958709372501E-11"
-        izz="6.30698364184596E-06" />
+        ixx="3.7725E-06"
+        ixy="8.6169E-10"
+        ixz="-5.1431E-09"
+        iyy="6.3069E-06"
+        iyz="4.0016E-11"
+        izz="4.2353E-06" />
     </inertial>
     <visual>
       <origin
@@ -73,12 +73,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fyp/meshes/link_p_1.STL" />
+          filename="package://fyp/meshes/visual/pitch_link.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+          rgba="0.75294 0.75294 0.75294 1" />
       </material>
     </visual>
     <collision>
@@ -87,56 +87,59 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fyp/meshes/link_p_1.STL" />
+          filename="package://fyp/meshes/collision/pitch_link.STL" />
       </geometry>
     </collision>
   </link>
 
   <joint
-    name="joint_p_1"
+    name="pitch"
     type="revolute">
     <origin
-      xyz="0 0.016806 0.14525"
-      rpy="0 0 0" />
+      xyz="0.096806 0.060005 0.15025"
+      rpy="1.5708 0 1.5708" />
     <parent
       link="base_link" />
     <child
-      link="link_p_1" />
+      link="pitch_link" />
     <axis
-      xyz="0 1 0" />
+      xyz="0 0 1" />
     <limit
-      lower="-0.79"
-      upper="0.79"
+      lower="-1.571"
+      upper="0.698"
       effort="100"
-      velocity="0.3" />
+      velocity="1.0" />
+    <dynamics
+      damping="0.05"
+      friction="0.02" />
   </joint>
 
   <transmission name="tran1">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_p_1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <joint name="pitch">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
   <link
-    name="link_y_1">
+    name="yaw_link">
     <inertial>
       <origin
-        xyz="0.0104876825955588 -0.0230156882718096 0.020941823734644"
+        xyz="0.011971 -0.022027 0.040808"
         rpy="0 0 0" />
       <mass
-        value="0.151826725642152" />
+        value="0.15684" />
       <inertia
-        ixx="6.38614671740467E-05"
-        ixy="8.06821895942205E-06"
-        ixz="-8.01171088344698E-07"
-        iyy="8.82740990599378E-05"
-        iyz="6.22836986686432E-07"
-        izz="0.000127222977341237" />
+        ixx="6.4727E-05"
+        ixy="8.0682E-06"
+        ixz="-8.0047E-07"
+        iyy="8.989E-05"
+        iyz="5.6188E-07"
+        izz="0.00012939" />
     </inertial>
     <visual>
       <origin
@@ -144,12 +147,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fyp/meshes/link_y_1.STL" />
+          filename="package://fyp/meshes/visual/yaw_link.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+          rgba="0.49804 0.49804 0.49804 1" />
       </material>
     </visual>
     <collision>
@@ -158,56 +161,59 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fyp/meshes/link_y_1.STL" />
+          filename="package://fyp/meshes/collision/yaw_link.STL" />
       </geometry>
     </collision>
   </link>
 
   <joint
-    name="joint_y_1"
+    name="yaw"
     type="revolute">
     <origin
-      xyz="0 0 0.02"
-      rpy="0 0 0" />
+      xyz="0 0 0"
+      rpy="-1.5708 0 0" />
     <parent
-      link="link_p_1" />
+      link="pitch_link" />
     <child
-      link="link_y_1" />
+      link="yaw_link" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
     <limit
-      lower="-0.79"
-      upper="0.79"
+      lower="-0.96"
+      upper="1.571"
       effort="100"
-      velocity="0.3" />
+      velocity="1.0" />
+    <dynamics
+      damping="0.05"
+      friction="0.02" />
   </joint>
 
   <transmission name="tran2">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_y_1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <joint name="yaw">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor2">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
   <link
-    name="link_s_1">
+    name="extension_link">
     <inertial>
       <origin
-        xyz="-0.130540936042835 -0.00352627999201047 0.0734261633534493"
+        xyz="0.0061908 -0.065885 9.3556E-05"
         rpy="0 0 0" />
       <mass
-        value="0.14210555185115" />
+        value="0.081074" />
       <inertia
-        ixx="4.39802170061191E-05"
-        ixy="4.6698112486318E-08"
-        ixz="2.12695051978603E-05"
-        iyy="0.000160918815683062"
-        iyz="-6.50095590362535E-08"
-        izz="0.000127755329199534" />
+        ixx="5.9014E-05"
+        ixy="-3.3423E-08"
+        ixz="-2.5282E-11"
+        iyy="6.0525E-05"
+        iyz="-1.0724E-09"
+        izz="4.9084E-06" />
     </inertial>
     <visual>
       <origin
@@ -215,12 +221,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fyp/meshes/link_s_1.STL" />
+          filename="package://fyp/meshes/visual/extension_link.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+          rgba="0.79216 0.81961 0.93333 1" />
       </material>
     </visual>
     <collision>
@@ -229,51 +235,53 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fyp/meshes/link_s_1.STL" />
+          filename="package://fyp/meshes/collision/extension_link.STL" />
       </geometry>
     </collision>
   </link>
 
   <joint
-    name="joint_s_1"
+    name="extension"
     type="prismatic">
     <origin
-      xyz="0.16609 4E-05 -0.070079"
-      rpy="0 0 0" />
+      xyz="0 -3.6757E-05 -0.050079"
+      rpy="-1.5708 0 -1.5708" />
     <parent
-      link="link_y_1" />
+      link="yaw_link" />
     <child
-      link="link_s_1" />
+      link="extension_link" />
     <axis
-      xyz="1 0 0" />
+      xyz="0 0 1" />
     <limit
-      lower="-0.1"
-      upper="0.1"
+      lower="0"
+      upper="0.065"
       effort="100"
-      velocity="0.05" />
+      velocity="0.5" />
+    <dynamics
+      damping="0.05"
+      friction="0.02" />
   </joint>
 
   <transmission name="tran3">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint_s_1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <joint name="extension">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor3">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
   <gazebo>
     <plugin name="control" filename='libgazebo_ros_control.so'>
-      <robotNamespace>/signaturebot</robotNamespace>
     </plugin>
   </gazebo>
 
+  <!--gazebo plugin that publishes JointState messages for all joints, works in conjuctiong with robot_state_publisher to give 3D robot state-->
   <gazebo>
     <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
-      <jointName>joint_s_1, joint_p_1, joint_y_1</jointName>
-      <robotNamespace>/signaturebot</robotNamespace>
+      <jointName>pitch, yaw, extension</jointName>
       <updateRate>100.0</updateRate>
     </plugin>
   </gazebo>

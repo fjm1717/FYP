@@ -8,13 +8,13 @@ signaturebot:
       effort:
         pitch_joint:
           type: effort_controllers/JointEffortController
-          joint: joint_p_1
+          joint: pitch
           pid: {p: 5.0, i: 20.0, i_clamp: 100}
         yaw_joint:
           type: effort_controllers/JointEffortController
-          joint: joint_y_1
+          joint: yaw
           pid: {p: 5.0, i: 20.0, i_clamp: 100}
         extension_joint:
           type: effort_controllers/JointEffortController
-          joint: joint_s_1
+          joint: extension
           pid: {p: 5.0, i: 20.0, i_clamp: 100}

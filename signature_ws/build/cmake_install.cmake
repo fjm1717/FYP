@@ -132,7 +132,9 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/spyros/Spyros/FYP/signature_ws/build/gtest/cmake_install.cmake")
   include("/home/spyros/Spyros/FYP/signature_ws/build/signature_moveit_config/cmake_install.cmake")
+  include("/home/spyros/Spyros/FYP/signature_ws/build/collision_geometry/cmake_install.cmake")
   include("/home/spyros/Spyros/FYP/signature_ws/build/fyp/cmake_install.cmake")
+  include("/home/spyros/Spyros/FYP/signature_ws/build/visual_geometry/cmake_install.cmake")
 
 endif()
 

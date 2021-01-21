@@ -227,6 +227,12 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Value Computed by CMake
+CollisionSimple_BINARY_DIR:STATIC=/home/spyros/Spyros/FYP/signature_ws/build/CollisionSimple
+
+//Value Computed by CMake
+CollisionSimple_SOURCE_DIR:STATIC=/home/spyros/Spyros/FYP/signature_ws/src/CollisionSimple
+
 //Path to a program.
 DOXYGEN_EXECUTABLE:FILEPATH=DOXYGEN_EXECUTABLE-NOTFOUND
 
@@ -316,6 +322,12 @@ _gtest_SOURCES:FILEPATH=/usr/src/gtest/src/gtest.cc
 
 //The directory containing a CMake configuration file for catkin.
 catkin_DIR:PATH=/opt/ros/melodic/share/catkin/cmake
+
+//Value Computed by CMake
+collision_geometry_BINARY_DIR:STATIC=/home/spyros/Spyros/FYP/signature_ws/build/collision_geometry
+
+//Value Computed by CMake
+collision_geometry_SOURCE_DIR:STATIC=/home/spyros/Spyros/FYP/signature_ws/src/collision_geometry
 
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/melodic/share/cpp_common/cmake
@@ -410,6 +422,12 @@ signature_robot_SOURCE_DIR:STATIC=/home/spyros/Spyros/FYP/signature_ws/src/signa
 
 //The directory containing a CMake configuration file for std_msgs.
 std_msgs_DIR:PATH=/opt/ros/melodic/share/std_msgs/cmake
+
+//Value Computed by CMake
+visual_geometry_BINARY_DIR:STATIC=/home/spyros/Spyros/FYP/signature_ws/build/visual_geometry
+
+//Value Computed by CMake
+visual_geometry_SOURCE_DIR:STATIC=/home/spyros/Spyros/FYP/signature_ws/src/visual_geometry
 
 
 ########################
@@ -521,7 +539,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=8
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

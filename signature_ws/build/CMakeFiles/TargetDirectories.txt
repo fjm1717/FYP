@@ -43,6 +43,13 @@
 /home/spyros/Spyros/FYP/signature_ws/build/signature_moveit_config/CMakeFiles/_catkin_empty_exported_target.dir
 /home/spyros/Spyros/FYP/signature_ws/build/signature_moveit_config/CMakeFiles/rebuild_cache.dir
 /home/spyros/Spyros/FYP/signature_ws/build/signature_moveit_config/CMakeFiles/install.dir
+/home/spyros/Spyros/FYP/signature_ws/build/collision_geometry/CMakeFiles/install/strip.dir
+/home/spyros/Spyros/FYP/signature_ws/build/collision_geometry/CMakeFiles/edit_cache.dir
+/home/spyros/Spyros/FYP/signature_ws/build/collision_geometry/CMakeFiles/list_install_components.dir
+/home/spyros/Spyros/FYP/signature_ws/build/collision_geometry/CMakeFiles/test.dir
+/home/spyros/Spyros/FYP/signature_ws/build/collision_geometry/CMakeFiles/install/local.dir
+/home/spyros/Spyros/FYP/signature_ws/build/collision_geometry/CMakeFiles/rebuild_cache.dir
+/home/spyros/Spyros/FYP/signature_ws/build/collision_geometry/CMakeFiles/install.dir
 /home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/install/strip.dir
 /home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/edit_cache.dir
 /home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/list_install_components.dir
@@ -50,3 +57,10 @@
 /home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/install/local.dir
 /home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/rebuild_cache.dir
 /home/spyros/Spyros/FYP/signature_ws/build/fyp/CMakeFiles/install.dir
+/home/spyros/Spyros/FYP/signature_ws/build/visual_geometry/CMakeFiles/install/strip.dir
+/home/spyros/Spyros/FYP/signature_ws/build/visual_geometry/CMakeFiles/edit_cache.dir
+/home/spyros/Spyros/FYP/signature_ws/build/visual_geometry/CMakeFiles/list_install_components.dir
+/home/spyros/Spyros/FYP/signature_ws/build/visual_geometry/CMakeFiles/test.dir
+/home/spyros/Spyros/FYP/signature_ws/build/visual_geometry/CMakeFiles/install/local.dir
+/home/spyros/Spyros/FYP/signature_ws/build/visual_geometry/CMakeFiles/rebuild_cache.dir
+/home/spyros/Spyros/FYP/signature_ws/build/visual_geometry/CMakeFiles/install.dir

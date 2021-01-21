@@ -455,6 +455,24 @@ clean: signature_moveit_config/CMakeFiles/_catkin_empty_exported_target.dir/clea
 .PHONY : clean
 
 #=============================================================================
+# Directory level rules for directory collision_geometry
+
+# Convenience name for "all" pass in the directory.
+collision_geometry/all:
+
+.PHONY : collision_geometry/all
+
+# Convenience name for "clean" pass in the directory.
+collision_geometry/clean:
+
+.PHONY : collision_geometry/clean
+
+# Convenience name for "preinstall" pass in the directory.
+collision_geometry/preinstall:
+
+.PHONY : collision_geometry/preinstall
+
+#=============================================================================
 # Directory level rules for directory fyp
 
 # Convenience name for "all" pass in the directory.
@@ -471,6 +489,24 @@ fyp/clean:
 fyp/preinstall:
 
 .PHONY : fyp/preinstall
+
+#=============================================================================
+# Directory level rules for directory visual_geometry
+
+# Convenience name for "all" pass in the directory.
+visual_geometry/all:
+
+.PHONY : visual_geometry/all
+
+# Convenience name for "clean" pass in the directory.
+visual_geometry/clean:
+
+.PHONY : visual_geometry/clean
+
+# Convenience name for "preinstall" pass in the directory.
+visual_geometry/preinstall:
+
+.PHONY : visual_geometry/preinstall
 
 #=============================================================================
 # Special targets to cleanup operation of make.
