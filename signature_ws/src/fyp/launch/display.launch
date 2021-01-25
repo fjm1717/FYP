@@ -2,13 +2,13 @@
   <!--upload urdf to parameter server as robot_description-->
   <param
     name="robot_description"
-    textfile="$(find fyp)/urdf/signaturebot_effort.urdf" />
+    textfile="$(find fyp)/urdf/signaturebot.urdf" />
   <!--open joint sliders that publish to joint_state-->
   <node
     name="joint_state_publisher_gui"
     pkg="joint_state_publisher_gui"
     type="joint_state_publisher_gui" />
-  <!--run node that broadcasts the state (3D pose) of the robot to /tf-->
+  <!--run node that broadcasts the state (6D pose) of the robot to /tf-->
   <node
     name="robot_state_publisher"
     pkg="robot_state_publisher"
@@ -17,5 +17,5 @@
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args="-d $(find fyp)/rviz_config/signaturebot.rviz" />
+    args="-d $(find fyp)/rviz_config/simple_pose.rviz" />
 </launch>

@@ -44,9 +44,9 @@ joy_sub = rospy.Subscriber('joy',Joy,xbox_reader)
 joint_sub = rospy.Subscriber('signaturebot/joint_states',JointState,joint_reader)
 
 #float publishers to arm_controller/position/joint/command to set joint positions
-pitch_pub = rospy.Publisher('signaturebot/arm_controller/position/pitch_joint/command', Float64, queue_size=1)
-yaw_pub = rospy.Publisher('signaturebot/arm_controller/position/yaw_joint/command', Float64, queue_size=1)
-ext_pub = rospy.Publisher('signaturebot/arm_controller/position/extension_joint/command', Float64, queue_size=1)
+pitch_pub = rospy.Publisher('signaturebot/arm_controller/position/pitch/command', Float64, queue_size=1)
+yaw_pub = rospy.Publisher('signaturebot/arm_controller/position/yaw/command', Float64, queue_size=1)
+ext_pub = rospy.Publisher('signaturebot/arm_controller/position/extension/command', Float64, queue_size=1)
 
 #setup signaturebot class containing positions/speeds in joint & physical space to use in kinematics
 robot = kinematics.signature_bot(0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0)
