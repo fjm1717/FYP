@@ -44,9 +44,9 @@ joy_sub = rospy.Subscriber('joy',Joy,xbox_reader)
 joint_sub = rospy.Subscriber('signaturebot/joint_states',JointState,joint_reader)
 
 #float publishers to arm_controller/position/joint/command to set joint positions
-pitch_pub = rospy.Publisher('signaturebot/arm_controller/position/pitch/command', Float64, queue_size=1)
-yaw_pub = rospy.Publisher('signaturebot/arm_controller/position/yaw/command', Float64, queue_size=1)
-ext_pub = rospy.Publisher('signaturebot/arm_controller/position/extension/command', Float64, queue_size=1)
+pitch_pub = rospy.Publisher('signaturebot/arm_controller/position/pitch_joint/command', Float64, queue_size=1)
+yaw_pub = rospy.Publisher('signaturebot/arm_controller/position/yaw_joint/command', Float64, queue_size=1)
+ext_pub = rospy.Publisher('signaturebot/arm_controller/position/extension_joint/command', Float64, queue_size=1)
 
 #setup signaturebot class containing positions/speeds in joint & physical space to use in kinematics
 robot = kinematics.signature_bot(0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0)
@@ -81,22 +81,6 @@ while not rospy.is_shutdown():
         robot.y = robot.y + xbox[2] * 0.001
 
         robot.get_ik()
-
-        #joint limits!
-        if robot.th1 > 1.57:
-            robot.th1 = 1.57
-        elif robot.th1 < -1.57:
-            robot.th1 = -1.57
-        elif robot.th2 > 1.57:
-            robot.th2 = 1.57
-        elif robot.th2 < -1.57:
-            robot.th2 = -1.57
-        elif robot.d3 > 0.06:
-            robot.d3 = 0.06
-        elif robot.d3 < 0:
-            robot.d3 = 0
-
-        robot.get_fk()
 
         #publish joint variables to arm_controller/position/joint/command
         pitch_pub.publish(robot.th1)
