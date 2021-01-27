@@ -12,6 +12,8 @@ from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
 state = np.zeros(10)
 output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/output.csv'
+sample_rate = 2
+exe_rate = 200
 
 def joint_reader(msg):
     global state
@@ -43,10 +45,15 @@ command = JointTrajectory()
 target = JointTrajectoryPoint()
 command.joint_names = ['pitch', 'yaw', 'extension']
 
-initial_pos = np.array([0.1414, -0.02073, -0.1356], dtype="float")
-final_pos = np.array([0.1539, 0.03576, 0.02833], dtype="float")
+#XY
+initial_pos = np.array([0.1573, -0.0667, -0.05008], dtype="float")
+final_pos = np.array([0.1321, 0.07814, -0.05008], dtype="float")
 
-rate = rospy.Rate(20)
+#YZ
+#initial_pos = np.array([0.13614, 0.05836, -0.11706], dtype="float")
+#final_pos = np.array([0.13614, -0.06419, 0.0091012], dtype="float")
+
+rate = rospy.Rate(exe_rate)
 
 T = input('Input Time to Complete Trajectory (s)..')
 N = input('Input Number of Points along Trajectory..')
@@ -75,10 +82,6 @@ time.sleep(1)
 
 joint_pos = np.zeros((3,N))
 joint_vel = np.zeros((3,N))
-measured_joint_eff = np.zeros((3,N))
-measured_joint_pos = np.zeros((3,N))
-measured_joint_vel = np.zeros((3,N))
-time = np.zeros((1,N))
 
 print('Planning Trajectory..')
 
@@ -107,19 +110,42 @@ for i in range(0,N):
 
     rate.sleep()
 
-print('Executing..')
+print('Uploading Trajectory..')
 
-#execute trajectory using JointTrajectoryController
-start = rospy.get_time()
-print(' ')
+#execute trajectory using JointTrajectoryController, starting once waypoints uploaded
+start = rospy.get_rostime() + rospy.Duration(1 + math.ceil(N/exe_rate))
+#time to begin trajectory
+command.header.stamp = start
 
 for i in range(0,N):
+    #time to execute waypoint relative to start
+    command.points[0].time_from_start = rospy.Duration(i*dt)
     command.points[0].positions = [joint_pos[0,i], joint_pos[1,i], joint_pos[2,i]]
     command.points[0].velocities = [joint_vel[0,i], joint_vel[1,i], joint_vel[2,i]]
 
-    command.header.stamp = rospy.get_rostime()
     pub.publish(command)
 
+    rate.sleep()
+
+print('Executing Trajectory..')
+print(' ')
+
+data_points = T*sample_rate + 1
+i = 0
+
+#measured data arrays
+measured_joint_eff = np.zeros((3,data_points))
+measured_joint_pos = np.zeros((3,data_points))
+measured_joint_vel = np.zeros((3,data_points))
+time = np.zeros((1,data_points+1))
+
+while rospy.get_time() < start.to_sec():
+    pass
+
+rate = rospy.Rate(sample_rate)
+
+#take data during execution
+while i < data_points:
     #store joint state
     measured_joint_pos[0,i] = state[0]
     measured_joint_pos[1,i] = state[1]
@@ -136,14 +162,12 @@ for i in range(0,N):
     #store simulation time
     time[0,i] = state[9]
 
-    print('-----------------------------')
-    print('effort 1: ' + str(measured_joint_eff[0,i]) + ' effort 2: ' + str(measured_joint_eff[1,i]) + ' effort 3: ' + str(measured_joint_eff[2,i]) + ' time: ' + str(time[0,i]))
-
+    i+=1
     rate.sleep()
 
-print('-----------------------------')
+rate = rospy.Rate(exe_rate)
 
-time_elapsed = time[0,N-1] - start
+time_elapsed = time[0,data_points-1] - start.to_sec()
 print('Total Time: ' + str(time_elapsed))
 
 print(' ')
@@ -154,13 +178,17 @@ with open(output_path, mode='w') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=data)
 
     writer.writeheader()
-    for i in range(0,N):
-        writer.writerow({'x': str(plan[0,i]), 'y': str(plan[1,i]), 'z': str(plan[2,i]), 'x_dot': str(plan[3,i]), 'y_dot': str(plan[4,i]), 'z_dot': str(plan[5,i]),
-        'th1': str(joint_pos[0,i]), 'th2': str(joint_pos[1,i]), 'd3': str(joint_pos[2,i]),
-        'th1_dot': str(joint_vel[0,i]), 'th2_dot': str(joint_vel[1,i]), 'd3_dot': str(joint_vel[2,i]),
-        'measured_th1': str(measured_joint_pos[0,i]),'measured_th2': str(measured_joint_pos[1,i]),'measured_d3': str(measured_joint_pos[2,i]),
-        'measured_th1_dot': str(measured_joint_vel[0,i]),'measured_th2_dot': str(measured_joint_eff[1,i]),'measured_d3_dot': str(measured_joint_vel[2,i]),
-        'eff_1': str(measured_joint_eff[0,i]), 'eff_2': str(measured_joint_eff[1,i]), 'eff_3': str(measured_joint_eff[2,i]), 'time': str(time[0,i])})
+    for i in range(0,data_points):
+        if i < N:
+            writer.writerow({'x': str(plan[0,i]), 'y': str(plan[1,i]), 'z': str(plan[2,i]), 'x_dot': str(plan[3,i]), 'y_dot': str(plan[4,i]), 'z_dot': str(plan[5,i]),
+            'th1': str(joint_pos[0,i]), 'th2': str(joint_pos[1,i]), 'd3': str(joint_pos[2,i]),
+            'th1_dot': str(joint_vel[0,i]), 'th2_dot': str(joint_vel[1,i]), 'd3_dot': str(joint_vel[2,i]), 'measured_th1': str(measured_joint_pos[0,i]),'measured_th2': str(measured_joint_pos[1,i]),'measured_d3': str(measured_joint_pos[2,i]),
+            'measured_th1_dot': str(measured_joint_vel[0,i]),'measured_th2_dot': str(measured_joint_eff[1,i]),'measured_d3_dot': str(measured_joint_vel[2,i]),
+            'eff_1': str(measured_joint_eff[0,i]), 'eff_2': str(measured_joint_eff[1,i]), 'eff_3': str(measured_joint_eff[2,i]), 'time': str(time[0,i])})
+        else:
+            writer.writerow({'measured_th1': str(measured_joint_pos[0,i]),'measured_th2': str(measured_joint_pos[1,i]),'measured_d3': str(measured_joint_pos[2,i]),
+            'measured_th1_dot': str(measured_joint_vel[0,i]),'measured_th2_dot': str(measured_joint_eff[1,i]),'measured_d3_dot': str(measured_joint_vel[2,i]),
+            'eff_1': str(measured_joint_eff[0,i]), 'eff_2': str(measured_joint_eff[1,i]), 'eff_3': str(measured_joint_eff[2,i]), 'time': str(time[0,i])})
 
         rate.sleep()
 

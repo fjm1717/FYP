@@ -110,8 +110,8 @@
       effort="100"
       velocity="1.0" />
     <dynamics
-      damping="0.05"
-      friction="0.02" />
+      damping="0.08"
+      friction="0.05" />
   </joint>
 
   <transmission name="tran1">
@@ -184,8 +184,8 @@
       effort="100"
       velocity="1.0" />
     <dynamics
-      damping="0.05"
-      friction="0.02" />
+      damping="0.08"
+      friction="0.05" />
   </joint>
 
   <transmission name="tran2">
@@ -258,8 +258,8 @@
       effort="100"
       velocity="0.5" />
     <dynamics
-      damping="0.05"
-      friction="0.02" />
+      damping="0.08"
+      friction="0.05" />
   </joint>
 
   <transmission name="tran3">
