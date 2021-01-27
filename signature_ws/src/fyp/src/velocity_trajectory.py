@@ -2,6 +2,7 @@
 
 import rospy
 import time
+import csv
 import math
 import kinematics
 import numpy as np
@@ -10,6 +11,7 @@ from std_msgs.msg import Header, Float64
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
 state = np.zeros(10)
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/output.csv'
 
 def joint_reader(msg):
     global state
@@ -29,11 +31,11 @@ def joint_reader(msg):
     except:
         pass
 
-rospy.init_node('Trial')
+rospy.init_node('trajectory_data')
 pub = rospy.Publisher('signaturebot/trajectory/command', JointTrajectory, queue_size=1)
 
 #subscribe to joint_state to monitor joint position, velocities etc.
-joint_sub = rospy.Subscriber('signaturebot/joint_states',JointState,joint_reader)
+joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_reader)
 
 robot = kinematics.signature_bot(0,0,0,0,0,0,0,0,0,0,0,0)
 
@@ -41,8 +43,8 @@ command = JointTrajectory()
 target = JointTrajectoryPoint()
 command.joint_names = ['pitch', 'yaw', 'extension']
 
-initial_pos = np.array([0.157, -0.055, -0.02146], dtype="float")
-final_pos = np.array([0.157, 0.0948, -0.0597], dtype="float")
+initial_pos = np.array([0.16, -0.055, -0.022], dtype="float")
+final_pos = np.array([0.16, 0.095, -0.06], dtype="float")
 
 rate = rospy.Rate(20)
 
@@ -69,7 +71,7 @@ pub.publish(command)
 print(' ')
 print('Moving to start position..')
 
-time.sleep(2)
+time.sleep(1)
 
 joint_pos = np.zeros((3,N))
 joint_vel = np.zeros((3,N))
@@ -133,6 +135,23 @@ print('-----------------------------')
 
 time_elapsed = time[0,N-1] - start
 print('Total Time: ' + str(time_elapsed))
+
+print(' ')
+print('Exporting data to csv..')
+
+with open(output_path, mode='w') as csv_file:
+    data = ['x','y','z','x_dot','y_dot','z_dot','th1','th2','d3','th1_dot','th2_dot','d3_dot','eff_1','eff_2','eff_3','time']
+    writer = csv.DictWriter(csv_file, fieldnames=data)
+
+    writer.writeheader()
+    for i in range(0,N):
+        writer.writerow({'x': str(plan[0,i]), 'y': str(plan[1,i]), 'z': str(plan[2,i]), 'x_dot': str(plan[3,i]), 'y_dot': str(plan[4,i]), 'z_dot': str(plan[5,i]),
+        'th1': str(joint_pos[0,i]), 'th2': str(joint_pos[1,i]), 'd3': str(joint_pos[2,i]), 'th1_dot': str(joint_vel[0,i]), 'th2_dot': str(joint_vel[1,i]), 'd3_dot': str(joint_vel[2,i]),
+        'eff_1': str(joint_eff[0,i]), 'eff_2': str(joint_eff[1,i]), 'eff_3': str(joint_eff[2,i]), 'time': str(time[0,i])})
+
+        rate.sleep()
+
+print('Export Complete.')
 
 while not rospy.is_shutdown():
     pass
