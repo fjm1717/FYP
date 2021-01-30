@@ -1,6 +1,0 @@
-  signaturebot_controller:
-    type: "position_controllers/JointTrajectoryController"
-    joints:
-      - pitch
-      - yaw
-      - extension

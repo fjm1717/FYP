@@ -81,15 +81,6 @@
           rgba="0.29804 0.29804 0.29804 1" />
       </material>
     </visual>
-    <collision name="pitch_collision">
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://fyp/meshes/collision/pitch_link.STL" />
-      </geometry>
-    </collision>
   </link>
 
   <joint
@@ -121,7 +112,8 @@
     </joint>
     <actuator name="motor1">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>5</mechanicalReduction>
+      <!--mechanicalReduction>5</mechanicalReduction-->
+      <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
@@ -155,15 +147,6 @@
           rgba="0.77647 0.75686 0.73725 1" />
       </material>
     </visual>
-    <collision name="yaw_collision">
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://fyp/meshes/collision/yaw_link.STL" />
-      </geometry>
-    </collision>
   </link>
 
   <joint
@@ -195,7 +178,8 @@
     </joint>
     <actuator name="motor2">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>10</mechanicalReduction>
+      <!--mechanicalReduction>10</mechanicalReduction-->
+      <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
@@ -229,15 +213,6 @@
           rgba="0.49804 0.49804 0.49804 1" />
       </material>
     </visual>
-    <collision name="extension_collision">
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://fyp/meshes/collision/extension_link.STL" />
-      </geometry>
-    </collision>
   </link>
 
   <joint
@@ -269,17 +244,11 @@
     </joint>
     <actuator name="motor3">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>0.03927</mechanicalReduction>
+      <!--mechanicalReduction>0.03927</mechanicalReduction-->
+      <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
-  <gazebo>
-    <plugin name="control" filename='libgazebo_ros_control.so'>
-      <robotNamespace>/signaturebot</robotNamespace>
-    </plugin>
-  </gazebo>
-
-  <!--turn on self collisions for gazebo to detect mechanical interference-->
   <gazebo reference="base_link">
     <self_collide>1</self_collide>
   </gazebo>
@@ -296,19 +265,10 @@
     <self_collide>1</self_collide>
   </gazebo>
 
-  <!--create contact sensor for base_link to publish ContactState-->
-  <gazebo reference="base_link">
-    <sensor name="base_sensor" type="contact">
-      <selfCollide>1</selfCollide>
-      <alwaysOn>1</alwaysOn>
-      <updateRate>15</updateRate>
-      <contact>
-         <collision>base_link_fixed_joint_lump__base_collision_collision</collision>
-      </contact>
-      <plugin name="contact_plugin" filename="libgazebo_ros_bumper.so">
-        <bumperTopicName>collision_detection</bumperTopicName>
-      </plugin>
-    </sensor>
+  <gazebo>
+    <plugin name="control" filename='libgazebo_ros_control.so'>
+      <robotNamespace>/signaturebot</robotNamespace>
+    </plugin>
   </gazebo>
 
   <!--gazebo plugin that publishes JointState messages for all joints, works in conjuctiong with robot_state_publisher to give 3D robot state-->

@@ -1,9 +1,0 @@
-controller_list:
-  - name: fake_signature_group_controller
-    joints:
-      - joint_p_1
-      - joint_y_1
-      - joint_s_1
-initial:  # Define initial robot poses.
-  - group: signature_group
-    pose: Home

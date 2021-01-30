@@ -24,7 +24,6 @@ rospy.init_node('joy_reader')
 #subscribe to /joy to recieve controller inputs
 joy_sub = rospy.Subscriber('joy',Joy,xbox_reader)
 
-
 #float publishers to arm_controller/position/joint/command to set joint positions
 pitch_pub = rospy.Publisher('signaturebot/arm_controller/position/pitch_joint/command', Float64, queue_size=1)
 yaw_pub = rospy.Publisher('signaturebot/arm_controller/position/yaw_joint/command', Float64, queue_size=1)
@@ -64,10 +63,10 @@ while not rospy.is_shutdown():
     yaw_pub.publish(robot.th2)
     ext_pub.publish(robot.d3)
 
-    print('-----------------------------')
+    print('------------------------------')
     print('x: ' + str(robot.x) + ' y: ' + str(robot.y) + ' z: ' + str(robot.z))
-    print('-----------------------------')
+    print('------------------------------')
     print('th1: ' + str(robot.th1) + ' th2: ' + str(robot.th2) + ' d3: ' + str(robot.d3))
-    print('-----------------------------')
+    print('------------------------------')
 
     rate.sleep()
