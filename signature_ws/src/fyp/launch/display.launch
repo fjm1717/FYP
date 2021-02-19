@@ -2,7 +2,7 @@
   <!--upload urdf to parameter server as robot_description-->
   <param
     name="robot_description"
-    textfile="$(find fyp)/urdf/signaturebot.urdf" />
+    textfile="$(find fyp)/urdf/signaturebot_effort.urdf" />
   <!--open joint sliders that publish to joint_state-->
   <node
     name="joint_state_publisher_gui"

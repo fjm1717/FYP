@@ -5,7 +5,7 @@ import time
 import copy
 import csv
 import math
-import kinematics
+import signaturebot
 import numpy as np
 from sensor_msgs.msg import Joy, JointState
 from std_msgs.msg import Header, Float64
@@ -40,7 +40,7 @@ pub = rospy.Publisher('signaturebot/trajectory/command', JointTrajectory, queue_
 #subscribe to joint_state to monitor joint position, velocities etc.
 joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_reader)
 
-robot = kinematics.signature_bot(0,0,0,0,0,0,0,0,0,0,0,0)
+robot = signaturebot.signature_bot()
 
 command = JointTrajectory()
 target = JointTrajectoryPoint()
@@ -54,11 +54,11 @@ plane = input('Plane? (0: XY / 1: YZ): ')
 if plane == 0:
     #XY
     initial_pos = np.array([0.16, -0.1, -0.05008], dtype="float")
-    final_pos = np.array([0.16, 0.1, -0.05008], dtype="float")
+    final_pos = np.array([0.14, 0.1, -0.05008], dtype="float")
 else:
     #YZ
-    initial_pos = np.array([0.13614, 0, -0.08], dtype="float")
-    final_pos = np.array([0.13614, 0, 0], dtype="float")
+    initial_pos = np.array([0.16, 0.05, -0.08], dtype="float")
+    final_pos = np.array([0.16, -0.15, 0.02], dtype="float")
 
 print('--------------------------------------')
 
@@ -76,7 +76,7 @@ robot.z = initial_pos[2]
 robot.get_ik()
 
 target.time_from_start = rospy.Duration(0.5)
-target.positions = [robot.th1, robot.th2, robot.d3]
+target.positions = [-1*robot.th1, robot.th2, robot.d3]
 target.velocities = [0.0, 0.0, 0.0]
 
 command.points.append(target)
@@ -109,9 +109,19 @@ for i in range(0,N):
     robot.inv_vel_kin()
 
     #store joint space trajectory data
-    joint_pos[0,i] = robot.th1
+    joint_pos[0,i] = -1*robot.th1
     joint_pos[1,i] = robot.th2
     joint_pos[2,i] = robot.d3
+
+    print('---------------------------')
+    print('th1: ' + str(robot.th1))
+    print('th2: ' + str(robot.th2))
+    print('d3: ' + str(robot.d3))
+    robot.get_fk()
+    print('x: ' + str(robot.x))
+    print('y: ' + str(robot.y))
+    print('z: ' + str(robot.z))
+    print('---------------------------')
 
     joint_vel[0,i] = robot.th1_dot
     joint_vel[1,i] = robot.th2_dot
@@ -229,9 +239,6 @@ with open(output_path, mode='w') as csv_file:
                 'th1_dot': str(joint_vel[0,i]), 'th2_dot': str(joint_vel[1,i]), 'd3_dot': str(joint_vel[2,i])})
 
             rate.sleep()
-
-
-
 
 print('Export Complete.')
 print('--------------------------------------')

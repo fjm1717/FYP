@@ -2,7 +2,7 @@
 
 import rospy
 import math
-import kinematics
+import signaturebot
 import numpy as np
 from sensor_msgs.msg import Joy, JointState
 from std_msgs.msg import Float64
@@ -42,7 +42,7 @@ yaw_pub = rospy.Publisher('signaturebot/arm_controller/effort/yaw_joint/command'
 ext_pub = rospy.Publisher('signaturebot/arm_controller/effort/extension_joint/command', Float64, queue_size=1)
 
 #setup signaturebot class containing geometry plus positions/speeds in joint & physical space
-robot = kinematics.signature_bot(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+robot = signaturebot.signature_bot()
 
 print('-----------------------------')
 print('x: ' + str(robot.x) + ' y: ' + str(robot.y) + ' z: ' + str(robot.z))

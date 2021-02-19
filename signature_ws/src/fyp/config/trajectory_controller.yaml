@@ -25,7 +25,7 @@ signaturebot:
             goal: 0.002
 
         gains:
-          pitch: {p: 25.0, i: 1.0, d: 0.002, i_clamp: 1.0}
+          pitch: {p: 100.0, i: 1.0, d: 0.002, i_clamp: 1.0}
           yaw: {p: 25.0, i: 1.0, d: 0.002, i_clamp: 1.0}
           extension: {p: 4000.0, i: 10.0, d: 0.2, i_clamp: 1.0}
 
