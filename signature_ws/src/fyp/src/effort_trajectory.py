@@ -1,0 +1,238 @@
+#!/usr/bin/python2.7
+
+import rospy
+import time
+import copy
+import csv
+import math
+import signaturebot
+import numpy as np
+from sensor_msgs.msg import Joy, JointState
+from std_msgs.msg import Header, Float64
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+
+state = np.zeros(13)
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/dynamic_output.csv'
+exe_rate = 200
+
+def joint_reader(msg):
+    global state
+
+    time = rospy.Duration()
+    try:
+        time = msg.header.stamp
+        state[6] = time.to_sec()
+
+        state[0] = float(msg.position[0])
+        state[1] = float(msg.position[1])
+        state[2] = float(msg.position[2])
+        state[3] = float(msg.effort[0])
+        state[4] = float(msg.effort[1])
+        state[5] = float(msg.effort[2])
+
+    except:
+        pass
+
+rospy.init_node('effort_data')
+#publish to joint trajectroy coontroller to set joint position and velocities at waypoints.
+pub = rospy.Publisher('signaturebot/trajectory/command', JointTrajectory, queue_size=1)
+
+#subscribe to joint_state to monitor joint position, velocities etc.
+joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_reader)
+
+robot = signaturebot.signature_bot()
+
+command = JointTrajectory()
+target = JointTrajectoryPoint()
+command.joint_names = ['pitch', 'yaw', 'extension']
+
+print('----------Effort Trajectory-----------')
+
+sample_rate = input('Sample Rate: ')
+
+plane = input('Plane? (0: XY / 1: YZ): ')
+if plane == 0:
+    #XY
+    initial_pos = np.array([0.16, -0.1, -0.05008], dtype="float")
+    final_pos = np.array([0.14, 0.1, -0.05008], dtype="float")
+else:
+    #YZ
+    initial_pos = np.array([0.16, 0.05, -0.08], dtype="float")
+    final_pos = np.array([0.16, -0.15, 0.02], dtype="float")
+
+rate = rospy.Rate(exe_rate)
+
+T = input('Input Time to Complete Trajectory (s): ')
+N = input('Input Number of Points along Trajectory: ')
+
+plan, dt = robot.trajectory_plan(initial_pos, final_pos, T, N)
+
+#IK to move manipulator to starting pose
+robot.x = initial_pos[0]
+robot.y = initial_pos[1]
+robot.z = initial_pos[2]
+robot.get_ik()
+
+target.time_from_start = rospy.Duration(0.5)
+target.positions = [-1*robot.th1, robot.th2, robot.d3]
+target.velocities = [0.0, 0.0, 0.0]
+
+command.points.append(target)
+
+command.header.stamp = rospy.get_rostime()
+pub.publish(command)
+
+print('--------------------------------------')
+print('Moving to start position..')
+
+time.sleep(1)
+
+joint_pos = np.zeros((3,N))
+joint_vel = np.zeros((3,N))
+joint_accel = np.zeros((3,N))
+joint_effort = np.zeros((3,N))
+
+print('Planning Trajectory..')
+
+#plan trajectory
+for i in range(0,N):
+    #find joint states from cartesian positions along trajectory
+    robot.x = plan[0,i]
+    robot.y = plan[1,i]
+    robot.z = plan[2,i]
+    robot.get_ik()
+
+    #find joint velocities from cartesian velocities along trajectory
+    robot.x_dot = plan[3,i]
+    robot.y_dot = plan[4,i]
+    robot.z_dot = plan[5,i]
+    robot.inv_vel_kin()
+
+    robot.x_ddot = plan[6,i]
+    robot.y_ddot = plan[7,i]
+    robot.z_ddot = plan[8,i]
+    robot.inv_accel_kin()
+
+    #store joint space trajectory data
+    joint_pos[0,i] = -1*robot.th1
+    joint_pos[1,i] = robot.th2
+    joint_pos[2,i] = robot.d3
+
+    joint_vel[0,i] = -1*robot.th1_dot
+    joint_vel[1,i] = robot.th2_dot
+    joint_vel[2,i] = robot.d3_dot
+
+    joint_accel[0,i] = -1*robot.th1_ddot
+    joint_accel[1,i] = robot.th2_ddot
+    joint_accel[2,i] = robot.d3_ddot
+
+    rate.sleep()
+
+print('Uploading Trajectory..')
+
+#execute trajectory using JointTrajectoryController, starting once waypoints uploaded
+start = rospy.get_rostime() + rospy.Duration(1 + math.ceil(N/exe_rate))
+
+#setup joint trajectory message
+trajectory = JointTrajectory()
+target = JointTrajectoryPoint()
+trajectory.joint_names = ['pitch', 'yaw', 'extension']
+
+#time to begin trajectory
+trajectory.header.stamp = start
+
+#define waypoints
+for i in range(0,N):
+    #time to execute waypoint relative to start
+    target_c = copy.deepcopy(target)
+    target_c.time_from_start = rospy.Duration(i*dt)
+    target_c.positions = [joint_pos[0,i], joint_pos[1,i], joint_pos[2,i]]
+    target_c.velocities = [joint_vel[0,i], joint_vel[1,i], joint_vel[2,i]]
+    target_c.accelerations = [0, 0, 0]
+
+    trajectory.points.append(target_c)
+
+    rate.sleep()
+
+#send trajectory to controller
+pub.publish(trajectory)
+
+print('Executing Trajectory..')
+print('--------------------------------------')
+
+data_points = T*sample_rate + 2
+i = 0
+
+#measured data arrays
+measured_joint_eff = np.zeros((3,data_points))
+measured_joint_pos = np.zeros((3,data_points))
+measured_joint_accel = np.zeros((3,data_points))
+time = np.zeros((1,data_points+1))
+
+rate = rospy.Rate(sample_rate)
+
+#wait until time for trajectory to begin
+while rospy.get_time() < start.to_sec():
+    pass
+
+#take data during execution
+while i < data_points:
+    #store joint state
+    measured_joint_pos[0,i] = state[0]
+    measured_joint_pos[1,i] = state[1]
+    measured_joint_pos[2,i] = state[2]
+    measured_joint_accel[0,i] = state[6]
+    measured_joint_accel[1,i] = state[7]
+    measured_joint_accel[2,i] = state[8]
+
+    #store effort data of dynamic simulation
+    measured_joint_eff[0,i] = state[6]
+    measured_joint_eff[1,i] = state[7]
+    measured_joint_eff[2,i] = state[8]
+
+    #store simulation time
+    time[0,i] = state[9]
+
+    i+=1
+    rate.sleep()
+
+rate = rospy.Rate(exe_rate)
+
+time_elapsed = time[0,data_points-1] - start.to_sec()
+print('Total Time: ' + str(time_elapsed))
+
+calculated_joint_eff = np.zeros((3,data_points))
+
+#calculate efforts using dynamic equations and measured joint positions and accelerations
+for i in range(0,data_points):
+    robot.th1 = measured_joint_pos[0,i]
+    robot.th2 = measured_joint_pos[1,i]
+    robot.d3 = measured_joint_pos[2,i]
+    M = robot.get_M()
+    G = robot.get_G()
+    temp = np.matmul(M,measured_joint_accel[:,i].reshape(3,1)) + G
+    calculated_joint_eff[0,i] = temp[0]
+    calculated_joint_eff[1,i] = temp[1]
+    calculated_joint_eff[2,i] = temp[2]
+
+
+print(' ')
+print('Exporting data to csv..')
+
+#export data to output.csv
+with open(output_path, mode='w') as csv_file:
+    data = ['measured_eff_1','measured_eff_2','measured_eff_3','calculated_eff_1','calculated_eff_2','calculated_eff_3','time']
+    writer = csv.DictWriter(csv_file, fieldnames=data)
+    writer.writeheader()
+
+    for i in range(0,data_points):
+        writer.writerow({'measured_eff_1': str(measured_joint_eff[0,i]), 'measured_eff_2': str(measured_joint_eff[1,i]), 'measured_eff_3': str(measured_joint_eff[2,i]), 'calculated_eff_1': str(calculated_joint_eff[0,i]),
+        'calculated_eff_1': str(calculated_joint_eff[1,i]), 'calculated_eff_1': str(calculated_joint_eff[2,i]), 'time': str(time[0,i])})
+
+        rate.sleep()
+
+print('Export Complete.')
+print('--------------------------------------')
+
+while not rospy.is_shutdown():
+    pass

@@ -20,6 +20,15 @@ class signature_bot:
         self.x_dot = 0
         self.y_dot = 0
         self.z_dot = 0
+        self.th1_ddot = 0
+        self.th2_ddot = 0
+        self.d3_ddot = 0
+        self.x_ddot = 0
+        self.y_ddot = 0
+        self.z_ddot = 0
+        self.th1_eff = 0
+        self.th2_eff = 0
+        self.d3_eff = 0
         self.m = np.array([0.039657, 0.17058, 0.13263])
         self.com = np.array([[ 0.000015557, 0.0066616, -0.00013792], [ 0.010254, -0.020237, 0.038712 ], [ 0.0037978, -0.072635, 0.0066217 ]])
 
@@ -67,7 +76,7 @@ class signature_bot:
 
     def trajectory_plan(self, initial_pos, final_pos, T, N):
         dt = float(T) / float(N-1)
-        plan = np.zeros((6,N))
+        plan = np.zeros((9,N))
 
         #x-axis trajectory
         C_0 = initial_pos[0]
@@ -79,6 +88,7 @@ class signature_bot:
             t = dt*i
             plan[0,i] = C_0 + C_3*float(pow(t,3)) + C_4*float(pow(t,4)) + C_5*float(pow(t,5))
             plan[3,i] = 3*C_3*float(pow(t,2)) + 4*C_4*float(pow(t,3)) + 5*C_5*float(pow(t,4))
+            plan[6,i] = 6*C_3*t + 12*C_4*float(pow(t,2)) + 20*C_5*float(pow(t,3))
 
         #y-axis trajectory
         C_0 = initial_pos[1]
@@ -90,6 +100,7 @@ class signature_bot:
             t = dt*i
             plan[1,i] = C_0 + C_3*float(pow(t,3)) + C_4*float(pow(t,4)) + C_5*float(pow(t,5))
             plan[4,i] = 3*C_3*float(pow(t,2)) + 4*C_4*float(pow(t,3)) + 5*C_5*float(pow(t,4))
+            plan[7,i] = 6*C_3*t + 12*C_4*float(pow(t,2)) + 20*C_5*float(pow(t,3))
 
         #z-axis trajectory
         C_0 = initial_pos[2]
@@ -101,15 +112,36 @@ class signature_bot:
             t = dt*i
             plan[2,i] = C_0 + C_3*float(pow(t,3)) + C_4*float(pow(t,4)) + C_5*float(pow(t,5))
             plan[5,i] = 3*C_3*float(pow(t,2)) + 4*C_4*float(pow(t,3)) + 5*C_5*float(pow(t,4))
+            plan[8,i] = 6*C_3*t + 12*C_4*float(pow(t,2)) + 20*C_5*float(pow(t,3))
 
         return plan, dt
 
     def inv_vel_kin(self):
         lin_vel = np.array([[self.x_dot], [self.y_dot], [self.z_dot]])
-        ang_vel = np.matmul(self.get_invJv(),lin_vel)
+        ang_vel = np.matmul(self.get_invJv(),lin_vel).reshape(3,1)
         self.th1_dot = ang_vel[0]
         self.th2_dot = ang_vel[1]
         self.d3_dot = ang_vel[2]
+
+    def get_Jv_dot(self):
+        Jacobian =  np.array([ self.b*self.self.th1_dot*math.sin(self.th1) - self.self.d3_dot*math.cos(self.th2)*math.sin(self.th1) - self.self.th1_dot*math.cos(self.th1)*math.cos(self.th2)*(self.a + self.d3)
+                 + self.self.th2_dot*math.sin(self.th1)*math.sin(self.th2)*(self.a + self.d3), self.self.th1_dot*math.sin(self.th1)*math.sin(self.th2)*(self.a + self.d3)
+                 - self.self.th2_dot*math.cos(self.th1)*math.cos(self.th2)*(self.a + self.d3) - self.self.d3_dot*math.cos(self.th1)*math.sin(self.th2), self.self.th1_dot*math.cos(self.th2)*math.sin(self.th1)
+                 - self.self.th2_dot*math.cos(self.th1)*math.sin(self.th2) ], [ 0, self.self.th2_dot*math.sin(self.th2)*(self.a + self.d3) - self.self.d3_dot*math.cos(self.th2), -self.self.th2_dot*math.cos(self.th2) ],
+                 [ self.b*self.self.th1_dot*math.cos(self.th1) - self.self.d3_dot*math.cos(self.th1)*math.cos(self.th2) + self.self.th1_dot*math.cos(self.th2)*math.sin(self.th1)*(self.a + self.d3)
+                 + self.self.th2_dot*math.cos(self.th1)*math.sin(self.th2)*(self.a + self.d3), self.self.d3_dot*math.sin(self.th1)*math.sin(self.th2) + self.self.th1_dot*math.cos(self.th1)*math.sin(self.th2)*(self.a + self.d3)
+                 + self.self.th2_dot*math.cos(self.th2)*math.sin(self.th1)*(self.a + self.d3),   self.self.th2_dot*math.sin(self.th1)*math.sin(self.th2) - self.self.th1_dot*math.cos(self.th1)*math.cos(self.th2) ])
+
+        return Jacobian
+
+    def inv_accel_kin(self):
+        lin_accel = np.array([[self.x_ddot], [self.y_ddot], [self.z_ddot]])
+        ang_vel = np.array([[self.th1_dot], [self.th2_dot], [self.d3_dot]])
+        temp = lin_accel - np.matmul(self.get_Jv_dot(),ang_vel).reshape(3,1)
+        ang_accel = np.matmul(self.get_invJv(),temp).reshape(3,1)
+        self.th1_ddot = ang_accel[0]
+        self.th2_ddot = ang_accel[1]
+        self.d3_ddot = ang_accel[2]
 
     def get_M(self):
         M = np.zeros((3, 3))
@@ -186,3 +218,13 @@ class signature_bot:
         G[2,0] = -g*self.m[2]*math.cos(self.th2)*math.sin(self.th1)
 
         return G
+
+    def get_efforts(Self):
+        M = self.get_M()
+        G = self.get_G()
+        ang_accel = np.array([self.th1_ddot],[self.th2_ddot],[self.d3])
+        temp = np.matmul(M,ang_accel).reshape(3,1) + G
+
+        self.th1_eff = temp[0]
+        self.th2_eff = temp[1]
+        self.d3_eff = temp[2]

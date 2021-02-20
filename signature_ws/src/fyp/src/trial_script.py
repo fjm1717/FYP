@@ -17,7 +17,8 @@ print(robot.m)
 
 robot.th1 = 0;
 robot.th2 = 0;
-robot.d3 = 0;
+robot.d3 = 0.02;
+
 M = robot.get_M()
 print(M)
 G = robot.get_G()

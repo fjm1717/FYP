@@ -1,0 +1,37 @@
+<launch>
+  <!--Gazebo arguments-->
+  <arg name="paused" default="false"/>
+  <arg name="gui" default="true"/>
+
+  <!--load signaturebot URDF to parameter server as robot_description-->
+  <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot_effort.urdf"/>
+  <!--load arm_controller and joint_limits to parameter server-->
+  <rosparam file="$(find fyp)/config/trajectory_controller.yaml" command="load"/>
+
+  <!--launch empty_world in Gazebo with arguments-->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+   <arg name="world_name" default="worlds/empty.world"/>
+   <arg name="paused" value="$(arg paused)"/>
+   <arg name="gui" value="$(arg gui)"/>
+ </include>
+
+  <!--spawn controllers using respective controller managers-->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/signaturebot"
+    args="
+    state
+    trajectory
+    "/>
+
+  <!--publish joint states to /tf for rviz etc-->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    output="screen">
+    <remap from="/joint_states" to="/signaturebot/joint_states" />
+  </node>
+
+  <!--spawn robot_description into Gazebo from parameter server-->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model signaturebot"/>
+
+  <node pkg="fyp" name="velocity_trajectory" type="effort_trajectory.py" output="screen" launch-prefix="gnome-terminal --command"/>
+
+</launch>
