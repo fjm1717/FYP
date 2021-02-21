@@ -10,6 +10,7 @@ import numpy as np
 from sensor_msgs.msg import Joy, JointState
 from std_msgs.msg import Header, Float64
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+import matplotlib.pyplot as plt
 
 state = np.zeros(10)
 output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/output.csv'
@@ -76,7 +77,7 @@ robot.z = initial_pos[2]
 robot.get_ik()
 
 target.time_from_start = rospy.Duration(0.5)
-target.positions = [-1*robot.th1, robot.th2, robot.d3]
+target.positions = [-1*robot.th1, -1*robot.th2, robot.d3]
 target.velocities = [0.0, 0.0, 0.0]
 
 command.points.append(target)
@@ -91,6 +92,7 @@ time.sleep(1)
 
 joint_pos = np.zeros((3,N))
 joint_vel = np.zeros((3,N))
+joint_accel = np.zeros((3,N))
 
 print('Planning Trajectory..')
 
@@ -109,23 +111,23 @@ for i in range(0,N):
     robot.inv_vel_kin()
 
     #store joint space trajectory data
-    joint_pos[0,i] = -1*robot.th1
+    joint_pos[0,i] = robot.th1
     joint_pos[1,i] = robot.th2
     joint_pos[2,i] = robot.d3
-
-    print('---------------------------')
-    print('th1: ' + str(robot.th1))
-    print('th2: ' + str(robot.th2))
-    print('d3: ' + str(robot.d3))
-    robot.get_fk()
-    print('x: ' + str(robot.x))
-    print('y: ' + str(robot.y))
-    print('z: ' + str(robot.z))
-    print('---------------------------')
 
     joint_vel[0,i] = robot.th1_dot
     joint_vel[1,i] = robot.th2_dot
     joint_vel[2,i] = robot.d3_dot
+
+    #find joint accelerations from cartesian velocities along trajectory
+    robot.x_ddot = plan[6,i]
+    robot.y_ddot = plan[7,i]
+    robot.z_ddot = plan[8,i]
+    robot.inv_accel_kin()
+
+    joint_accel[0,i] = robot.th1_ddot
+    joint_accel[1,i] = robot.th2_ddot
+    joint_accel[2,i] = robot.d3_ddot
 
     rate.sleep()
 
@@ -147,9 +149,9 @@ for i in range(0,N):
     #time to execute waypoint relative to start
     target_c = copy.deepcopy(target)
     target_c.time_from_start = rospy.Duration(i*dt)
-    target_c.positions = [joint_pos[0,i], joint_pos[1,i], joint_pos[2,i]]
-    target_c.velocities = [joint_vel[0,i], joint_vel[1,i], joint_vel[2,i]]
-    target_c.accelerations = [0, 0, 0]
+    target_c.positions = [-1*joint_pos[0,i], -1*joint_pos[1,i], joint_pos[2,i]]
+    target_c.velocities = [-1*joint_vel[0,i], -1*joint_vel[1,i], joint_vel[2,i]]
+    target_c.accelerations = [joint_accel[0,i], joint_accel[1,i], joint_accel[2,i]]
 
     trajectory.points.append(target_c)
 
@@ -192,15 +194,14 @@ while i < data_points:
     measured_joint_eff[2,i] = state[8]
 
     #store simulation time
-    time[0,i] = state[9]
+    time[0,i] = state[9] - start.to_sec()
 
     i+=1
     rate.sleep()
 
 rate = rospy.Rate(exe_rate)
 
-time_elapsed = time[0,data_points-1] - start.to_sec()
-print('Total Time: ' + str(time_elapsed))
+print('Total Time: ' + str(time[0,data_points-1]))
 
 print(' ')
 print('Exporting data to csv..')

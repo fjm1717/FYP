@@ -13,8 +13,8 @@ state = np.zeros(6)
 def xbox_reader(msg):
     global xbox
     xbox[0] = float(msg.axes[4]) #z-axis
-    xbox[1] = -1*float(msg.axes[1]) #x-axis
-    xbox[2] = -1*float(msg.axes[0]) #y-axis
+    xbox[1] = float(msg.axes[1]) #x-axis
+    xbox[2] = float(msg.axes[0]) #y-axis
     xbox[3] = int(msg.buttons[0]) #A
     xbox[4] = int(msg.buttons[1]) #B
     xbox[5] = int(msg.buttons[2]) #X
@@ -59,8 +59,8 @@ while not rospy.is_shutdown():
     robot.get_ik()
 
     #publish joint variables to arm_controller/position/joint/command
-    pitch_pub.publish(robot.th1)
-    yaw_pub.publish(robot.th2)
+    pitch_pub.publish(-1*robot.th1)
+    yaw_pub.publish(-1*robot.th2)
     ext_pub.publish(robot.d3)
 
     print('------------------------------')
