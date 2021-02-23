@@ -83,8 +83,8 @@ while not rospy.is_shutdown():
         robot.get_ik()
 
         #publish joint variables to arm_controller/position/joint/command
-        pitch_pub.publish(-1*robot.th1)
-        yaw_pub.publish(-1*robot.th2)
+        pitch_pub.publish(robot.th1)
+        yaw_pub.publish(robot.th2)
         ext_pub.publish(robot.d3)
 
         rate.sleep()
@@ -133,8 +133,8 @@ while not rospy.is_shutdown():
         robot.get_fk()
 
         #publish joint variables to arm_controller/position/joint/command
-        pitch_pub.publish(-1*robot.th1)
-        yaw_pub.publish(-1*robot.th2)
+        pitch_pub.publish(robot.th1)
+        yaw_pub.publish(robot.th2)
         ext_pub.publish(robot.d3)
 
         rate.sleep()
@@ -164,8 +164,8 @@ while not rospy.is_shutdown():
         robot.z_dot = plan[5,i]
         robot.inv_vel_kin()
 
-        pitch_pub.publish(-1*robot.th1)
-        yaw_pub.publish(-1*robot.th2)
+        pitch_pub.publish(robot.th1)
+        yaw_pub.publish(robot.th2)
         ext_pub.publish(robot.d3)
 
         print('-----------------------Kinematic Data------------------------')

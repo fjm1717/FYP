@@ -27,9 +27,6 @@ def joint_reader(msg):
         state[3] = float(msg.velocity[0])
         state[4] = float(msg.velocity[1])
         state[5] = float(msg.velocity[2])
-        state[6] = float(msg.acceleration[0])
-        state[7] = float(msg.acceleration[1])
-        state[8] = float(msg.acceleration[2])
         state[9] = float(msg.effort[0])
         state[10] = float(msg.effort[1])
         state[11] = float(msg.effort[2])
@@ -93,8 +90,8 @@ while(1):
     print('Efforts: ')
     print(efforts)
 
-    pub1.publish(-1*efforts[0])
-    pub2.publish(-1*efforts[1])
+    pub1.publish(efforts[0])
+    pub2.publish(efforts[1])
     pub3.publish(efforts[2])
 
     last_error_signal = error_signal

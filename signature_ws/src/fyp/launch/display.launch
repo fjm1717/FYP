@@ -17,5 +17,5 @@
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args="-d $(find fyp)/rviz_config/simple_pose.rviz" />
+    args = "$(find fyp)/rviz_config/simple_pose.rviz"/>
 </launch>

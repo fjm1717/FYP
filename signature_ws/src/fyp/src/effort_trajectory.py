@@ -11,7 +11,7 @@ from sensor_msgs.msg import Joy, JointState
 from std_msgs.msg import Header, Float64
 from matplotlib import pyplot as plt
 
-state = np.zeros(13)
+state = np.zeros(10)
 output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/dynamic_output.csv'
 exe_rate = 50
 
@@ -27,13 +27,10 @@ def joint_reader(msg):
         state[3] = float(msg.velocity[0])
         state[4] = float(msg.velocity[1])
         state[5] = float(msg.velocity[2])
-        state[6] = float(msg.acceleration[0])
-        state[7] = float(msg.acceleration[1])
-        state[8] = float(msg.acceleration[2])
-        state[9] = float(msg.effort[0])
-        state[10] = float(msg.effort[1])
-        state[11] = float(msg.effort[2])
-        state[12] = time.to_sec()
+        state[6] = float(msg.effort[0])
+        state[7] = -float(msg.effort[1])
+        state[8] = float(msg.effort[2])
+        state[9] = time.to_sec()
 
     except:
         pass
@@ -99,8 +96,8 @@ while np.any(error_signal > 1e-5):
     efforts = np.matmul(np.transpose(robot.get_Jv()),force)
     print('Efforts: ' + str(efforts[0]) + ' ' + str(efforts[1]) + ' ' + str(efforts[2]))
 
-    pub1.publish(-1*efforts[0])
-    pub2.publish(-1*efforts[1])
+    pub1.publish(efforts[0])
+    pub2.publish(efforts[1])
     pub3.publish(efforts[2])
 
     last_error_signal = error_signal
@@ -135,20 +132,20 @@ for i in range(0,N):
     robot.inv_accel_kin()
 
     #store joint space trajectory data
-    joint_pos[0,i] = -1*robot.th1
+    joint_pos[0,i] = robot.th1
     joint_pos[1,i] = robot.th2
     joint_pos[2,i] = robot.d3
 
-    joint_vel[0,i] = -1*robot.th1_dot
+    joint_vel[0,i] = robot.th1_dot
     joint_vel[1,i] = robot.th2_dot
     joint_vel[2,i] = robot.d3_dot
 
-    joint_accel[0,i] = -1*robot.th1_ddot
+    joint_accel[0,i] = robot.th1_ddot
     joint_accel[1,i] = robot.th2_ddot
     joint_accel[2,i] = robot.d3_ddot
 
     robot.get_efforts()
-    joint_effort[0,i] = -1*robot.th1_eff
+    joint_effort[0,i] = robot.th1_eff
     joint_effort[1,i] = robot.th2_eff
     joint_effort[2,i] = robot.d3_eff
 
@@ -184,9 +181,9 @@ for i in range(0,N):
     measured_joint_pos[0,i] = state[0]
     measured_joint_pos[1,i] = state[1]
     measured_joint_pos[2,i] = state[2]
-    measured_joint_eff[0,i] = state[9]
-    measured_joint_eff[1,i] = state[10]
-    measured_joint_eff[2,i] = state[11]
+    measured_joint_eff[0,i] = state[6]
+    measured_joint_eff[1,i] = state[7]
+    measured_joint_eff[2,i] = state[8]
 
     rate.sleep()
 

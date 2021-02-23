@@ -77,7 +77,7 @@ robot.z = initial_pos[2]
 robot.get_ik()
 
 target.time_from_start = rospy.Duration(0.5)
-target.positions = [-1*robot.th1, -1*robot.th2, robot.d3]
+target.positions = [robot.th1, robot.th2, robot.d3]
 target.velocities = [0.0, 0.0, 0.0]
 
 command.points.append(target)
@@ -149,8 +149,8 @@ for i in range(0,N):
     #time to execute waypoint relative to start
     target_c = copy.deepcopy(target)
     target_c.time_from_start = rospy.Duration(i*dt)
-    target_c.positions = [-1*joint_pos[0,i], -1*joint_pos[1,i], joint_pos[2,i]]
-    target_c.velocities = [-1*joint_vel[0,i], -1*joint_vel[1,i], joint_vel[2,i]]
+    target_c.positions = [joint_pos[0,i], joint_pos[1,i], joint_pos[2,i]]
+    target_c.velocities = [joint_vel[0,i], joint_vel[1,i], joint_vel[2,i]]
     target_c.accelerations = [joint_accel[0,i], joint_accel[1,i], joint_accel[2,i]]
 
     trajectory.points.append(target_c)

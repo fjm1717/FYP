@@ -20,8 +20,8 @@ robot.get_fk()
 
 rate.sleep()
 
-pub1.publish(-1*robot.th1)
-pub2.publish(-1*robot.th2)
+pub1.publish(robot.th1)
+pub2.publish(robot.th2)
 pub3.publish(robot.d3)
 
 while not rospy.is_shutdown():
@@ -37,8 +37,8 @@ while not rospy.is_shutdown():
     robot.z = input('Set Z: ')
     robot.get_ik()
 
-    pub1.publish(-1*robot.th1)
-    pub2.publish(-1*robot.th2)
+    pub1.publish(robot.th1)
+    pub2.publish(robot.th2)
     pub3.publish(robot.d3)
 
     rate.sleep()
