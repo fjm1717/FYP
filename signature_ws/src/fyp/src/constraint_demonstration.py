@@ -10,7 +10,7 @@ import sys
 import time
 
 xbox = np.zeros(6)
-radius = 0.01
+radius = 0.02
 
 def xbox_reader(msg):
     global xbox
@@ -36,13 +36,13 @@ robot = signaturebot.signature_bot()
 robot.get_fk()
 
 
-time.sleep(5)
+time.sleep(3)
 
 print('-------------Spherical Constraint----------------')
 print('-------------------------------------------------')
 print('Moving to Centre..')
 
-robot.x = 0.15
+robot.x = 0.16
 robot.y = 0
 robot.z = -0.05008
 robot.get_ik()
@@ -51,19 +51,19 @@ pitch_pub.publish(robot.th1)
 yaw_pub.publish(robot.th2)
 ext_pub.publish(robot.d3)
 
-print('-------------------------------------------------')
-
 rate = rospy.Rate(50)
+
+print('---------------Current Position------------------')
+print('-------------------------------------------------')
 
 while not rospy.is_shutdown():
     #loop until node shutdown
 
     if xbox[3] == 1:
         #set home position if A button press
-        robot.th1 = 0.0
-        robot.th2 = 0.0
-        robot.d3 = 0.0
-        robot.get_fk()
+        robot.x = 0.16
+        robot.y = 0.0
+        robot.z = -0.05008
 
     #set axis positions using controller input
     robot.z = robot.z + xbox[0] * 0.001
@@ -71,12 +71,17 @@ while not rospy.is_shutdown():
     robot.y = robot.y + xbox[2] * 0.001
 
     #spherical constraints
-    if pow(robot.x - 0.15,2) >= ( pow(radius,2) - pow(robot.y,2) - pow(robot.z + 0.05008,2) ):
-        robot.x = robot.x - xbox[0] * 0.001
-    if pow(robot.y,2) >= ( pow(radius,2) - pow(robot.x - 0.15,2) - pow(robot.z + 0.05008,2) ):
-        robot.y = robot.y - xbox[1] * 0.001
-    if pow(robot.z + 0.05008,2) >= ( pow(radius,2) - pow(robot.x - 0.15,2) - pow(robot.y,2) ):
-        robot.z = robot.z - xbox[2] * 0.001
+    if pow(robot.x - 0.16,2) >= ( pow(radius,2) - pow(robot.y,2) - pow(robot.z + 0.05008,2) ):
+        robot.x = robot.x - xbox[1] * 0.001
+    if pow(robot.y,2) >= ( pow(radius,2) - pow(robot.x - 0.16,2) - pow(robot.z + 0.05008,2) ):
+        robot.y = robot.y - xbox[2] * 0.001
+    if pow(robot.z + 0.05008,2) >= ( pow(radius,2) - pow(robot.x - 0.16,2) - pow(robot.y,2) ):
+        robot.z = robot.z - xbox[0] * 0.001
+
+    #if ( pow(robot.x - 0.16,2) + pow(robot.y,2) + pow(robot.z + 0.05008,2) >= pow(radius,2) ):
+    #    robot.x = 0.16
+    #    robot.y = 0
+    #    robot.z = -0.05008
 
     robot.get_ik()
 
@@ -85,8 +90,6 @@ while not rospy.is_shutdown():
     yaw_pub.publish(robot.th2)
     ext_pub.publish(robot.d3)
 
-    print('---------------Current Position------------------')
-    print('-------------------------------------------------')
     print('x: ' + str(robot.x) + ' y: ' + str(robot.y) + ' z: ' + str(robot.z))
     sys.stdout.write("\033[F")
 

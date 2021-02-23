@@ -12,7 +12,6 @@ from std_msgs.msg import Header, Float64
 from matplotlib import pyplot as plt
 
 state = np.zeros(13)
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/dynamic_output.csv'
 exe_rate = 50
 
 def joint_reader(msg):
@@ -51,7 +50,7 @@ print('--------Force Position Control--------')
 
 robot.x = 0.16
 robot.y = 0.02
-robot.z = -0.06
+robot.z = -0.04
 robot.get_ik()
 target_th1 = robot.th1
 target_th2 = robot.th2
@@ -65,8 +64,8 @@ target = np.array([[robot.x],[robot.y],[robot.z]], dtype=float)
 error_signal = np.array([[1],[1],[1]], dtype=float)
 last_error_signal = error_signal
 k = 1.0
-kp = 10.0
-kd = 0.0;
+kp = 60.0
+kd = 1.2;
 
 #viscoelastic force control loop
 while(1):
