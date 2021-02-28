@@ -7,19 +7,15 @@ import numpy as np
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Float64
 
-rospy.init_node('effort_trajectory')
+rospy.init_node('trial')
 
-pub1 = rospy.Publisher('signaturebot/arm_controller/effort/pitch_joint/command', Float64, queue_size=1)
-pub2 = rospy.Publisher('signaturebot/arm_controller/effort/yaw_joint/command', Float64, queue_size=1)
-pub3 = rospy.Publisher('signaturebot/arm_controller/effort/extension_joint/command', Float64, queue_size=1)
+robot = signaturebot.signature_bot()
 
-rate = rospy.Rate(10)
+robot.th1 = 0.5
+robot.th2 = 0
+robot.d3 = 0
+robot.get_fk()
 
-i = 0
-while not rospy.is_shutdown():
-    pub1.publish(i)
-    pub2.publish(i)
-    pub3.publish(i)
-    i = i + 0.01;
-
-    rate.sleep()
+G = robot.get_G()
+print('Gravity: ')
+print(G)

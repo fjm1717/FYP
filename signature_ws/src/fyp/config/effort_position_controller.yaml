@@ -4,14 +4,17 @@ signaturebot:
       state:
         type: joint_state_controller/JointStateController
         publish_rate: 50 #Hz
-      #position Controllers ---------------------------------------
-      effort:
+      #controllers ---------------------------------------
+      position:
         pitch_joint:
-          type: effort_controllers/JointEffortController
+          type: effort_controllers/JointPositionController
           joint: pitch
+          pid: {p: 25.0, i: 1.0, d: 0.002}
         yaw_joint:
-          type: effort_controllers/JointEffortController
+          type: effort_controllers/JointPositionController
           joint: yaw
+          pid: {p: 25.0, i: 1.0, d: 0.002}
+      effort:
         extension_joint:
           type: effort_controllers/JointEffortController
           joint: extension

@@ -3,12 +3,12 @@
 import rospy
 from std_msgs.msg import Float64
 
-pub1 = rospy.Publisher('signaturebot/arm_controller/effort/pitch_joint/command', Float64, queue_size=1)
-pub2 = rospy.Publisher('signaturebot/arm_controller/effort/yaw_joint/command', Float64, queue_size=1)
-pub3 = rospy.Publisher('signaturebot/arm_controller/effort/extension_joint/command', Float64, queue_size=1)
+pub1 = rospy.Publisher('/signaturebot/arm_controller/effort/pitch_joint/command', Float64, queue_size=1)
+pub2 = rospy.Publisher('/signaturebot/arm_controller/effort/yaw_joint/command', Float64, queue_size=1)
+pub3 = rospy.Publisher('/signaturebot/arm_controller/effort/extension_joint/command', Float64, queue_size=1)
 rospy.init_node('effort_command')
 
-rate = rospy.Rate(10)
+rate = rospy.Rate(20)
 
 pitch = 0.0
 yaw = 0.0

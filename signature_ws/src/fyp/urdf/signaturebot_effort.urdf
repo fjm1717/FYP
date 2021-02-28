@@ -61,10 +61,10 @@
         value="0.034759" />
       <inertia
         ixx="2.9791E-06"
-        ixy="-8.0734E-10"
-        ixz="1.6807E-10"
+        ixy="0"
+        ixz="0"
         iyy="5.3233E-06"
-        iyz="1.8158E-10"
+        iyz="0"
         izz="3.414E-06" />
     </inertial>
     <visual>
@@ -81,6 +81,15 @@
           rgba="0.29804 0.29804 0.29804 1" />
       </material>
     </visual>
+    <collision name="pitch_collision">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://fyp/meshes/collision/pitch_link.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
@@ -96,13 +105,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-3.14"
-      upper="3.14"
+      lower="-1.5708"
+      upper="0.8"
       effort="100"
       velocity="1.0" />
     <dynamics
-      damping="0.08"
-      friction="0.05" />
+      damping="0.0001"
+      friction="0.015" />
   </joint>
 
   <transmission name="tran1">
@@ -111,7 +120,7 @@
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
       <!--mechanicalReduction>5</mechanicalReduction-->
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
@@ -127,10 +136,10 @@
         value="0.17499" />
       <inertia
         ixx="9.0705E-05"
-        ixy="-8.0684E-06"
-        ixz="5.6179E-07"
+        ixy="0"
+        ixz="0"
         iyy="6.5527E-05"
-        iyz="8.018E-07"
+        iyz="0"
         izz="0.00013037" />
     </inertial>
     <visual>
@@ -147,28 +156,37 @@
           rgba="0.77647 0.75686 0.73725 1" />
       </material>
     </visual>
+    <collision name="yaw_collision">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://fyp/meshes/collision/yaw_link.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
     name="yaw"
     type="revolute">
     <origin
-      xyz="0 0.050079 3.999E-05"
+      xyz="0 0.05008 0"
       rpy="1.5708 -1.5708 0" />
     <parent
       link="pitch_link" />
     <child
       link="yaw_link" />
     <axis
-      xyz="0 0 -1" />
+      xyz="0 0 1" />
     <limit
-      lower="-3.14"
-      upper="3.14"
+      lower="-1.3"
+      upper="1.3"
       effort="100"
       velocity="1.0" />
     <dynamics
-      damping="0.08"
-      friction="0.05" />
+      damping="0.0001"
+      friction="0.015" />
   </joint>
 
   <transmission name="tran2">
@@ -177,7 +195,7 @@
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor2">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
       <!--mechanicalReduction>10</mechanicalReduction-->
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
@@ -193,8 +211,8 @@
         value="0.13248" />
       <inertia
         ixx="0.00015884"
-        ixy="-6.501E-08"
-        ixz="4.6699E-08"
+        ixy="0"
+        ixz="0"
         iyy="0.00012513"
         iyz="2.127E-05"
         izz="4.3022E-05" />
@@ -213,6 +231,15 @@
           rgba="0.49804 0.49804 0.49804 1" />
       </material>
     </visual>
+    <collision name="extension_collision">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://fyp/meshes/collision/extension_link.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
@@ -228,13 +255,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="0"
+      lower="-0.005"
       upper="0.096"
       effort="100"
       velocity="0.5" />
     <dynamics
-      damping="0.08"
-      friction="0.05" />
+      damping="0.0001"
+      friction="0.015" />
   </joint>
 
   <transmission name="tran3">
@@ -243,12 +270,20 @@
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor3">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
       <!--mechanicalReduction>0.03927</mechanicalReduction-->
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename='libgazebo_ros_control.so'>
+      <robotNamespace>/signaturebot</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+  <!--turn on self collisions for gazebo to detect mechanical interference-->
   <gazebo reference="base_link">
     <self_collide>1</self_collide>
   </gazebo>
@@ -263,12 +298,6 @@
 
   <gazebo reference="extension_link">
     <self_collide>1</self_collide>
-  </gazebo>
-
-  <gazebo>
-    <plugin name="control" filename='libgazebo_ros_control.so'>
-      <robotNamespace>/signaturebot</robotNamespace>
-    </plugin>
   </gazebo>
 
   <!--gazebo plugin that publishes JointState messages for all joints, works in conjuctiong with robot_state_publisher to give 3D robot state-->

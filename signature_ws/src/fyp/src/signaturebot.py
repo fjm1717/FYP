@@ -30,30 +30,30 @@ class signature_bot:
         self.th2_eff = 0
         self.d3_eff = 0
         self.m = np.array([0.034759, 0.17499, 0.13248])
-        self.com = np.array([[ 1.7832e-5, 0.0063839, 0.00015736], [ -0.019758, 0.009982, 0.087957 ], [ -0.0037892, 0.07262, -0.12942 ]])
+        self.com = np.array([[ 1.7832e-5, -0.019758, -0.0037892], [ -0.0063839, -0.009982, 0.07262 ], [ 0.00015736, 0.087957, -0.12942 ]])
 
         I1 = np.array([[ 2.9791e-6, 0, 0 ], [ 0, 5.3233e-6, 0 ], [ 0, 0, 3.414e-6 ]])
         I2 = np.array([[ 9.0705e-5, 0, 0 ], [ 0, 6.5527e-5, 0 ], [ 0, 0, 0.00013037 ]])
         I3 = np.array([[ 0.00015884, 0, 0 ], [ 0, 0.00012513, 2.127e-5 ], [ 0, 2.127e-5, 4.3022e-5 ]])
 
         self.J1 = np.array([[ 0.5*( I1[1,1] + I1[2,2] - I1[0,0] ), I1[0,1], I1[0,2], self.m[0]*self.com[0,0] ],
-                           [ I1[1,0], 0.5*( I1[0,0] + I1[2,2] - I1[1,1] ), I1[1,2], self.m[0]*self.com[0,1] ],
-                           [ I1[2,0], I1[2,1], 0.5*( I1[0,0] + I1[1,1] - I1[2,2] ), self.m[0]*self.com[0,2] ],
-                           [ self.m[0]*self.com[0,0], self.m[0]*self.com[0,1], self.m[0]*self.com[0,2], self.m[0] ]])
+                           [ I1[1,0], 0.5*( I1[0,0] + I1[2,2] - I1[1,1] ), I1[1,2], self.m[0]*self.com[1,0] ],
+                           [ I1[2,0], I1[2,1], 0.5*( I1[0,0] + I1[1,1] - I1[2,2] ), self.m[0]*self.com[2,0] ],
+                           [ self.m[0]*self.com[0,0], self.m[0]*self.com[1,0], self.m[0]*self.com[2,0], self.m[0] ]])
 
-        self.J2 = np.array([[ 0.5*( I2[1,1] + I2[2,2] - I2[0,0] ), I2[0,1], I2[0,2], self.m[1]*self.com[1,0] ],
+        self.J2 = np.array([[ 0.5*( I2[1,1] + I2[2,2] - I2[0,0] ), I2[0,1], I2[0,2], self.m[1]*self.com[0,1] ],
                            [ I2[1,0], 0.5*( I2[0,0] + I2[2,2] - I2[1,1] ), I2[1,2], self.m[1]*self.com[1,1] ],
-                           [ I2[2,0], I2[2,1], 0.5*( I2[0,0] + I2[1,1] - I2[2,2] ), self.m[1]*self.com[1,2] ],
-                           [ self.m[1]*self.com[1,0], self.m[1]*self.com[1,1], self.m[1]*self.com[1,2], self.m[1] ]])
+                           [ I2[2,0], I2[2,1], 0.5*( I2[0,0] + I2[1,1] - I2[2,2] ), self.m[1]*self.com[2,1] ],
+                           [ self.m[1]*self.com[0,1], self.m[1]*self.com[1,1], self.m[1]*self.com[2,1], self.m[1] ]])
 
-        self.J3 = np.array([[ 0.5*( I3[1,1] + I3[2,2] - I3[0,0] ), I3[0,1], I3[0,2], self.m[2]*self.com[2,0] ],
-                           [ I3[1,0], 0.5*( I3[0,0] + I3[2,2] - I3[1,1] ), I3[1,2], self.m[2]*self.com[2,1] ],
+        self.J3 = np.array([[ 0.5*( I3[1,1] + I3[2,2] - I3[0,0] ), I3[0,1], I3[0,2], self.m[2]*self.com[0,2] ],
+                           [ I3[1,0], 0.5*( I3[0,0] + I3[2,2] - I3[1,1] ), I3[1,2], self.m[2]*self.com[1,2] ],
                            [ I3[2,0], I3[2,1], 0.5*( I3[0,0] + I3[1,1] - I3[2,2] ), self.m[2]*self.com[2,2] ],
-                           [ self.m[2]*self.com[2,0], self.m[2]*self.com[2,1], self.m[2]*self.com[2,2], self.m[2] ]])
+                           [ self.m[2]*self.com[0,2], self.m[2]*self.com[1,2], self.m[2]*self.com[2,2], self.m[2] ]])
 
     def get_fk(self):
         self.x = math.cos(self.th1)*math.cos(self.th2)*(self.d3 + self.a) - self.b*math.sin(self.th1)
-        self.y = -1*math.sin(self.th2)*(self.d3 + self.a)
+        self.y = math.sin(self.th2)*(self.d3 + self.a)
         self.z = -1*self.b*math.cos(self.th1) - math.cos(self.th2)*math.sin(self.th1)*(self.d3 + self.a)
 
     def get_ik(self):
@@ -61,12 +61,12 @@ class signature_bot:
         l = math.atan2(self.z, self.x)
         self.th1 = math.asin( -1*self.b / r ) - l
         k = self.x*math.cos(self.th1) - self.z*math.sin(self.th1)
-        self.th2 = math.atan2(-1*self.y, k)
+        self.th2 = math.atan2(self.y, k)
         self.d3 = k/math.cos(self.th2) - self.a
 
     def get_Jv(self):
         Jacobian = np.array([ [-1*math.sin(self.th1)*math.cos(self.th2)*(self.d3 + self.a) - self.b*math.cos(self.th1), -1*math.sin(self.th2)*math.cos(self.th1)*(self.d3 + self.a), math.cos(self.th1)*math.cos(self.th2)],
-                            [0, -1*math.cos(self.th2)*(self.d3 + self.a), -1*math.sin(self.th2)],
+                            [0, math.cos(self.th2)*(self.d3 + self.a), math.sin(self.th2)],
                             [self.b*math.sin(self.th1) - math.cos(self.th1)*math.cos(self.th2)*(self.d3 + self.a), math.sin(self.th1)*math.sin(self.th2)*(self.d3 + self.a), -1*math.cos(self.th2)*math.sin(self.th1)] ], dtype=np.float32)
         return Jacobian
 
@@ -128,7 +128,7 @@ class signature_bot:
                  + self.th2_dot*math.sin(self.th1)*math.sin(self.th2)*(self.a + self.d3), self.th1_dot*math.sin(self.th1)*math.sin(self.th2)*(self.a + self.d3) \
                  - self.th2_dot*math.cos(self.th1)*math.cos(self.th2)*(self.a + self.d3) - self.d3_dot*math.cos(self.th1)*math.sin(self.th2), self.th1_dot*math.cos(self.th2)*math.sin(self.th1) \
                  - self.th2_dot*math.cos(self.th1)*math.sin(self.th2) ],
-                 [0, self.th2_dot*math.sin(self.th2)*(self.a + self.d3) - self.d3_dot*math.cos(self.th2), -self.th2_dot*math.cos(self.th2)],
+                 [0, self.d3_dot*math.cos(self.th2) - self.th2_dot*math.sin(self.th2)*(self.a + self.d3), self.th2_dot*math.cos(self.th2)],
                  [self.b*self.th1_dot*math.cos(self.th1) - self.d3_dot*math.cos(self.th1)*math.cos(self.th2) + self.th1_dot*math.cos(self.th2)*math.sin(self.th1)*(self.a + self.d3) \
                  + self.th2_dot*math.cos(self.th1)*math.sin(self.th2)*(self.a + self.d3), self.d3_dot*math.sin(self.th1)*math.sin(self.th2) + self.th1_dot*math.cos(self.th1)*math.sin(self.th2)*(self.a + self.d3) \
                  + self.th2_dot*math.cos(self.th2)*math.sin(self.th1)*(self.a + self.d3),   self.th2_dot*math.sin(self.th1)*math.sin(self.th2) - self.th1_dot*math.cos(self.th1)*math.cos(self.th2)] ], dtype=np.float32)
@@ -208,16 +208,21 @@ class signature_bot:
 
     def get_G(self):
         G = np.zeros((3,1))
-        g = -9.81;
+        g = -9.8;
 
-        G[0,0] = g*self.m[2]*(self.b*math.sin(self.th1) - math.cos(self.th1)*math.cos(self.th2)*(self.a + self.d3)) + self.b*g*self.m[1]*math.sin(self.th1) - g*self.m[0]*self.com[0,0]*math.cos(self.th1) \
-            + g*self.m[0]*self.com[0,1]*math.sin(self.th1) + g*self.m[2]*self.com[1,1]*math.sin(self.th1) + g*self.m[1]*self.com[1,2]*math.sin(self.th1) + g*self.m[1]*self.com[1,1]*math.cos(self.th1)*math.cos(self.th2) \
-            - g*self.m[2]*self.com[1,2]*math.cos(self.th1)*math.cos(self.th2) + g*self.m[1]*self.com[0,1]*math.cos(self.th1)*math.sin(self.th2) + g*self.m[2]*self.com[0,1]*math.cos(self.th1)*math.sin(self.th2)
+        G[0] = g*self.m[0]*self.com[0,0]*math.cos(self.th1) - self.b*g*self.m[1]*math.sin(self.th1) - g*self.m[2]*(self.b*math.sin(self.th1) - math.cos(self.th1)*math.cos(self.th2)*(self.a + self.d3)) - g*self.m[0]*self.com[1,0]*math.sin(self.th1) \
+             + g*self.m[2]*self.com[1,2]*math.sin(self.th1) + g*self.m[1]*self.com[2,1]*math.sin(self.th1) - g*self.m[1]*self.com[1,1]*math.cos(self.th1)*math.cos(self.th2) + g*self.m[2]*self.com[2,2]*math.cos(self.th1)*math.cos(self.th2) \
+             - g*self.m[1]*self.com[0,1]*math.cos(self.th1)*math.sin(self.th2) - g*self.m[2]*self.com[0,2]*math.cos(self.th1)*math.sin(self.th2)
 
-        G[1,0] = g*self.m[2]*math.sin(self.th1)*math.sin(self.th2)*(self.a + self.d3) + g*self.m[1]*self.com[0,1]*math.cos(self.th2)*math.sin(self.th1) + g*self.m[2]*self.com[0,1]*math.cos(self.th2)*math.sin(self.th1) \
-            - g*self.m[1]*self.com[1,1]*math.sin(self.th1)*math.sin(self.th2) + g*self.m[2]*self.com[1,2]*math.sin(self.th1)*math.sin(self.th2)
+        #pitch torque remains positive in workspace
+        if G[0] > 0:
+            G[0] = -1*G[0]
 
-        G[2,0] = -g*self.m[2]*math.cos(self.th2)*math.sin(self.th1)
+        G[1] = g*self.m[1]*self.com[1,1]*math.sin(self.th1)*math.sin(self.th2) - g*self.m[1]*self.com[0,1]*math.cos(self.th2)*math.sin(self.th1) - g*self.m[2]*self.com[0,2]*math.cos(self.th2)*math.sin(self.th1) \
+             - g*self.m[2]*math.sin(self.th1)*math.sin(self.th2)*(self.a + self.d3) - g*self.m[2]*self.com[2,2]*math.sin(self.th1)*math.sin(self.th2)
+
+
+        G[2] = g*self.m[2]*math.cos(self.th2)*math.sin(self.th1)
 
         return G
 

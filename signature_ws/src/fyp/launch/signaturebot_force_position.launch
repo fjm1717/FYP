@@ -34,6 +34,13 @@
   <!--spawn robot_description into Gazebo from parameter server-->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model signaturebot"/>
 
+  <!--general joystick interface that publishes to /sensor_msgs/joy-->
+  <node pkg="joy" type="joy_node" name="joy">
+    <param name="deadzone" value="0.2" />
+    <param name="autorepeat_rate" value="40" />
+    <param name="coalesce_interval" value="0.025" />
+  </node>
+
   <node pkg="fyp" name="force_position" type="force_position.py" output="screen" launch-prefix="gnome-terminal --command"/>
 
 </launch>
