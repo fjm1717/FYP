@@ -16,8 +16,8 @@ xbox = np.zeros(6)
 exe_rate = 50
 
 #spherical constraints
-center = np.array([[0.175],[0],[-0.05008]])
-radius = 0.015
+centre = np.array([[0.175],[0],[-0.05]])
+radius = 0.02
 
 def xbox_reader(msg):
     global xbox
@@ -35,6 +35,7 @@ def joint_reader(msg):
     try:
         #joints published alphabetically (ext, pitch, yaw)
         time = msg.header.stamp
+        #gazebo doesn't always publish efforts => except
         state[9] = round(float(msg.effort[1]),6)
         state[10] = round(float(msg.effort[2]),6)
         state[11] = round(float(msg.effort[0]),6)
@@ -69,21 +70,24 @@ print('--------Force Position Control--------')
 
 time.sleep(2)
 
-kp = np.diag([4.0,14.0,16.0])
-kd = np.diag([1.0,0.5,1.0])
-ki = np.diag([1.0,1.0,1.0])
+print('--------------------------------------')
+print('Moving EE into Boundary Centre..')
+
+kp = np.diag([10.0,14.0,16.0])
+kd = np.diag([2.0,1.0,2.0])
+ki = np.diag([1.5,1.5,1.5])
 
 pose = np.zeros((3,1))
-error = np.zeros((3,1))
-last_error = np.zeros((3,1))
 diff_error = np.zeros((3,1))
+last_error = np.zeros((3,1))
+error = np.array([[1.0],[1.0],[1.0]])
 int_error = np.zeros((3,1))
 force = np.zeros((3,1))
 efforts = np.zeros((3,1))
 
 dt = 1.0 / exe_rate
 
-while not rospy.is_shutdown():
+while np.any(error > 1e-3):
     robot.th1 = state[0]
     robot.th2 = state[1]
     robot.d3 = state[2]
@@ -93,9 +97,11 @@ while not rospy.is_shutdown():
     pose[1] = robot.y
     pose[2] = robot.z
 
-    error = center - pose
+    error = centre - pose
     diff_error = ( error - last_error ) / dt
     int_error = int_error + error*dt
+
+    #print('Error: ' + str(error[0]) + ' ' + str(error[1]) + ' ' + str(error[2]))
 
     last_error = error
 
@@ -103,14 +109,13 @@ while not rospy.is_shutdown():
     G = robot.get_G()
     efforts = np.matmul(np.transpose(robot.get_Jv()),force)
 
-    print('--------------------------------------')
-    print('Target: ' + str(center[0]) + ' ' + str(center[1]) + ' ' + str(center[2]))
-    print('XYZ: ' + str(pose[0]) + ' ' + str(pose[1]) + ' ' + str(pose[2]))
-    print('Force: ' + str(force[0]) + ' ' + str(force[1]) + ' ' + str(force[2]))
-    print('Efforts: ' + str(efforts[0]) + ' ' + str(efforts[1]) + ' ' + str(efforts[2]))
-    print('Gravity: ' + str(G[0]) + ' ' + str(G[1]) + ' ' + str(G[2]))
+    #print('Target: ' + str(centre[0]) + ' ' + str(centre[1]) + ' ' + str(centre[2]))
+    #print('XYZ: ' + str(pose[0]) + ' ' + str(pose[1]) + ' ' + str(pose[2]))
+    #print('Force: ' + str(force[0]) + ' ' + str(force[1]) + ' ' + str(force[2]))
+    #print('Efforts: ' + str(efforts[0]) + ' ' + str(efforts[1]) + ' ' + str(efforts[2]))
+    #print('Gravity: ' + str(G[0]) + ' ' + str(G[1]) + ' ' + str(G[2]))
     efforts = efforts + G
-    print('Total Efforts: ' + str(efforts[0]) + ' ' + str(efforts[1]) + ' ' + str(efforts[2]))
+    #print('Total Efforts: ' + str(efforts[0]) + ' ' + str(efforts[1]) + ' ' + str(efforts[2]))
 
     #publish efforts to gazebo
     eff_pub1.publish(efforts[0])
@@ -120,15 +125,21 @@ while not rospy.is_shutdown():
     rate.sleep()
 
 #user force gains
-kf = np.diag([0.25,0.25,0.55])
+kf = np.diag([0.2,0.2,0.4])
+#elastic force gains
+ke = np.diag([3.0,3.0,3.0])
 
-while(1):
+while not rospy.is_shutdown():
 
     #store current location of robot in joint and task space
     robot.th1 = state[0]
     robot.th2 = state[1]
     robot.d3 = state[2]
     robot.get_fk()
+
+    pose[0] = robot.x
+    pose[1] = robot.y
+    pose[2] = robot.z
 
     print('--------------------------------------')
     print('EE Position: ' + str(robot.x) + ' ' + str(robot.y) + ' ' + str(robot.z))
@@ -137,15 +148,30 @@ while(1):
     #end-effector force from user input
     user_input = np.array([[xbox[1]],[xbox[2]],[xbox[0]]])
     force = np.matmul(kf,user_input)
-    print('User Force: ' + str(force[0]) + ' ' + str(force[1]) + ' ' + str(force[2]))
+    G = robot.get_G()
+    #print('User Force: ' + str(force[0]) + ' ' + str(force[1]) + ' ' + str(force[2]))
+    #print('Gravity: ' + str(G[0]) + ' ' + str(G[1]) + ' ' + str(G[2]))
+
+    #active constraint
+    elastic_efforts = np.zeros((3,1))
+    elastic_force = np.zeros((3,1))
+    if ( ( pow(robot.x - centre[0],2) + pow(robot.y - centre[1],2) + pow(robot.z - centre[2],2) ) >= pow(radius,2) ):
+        #outside boundary
+        dx = ( centre - pose ) * ( 1 - ( radius / np.linalg.norm(centre-pose) ) )
+        elastic_force = np.matmul(ke,dx)
+        elastic_efforts = np.matmul(np.transpose(robot.get_Jv()),elastic_force)
+
+    dist = np.linalg.norm(centre-pose)
+    print('Distance from Centre: ' + str(dist) + ' Radius: ' + str(radius))
+    print('Elastic Force: ' + str(elastic_force[0]) + ' ' + str(elastic_force[1]) + ' ' + str(elastic_force[2]))
 
     if (xbox[3]==1):
-        efforts = np.array([[0],[0],[0]])
+        efforts = elastic_efforts + G
     else:
-        efforts = np.matmul(np.transpose(robot.get_Jv()),force)
+        efforts = elastic_efforts + np.matmul(np.transpose(robot.get_Jv()),force) + G
 
-    print('User Efforts: ' + str(efforts[0]) + ' ' + str(efforts[1]) + ' ' + str(efforts[2]))
-    print('Gazebo Efforts: ' + str(state[11]) + ' ' + str(state[10]) + ' ' + str(state[9]))
+    #print('Total Efforts: ' + str(efforts[0]) + ' ' + str(efforts[1]) + ' ' + str(efforts[2]))
+    #print('Gazebo Efforts: ' + str(state[9]) + ' ' + str(state[10]) + ' ' + str(state[11]))
     print(' ')
 
     #publish efforts to gazebo
