@@ -11,12 +11,12 @@ import numpy as np
 from sensor_msgs.msg import JointState, Joy
 from std_msgs.msg import Header, Float64
 
-state = np.zeros(13)
+state = np.zeros(10)
 xbox = np.zeros(6)
 exe_rate = 50
 
 #spherical constraints
-centre = np.array([[0.175],[0],[-0.05]])
+centre = np.array([[0.175],[0.0],[-0.05]])
 radius = 0.02
 
 def xbox_reader(msg):
@@ -35,18 +35,16 @@ def joint_reader(msg):
     try:
         #joints published alphabetically (ext, pitch, yaw)
         time = msg.header.stamp
-        #gazebo doesn't always publish efforts => except
-        state[9] = round(float(msg.effort[1]),6)
-        state[10] = round(float(msg.effort[2]),6)
-        state[11] = round(float(msg.effort[0]),6)
-
         state[0] = round(float(msg.position[1]),6)
         state[1] = round(float(msg.position[2]),6)
         state[2] = round(float(msg.position[0]),6)
         state[3] = round(float(msg.velocity[1]),6)
         state[4] = round(float(msg.velocity[2]),6)
         state[5] = round(float(msg.velocity[0]),6)
-        state[12] = time.to_sec()
+        state[6] = round(float(msg.effort[1]),6)
+        state[7] = round(float(msg.effort[2]),6)
+        state[8] = round(float(msg.effort[0]),6)
+        state[9] = time.to_sec()
     except:
         pass
 
@@ -73,9 +71,9 @@ time.sleep(2)
 print('--------------------------------------')
 print('Moving EE into Boundary Centre..')
 
-kp = np.diag([10.0,14.0,16.0])
-kd = np.diag([2.0,1.0,2.0])
-ki = np.diag([1.5,1.5,1.5])
+kp = np.diag([10.5,14.5,17.5])
+kd = np.diag([1.0,1.0,1.2])
+ki = np.diag([2.2,2.2,2.2])
 
 pose = np.zeros((3,1))
 diff_error = np.zeros((3,1))
@@ -125,9 +123,9 @@ while np.any(error > 1e-3):
     rate.sleep()
 
 #user force gains
-kf = np.diag([0.2,0.2,0.4])
+kf = np.diag([0.2,0.2,0.3])
 #elastic force gains
-ke = np.diag([3.0,3.0,3.0])
+ke = np.diag([10.0,10.0,15.0])
 
 while not rospy.is_shutdown():
 
@@ -166,7 +164,7 @@ while not rospy.is_shutdown():
     print('Elastic Force: ' + str(elastic_force[0]) + ' ' + str(elastic_force[1]) + ' ' + str(elastic_force[2]))
 
     if (xbox[3]==1):
-        efforts = elastic_efforts + G
+        efforts = elastic_efforts
     else:
         efforts = elastic_efforts + np.matmul(np.transpose(robot.get_Jv()),force) + G
 

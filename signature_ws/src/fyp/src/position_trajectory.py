@@ -12,12 +12,23 @@ state = np.zeros(6)
 
 def joint_reader(msg):
     global state
-    state[0] = float(msg.position[0])
-    state[1] = float(msg.position[1])
-    state[2] = float(msg.position[2])
-    state[3] = float(msg.velocity[0])
-    state[4] = float(msg.velocity[1])
-    state[5] = float(msg.velocity[2])
+
+    time = rospy.Duration()
+    try:
+        #joints published alphabetically (ext, pitch, yaw)
+        time = msg.header.stamp
+        state[0] = round(float(msg.position[1]),6)
+        state[1] = round(float(msg.position[2]),6)
+        state[2] = round(float(msg.position[0]),6)
+        state[3] = round(float(msg.velocity[1]),6)
+        state[4] = round(float(msg.velocity[2]),6)
+        state[5] = round(float(msg.velocity[0]),6)
+        state[6] = round(float(msg.effort[1]),6)
+        state[7] = round(float(msg.effort[2]),6)
+        state[8] = round(float(msg.effort[0]),6)
+        state[9] = time.to_sec()
+    except:
+        pass
 
 def xbox_reader(msg):
     global xbox
