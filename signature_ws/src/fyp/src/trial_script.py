@@ -1,28 +1,45 @@
 #!/usr/bin/python2.7
 
 import rospy
+import time
+import sys
 import math
 import signaturebot
 import numpy as np
-from sensor_msgs.msg import Joy
 from std_msgs.msg import Float64
+from geometry_msgs.msg import Twist
+
+error = 0.0
+
+def error_reader(msg):
+    global error
+
+    try:
+        error = msg.data
+    except:
+        print('Nope')
 
 rospy.init_node('trial')
 
+pub = rospy.Publisher('signaturebot/force_position/command', Twist, queue_size=10)
+sub = rospy.Subscriber('signaturebot/force_position/error', Float64, error_reader)
+
 robot = signaturebot.signature_bot()
+rate = rospy.Rate(50)
 
-pose = np.zeros((3,1))
-centre = np.array([[0.175],[0],[-0.05]])
-radius = 0.015
+i = 0.0
+dt = 0.02
 
-robot.th1 = 0.5
-robot.th2 = 0
-robot.d3 = 0
-robot.get_fk()
+command = Twist()
+command.linear.y = 0.0
+command.linear.z = -0.05008
 
-pose[0] = robot.x
-pose[1] = robot.y
-pose[2] = robot.z
+while not rospy.is_shutdown():
 
-dx = ( centre - pose ) * ( 1 - ( radius / np.linalg.norm(centre-pose) ) )
-print(dx)
+    command.linear.x = 0.15 + 0.01*math.sin(i/50)
+    pub.publish(command)
+
+    i = i + dt
+
+    print('Error: ' + str(error))
+    rate.sleep()

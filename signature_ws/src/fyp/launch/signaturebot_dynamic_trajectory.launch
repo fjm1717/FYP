@@ -34,6 +34,6 @@
   <!--spawn robot_description into Gazebo from parameter server-->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model signaturebot"/>
 
-  <node pkg="fyp" name="effort_trajectory" type="effort_trajectory.py" output="screen" launch-prefix="gnome-terminal --command"/>
+  <node pkg="fyp" name="dynamic_trajectory" type="dynamic_trajectory.py" output="screen" launch-prefix="gnome-terminal --command"/>
 
 </launch>

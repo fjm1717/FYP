@@ -36,7 +36,7 @@ def joint_reader(msg):
     except:
         pass
 
-rospy.init_node('trajectory_data')
+rospy.init_node('kinematic_trajectory')
 #publish to joint trajectroy coontroller to set joint position and velocities at waypoints.
 pub = rospy.Publisher('signaturebot/trajectory/command', JointTrajectory, queue_size=1)
 
