@@ -12,20 +12,22 @@ from geometry_msgs.msg import Twist
 
 state = np.zeros(3)
 target = np.zeros((3,1))
-exe_rate = 50
+exe_rate = 100
 
 controller = False
+
+robot = signaturebot.signature_bot()
 
 def command_reader(msg):
     global target
 
     rospy.loginfo("Received a /command message!")
-    rospy.loginfo("Linear Components: [%f, %f, %f]"%(msg.linear.x, msg.linear.y, msg.linear.z))
+    rospy.loginfo("Joint Positions: [%f, %f, %f]"%(msg.position[0], msg.position[1], msg.position[2]))
 
     try:
-        target[0] = float(msg.linear.x)
-        target[1] = float(msg.linear.y)
-        target[2] = float(msg.linear.z)
+        target[0] = float(msg.position[0])
+        target[1] = float(msg.position[1])
+        target[2] = float(msg.position[2])
     except:
         print('Target Error')
 
@@ -43,7 +45,7 @@ def joint_reader(msg):
     except:
         print('Joint State Error')
 
-rospy.init_node('force_position')
+rospy.init_node('position_control')
 rate = rospy.Rate(exe_rate)
 
 #publishers to arm_controller/effort/joint/command to set joint efforts
@@ -52,26 +54,23 @@ yaw = rospy.Publisher('signaturebot/arm_controller/effort/yaw_joint/command', Fl
 ext = rospy.Publisher('signaturebot/arm_controller/effort/extension_joint/command', Float64, queue_size=10)
 
 #publish rms error values during PID loop
-rms_error = rospy.Publisher('signaturebot/force_position/error', Float64, queue_size=10)
+rms_error = rospy.Publisher('signaturebot/position/error', Float64, queue_size=10)
 
-#subscribe to /force_position/command to recieve target position
-command_sub = rospy.Subscriber('signaturebot/force_position/command', Twist, command_reader)
+#subscribe to /position/command to recieve target position
+command_sub = rospy.Subscriber('signaturebot/position/command', JointState, command_reader)
 
 #subscribe to /joint_state to monitor joint position, velocities etc.
 joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_reader)
 
-robot = signaturebot.signature_bot()
-
-kp = np.diag([10.5,14.5,17.5])
-kd = np.diag([1.0,1.0,1.2])
-ki = np.diag([2.2,2.2,2.2])
+kp = np.diag([1.5,1.5,16.0])
+kd = np.diag([0.02,0.02,1.2])
+ki = np.diag([0.2,0.2,10.0])
 
 pose = np.zeros((3,1))
 diff_error = np.zeros((3,1))
 last_error = np.zeros((3,1))
 error = np.zeros((3,1))
 int_error = np.zeros((3,1))
-force = np.zeros((3,1))
 efforts = np.zeros((3,1))
 
 dt = 1.0 / exe_rate
@@ -87,11 +86,12 @@ while not rospy.is_shutdown():
         robot.th1 = state[0]
         robot.th2 = state[1]
         robot.d3 = state[2]
-        robot.get_fk()
 
-        pose[0] = robot.x
-        pose[1] = robot.y
-        pose[2] = robot.z
+        pose[0] = robot.th1
+        pose[1] = robot.th2
+        pose[2] = robot.d3
+
+        G = robot.get_G()
 
         error = target - pose
         diff_error = ( error - last_error ) / dt
@@ -102,16 +102,12 @@ while not rospy.is_shutdown():
 
         last_error = error
 
-        force = np.matmul(kp,error) + np.matmul(kd,diff_error) + np.matmul(ki,int_error)
-        G = robot.get_G()
-        efforts = np.matmul(np.transpose(robot.get_Jv()),force)
-
-        efforts = efforts + G
+        efforts = np.matmul(kp,error) + np.matmul(kd,diff_error) + np.matmul(ki,int_error)
 
         #publish efforts to gazebo
         pitch.publish(efforts[0])
         yaw.publish(efforts[1])
-        ext.publish(efforts[2])
+        ext.publish(efforts[2] + G[2])
 
         rate.sleep()
 

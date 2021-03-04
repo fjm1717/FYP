@@ -5,7 +5,4 @@
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
-subdirs("signature_moveit_config")
-subdirs("collision_geometry")
 subdirs("fyp")
-subdirs("visual_geometry")

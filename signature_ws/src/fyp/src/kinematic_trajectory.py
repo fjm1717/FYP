@@ -96,6 +96,8 @@ joint_pos = np.zeros((3,N))
 joint_vel = np.zeros((3,N))
 joint_accel = np.zeros((3,N))
 
+planned_time = np.linspace(0,T,N)
+
 print('Planning Trajectory..')
 
 #plan trajectory
@@ -165,14 +167,14 @@ pub.publish(trajectory)
 print('Executing Trajectory..')
 print('--------------------------------------')
 
-data_points = T*sample_rate + 2
+data_points = T*sample_rate
 i = 0
 
 #measured data arrays
 measured_joint_eff = np.zeros((3,data_points))
 measured_joint_pos = np.zeros((3,data_points))
 measured_joint_vel = np.zeros((3,data_points))
-time = np.zeros((1,data_points+1))
+time = np.zeros((1,data_points))
 
 rate = rospy.Rate(sample_rate)
 
@@ -245,6 +247,19 @@ with open(output_path, mode='w') as csv_file:
 
 print('Export Complete.')
 print('--------------------------------------')
+
+fig, axs = plt.subplots(2,2)
+fig.suptitle('Kinematic Trajectory Data')
+axs[0,0].plot(planned_time.reshape(N,1),joint_pos[0,:].reshape(N,1),planned_time.reshape(N,1),joint_pos[1,:].reshape(N,1),planned_time.reshape(N,1),joint_pos[2,:].reshape(N,1))
+axs[0,0].set_title('Planned Joint Positions')
+axs[0,1].plot(time.reshape(data_points,1),measured_joint_pos[0,:].reshape(data_points,1),time.reshape(data_points,1),measured_joint_pos[1,:].reshape(data_points,1),time.reshape(data_points,1),measured_joint_pos[2,:].reshape(data_points,1))
+axs[0,1].set_title('Measured Joint Positions')
+axs[1,0].plot(planned_time.reshape(N,1),joint_vel[0,:].reshape(N,1),planned_time.reshape(N,1),joint_vel[1,:].reshape(N,1),planned_time.reshape(N,1),joint_vel[2,:].reshape(N,1))
+axs[1,0].set_title('Planned Joint Velocities')
+axs[1,1].plot(time.reshape(data_points,1),measured_joint_vel[0,:].reshape(data_points,1),time.reshape(data_points,1),measured_joint_vel[1,:].reshape(data_points,1),time.reshape(data_points,1),measured_joint_vel[2,:].reshape(data_points,1))
+axs[1,1].set_title('Measured Joint Velocities')
+
+plt.show()
 
 while not rospy.is_shutdown():
     pass
