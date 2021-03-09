@@ -4,7 +4,7 @@
   <arg name="gui" default="true"/>
 
   <!--load signaturebot URDF to parameter server as robot_description-->
-  <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot_effort.urdf"/>
+  <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot_effort_path.urdf"/>
   <!--load arm_controller and joint_limits to parameter server-->
   <rosparam file="$(find fyp)/config/position_controller.yaml" command="load"/>
 
@@ -28,25 +28,17 @@
   <!--publish joint states to /tf for rviz etc-->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
     output="screen">
-    <remap from="/joint_states" to="/signaturebot/joint_states" />
   </node>
 
   <!--spawn robot_description into Gazebo from parameter server-->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model signaturebot"/>
 
-  <!--general joystick interface that publishes to /sensor_msgs/joy-->
-  <node pkg="joy" type="joy_node" name="joy">
-    <param name="deadzone" value="0.2" />
-    <param name="autorepeat_rate" value="40" />
-    <param name="coalesce_interval" value="0.025" />
-  </node>
-
-  <node pkg="fyp" name="joy_reader" type="joy_reader.py" output="screen" launch-prefix="gnome-terminal --command"/>
+  <node pkg="fyp" name="position_trajectory" type="position_trajectory.py" output="screen" launch-prefix="gnome-terminal --command"/>
 
   <node
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args = "$(find fyp)/rviz_config/simple_pose.rviz"/>
+    args="-d $(find fyp)/rviz_config/path_odometry.rviz" required="true" />
 
 </launch>

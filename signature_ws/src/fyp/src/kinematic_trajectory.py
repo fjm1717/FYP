@@ -20,21 +20,27 @@ def joint_reader(msg):
     global state
 
     time = rospy.Duration()
+    time = msg.header.stamp
+    dt = time.to_sec() - state[9]
+
     try:
         #joints published alphabetically (ext, pitch, yaw)
-        time = msg.header.stamp
+        if (dt > 0):
+            state[3] = ( float(msg.position[1]) - state[0] )/dt
+            state[4] = ( float(msg.position[2]) - state[1] )/dt
+            state[5] = ( float(msg.position[0]) - state[2] )/dt
+
         state[0] = round(float(msg.position[1]),6)
         state[1] = round(float(msg.position[2]),6)
         state[2] = round(float(msg.position[0]),6)
-        state[3] = round(float(msg.velocity[1]),6)
-        state[4] = round(float(msg.velocity[2]),6)
-        state[5] = round(float(msg.velocity[0]),6)
+
         state[6] = round(float(msg.effort[1]),6)
         state[7] = round(float(msg.effort[2]),6)
         state[8] = round(float(msg.effort[0]),6)
+
         state[9] = time.to_sec()
     except:
-        pass
+        print('Joint State Error')
 
 rospy.init_node('kinematic_trajectory')
 #publish to joint trajectroy coontroller to set joint position and velocities at waypoints.
@@ -51,7 +57,7 @@ command.joint_names = ['pitch', 'yaw', 'extension']
 
 print('--------------------------------------')
 
-sample_rate = input('Sample Rate: ')
+sample_rate = 20 #input('Sample Rate: ')
 
 plane = input('Plane? (0: XY / 1: YZ): ')
 if plane == 0:
@@ -167,7 +173,7 @@ pub.publish(trajectory)
 print('Executing Trajectory..')
 print('--------------------------------------')
 
-data_points = T*sample_rate
+data_points = T*sample_rate + 2
 i = 0
 
 #measured data arrays
