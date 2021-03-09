@@ -28,9 +28,10 @@ def odom_path(msg):
         except:
             print('Path Republish Error')
 
+input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/PVT_Signature.csv'
 exe_rate = 200
 
-rospy.init_node('position_trajectory')
+rospy.init_node('signature_path')
 
 #float publishers to arm_controller/effort/joint/command to set joint efforts
 pitch_pub = rospy.Publisher('signaturebot/arm_controller/position/pitch_joint/command', Float64, queue_size=10)
@@ -44,22 +45,33 @@ path_pub = rospy.Publisher('/path', Path, queue_size=10)
 robot = signaturebot.signature_bot()
 
 time.sleep(3)
-print('-------------Path Visualisation----------------')
-
-initial_pos = np.array([0.16, -0.1, -0.05008], dtype="float")
-final_pos = np.array([0.14, 0.1, -0.05008], dtype="float")
+print('------------Signature Visualisation------------')
 
 rate = rospy.Rate(exe_rate)
 
-T = 10
-N = 500
+T = 60
+N = 2000
 
-plan, dt = robot.trajectory_plan(initial_pos, final_pos, T, N)
+plan = np.zeros((3,N))
+
+row_count = 0
+
+#read in trajectory plan
+with open(input_path) as csv_file:
+    reader = csv.reader(csv_file)
+    for row in reader:
+        plan[0,row_count] = float(row[0])*1.0e-3
+        plan[2,row_count] = float(row[1])*1.0e-3
+        plan[1,row_count] = float(row[2])*1.0e-3
+
+        row_count += 1
+
+print(plan[1,:])
 
 #IK to move manipulator to starting pose
-robot.x = initial_pos[0]
-robot.y = initial_pos[1]
-robot.z = initial_pos[2]
+robot.x = plan[0,0]
+robot.y = plan[1,0]
+robot.z = plan[2,0]
 robot.get_ik()
 
 pitch_pub.publish(robot.th1)
@@ -76,7 +88,7 @@ planned_time = np.linspace(0,T,N)
 
 print('Planning Trajectory..')
 
-for i in range(0,N):
+for i in range(0,N-1):
     #find joint states from cartesian positions along trajectory
     robot.x = plan[0,i]
     robot.y = plan[1,i]
@@ -90,14 +102,15 @@ for i in range(0,N):
 
     rate.sleep()
 
-print('Executing Trajectory..')
+points = len(joint_pos[0,:])
+print('Executing Trajectory (' + str(points) + ' Points)..')
 
 #begin path visualisation in rviz
 show = 1
 
-for i in range(0,N):
+for i in range(0,N-1):
     pitch_pub.publish(joint_pos[0,i])
     yaw_pub.publish(joint_pos[1,i])
     ext_pub.publish(joint_pos[2,i])
 
-    time.sleep(dt)
+    time.sleep(0.03)
