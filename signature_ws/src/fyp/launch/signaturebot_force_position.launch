@@ -28,7 +28,6 @@
   <!--publish joint states to /tf for rviz etc-->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
     output="screen">
-    <remap from="/joint_states" to="/signaturebot/joint_states" />
   </node>
 
   <!--spawn robot_description into Gazebo from parameter server-->
