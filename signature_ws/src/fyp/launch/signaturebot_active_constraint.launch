@@ -43,4 +43,10 @@
   <node pkg="fyp" name="force_position" type="force_position.py" />
   <node pkg="fyp" name="active_constraint_demo" type="active_constraint_demo.py" output="screen" launch-prefix="gnome-terminal --command" />
 
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find fyp)/rviz_config/wrench_vis.rviz" required="true" />
+
 </launch>

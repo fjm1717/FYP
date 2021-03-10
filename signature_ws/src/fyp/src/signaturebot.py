@@ -214,17 +214,22 @@ class signature_bot:
              + g*self.m[2]*self.com[1,2]*math.sin(self.th1) + g*self.m[1]*self.com[2,1]*math.sin(self.th1) - g*self.m[1]*self.com[1,1]*math.cos(self.th1)*math.cos(self.th2) + g*self.m[2]*self.com[2,2]*math.cos(self.th1)*math.cos(self.th2) \
              - g*self.m[1]*self.com[0,1]*math.cos(self.th1)*math.sin(self.th2) - g*self.m[2]*self.com[0,2]*math.cos(self.th1)*math.sin(self.th2)
 
-        #pitch torque remains positive in workspace
-        if G[0] > 0:
-            G[0] = -1*G[0]
-
         G[1] = g*self.m[1]*self.com[1,1]*math.sin(self.th1)*math.sin(self.th2) - g*self.m[1]*self.com[0,1]*math.cos(self.th2)*math.sin(self.th1) - g*self.m[2]*self.com[0,2]*math.cos(self.th2)*math.sin(self.th1) \
              - g*self.m[2]*math.sin(self.th1)*math.sin(self.th2)*(self.a + self.d3) - g*self.m[2]*self.com[2,2]*math.sin(self.th1)*math.sin(self.th2)
-
 
         G[2] = g*self.m[2]*math.cos(self.th2)*math.sin(self.th1)
 
         return G
+
+    def get_R(self):
+        R = np.array([[-1*math.cos(self.th1)*math.sin(self.th2), math.sin(self.th1), math.cos(self.th1)*math.cos(self.th2)],
+                     [math.cos(self.th2), 0, math.sin(self.th2)],
+                     [math.sin(self.th1)*math.sin(self.th2), math.cos(self.th1), -1*math.cos(self.th2)*math.sin(self.th1)]])
+        return R
+
+    def get_invR(self):
+        R = self.get_R()
+        return np.linalg.inv(R)
 
     def get_efforts(self):
         M = self.get_M()

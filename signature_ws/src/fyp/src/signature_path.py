@@ -62,7 +62,7 @@ with open(input_path) as csv_file:
     for row in reader:
         plan[0,row_count] = float(row[0])*1.0e-3
         plan[2,row_count] = float(row[1])*1.0e-3
-        plan[1,row_count] = float(row[2])*1.0e-3
+        plan[1,row_count] = float(row[2])*-1.0e-3
 
         row_count += 1
 

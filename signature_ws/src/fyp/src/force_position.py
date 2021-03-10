@@ -62,9 +62,9 @@ joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_read
 
 robot = signaturebot.signature_bot()
 
-kp = np.diag([10.5,14.5,17.5])
-kd = np.diag([1.0,1.0,1.2])
-ki = np.diag([2.2,2.2,2.2])
+kp = np.diag([12.0,15.0,18.65])
+kd = np.diag([1.0,1.0,1.5])
+ki = np.diag([0.5,0.5,2.0])
 
 pose = np.zeros((3,1))
 diff_error = np.zeros((3,1))

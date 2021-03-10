@@ -2,24 +2,24 @@
 
 import rospy
 import time
-import copy
 import csv
+import os
 import sys
 import math
 import signaturebot
 import numpy as np
 from sensor_msgs.msg import JointState, Joy
 from std_msgs.msg import Header, Float64
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, WrenchStamped, Wrench, Vector3
 
-state = np.zeros(10)
+state = np.zeros(4)
 xbox = np.zeros(6)
 rms_error = 1.0
 exe_rate = 50
 
 #spherical constraints
 centre = np.array([[0.175],[0.0],[-0.05]])
-radius = 0.02
+radius = 0.03
 
 def xbox_reader(msg):
     global xbox
@@ -37,16 +37,10 @@ def joint_reader(msg):
     try:
         #joints published alphabetically (ext, pitch, yaw)
         time = msg.header.stamp
-        state[0] = round(float(msg.position[1]),6)
-        state[1] = round(float(msg.position[2]),6)
-        state[2] = round(float(msg.position[0]),6)
-        state[3] = round(float(msg.velocity[1]),6)
-        state[4] = round(float(msg.velocity[2]),6)
-        state[5] = round(float(msg.velocity[0]),6)
-        state[6] = round(float(msg.effort[1]),6)
-        state[7] = round(float(msg.effort[2]),6)
-        state[8] = round(float(msg.effort[0]),6)
-        state[9] = time.to_sec()
+        state[0] = round(float(msg.position[1]),3)
+        state[1] = round(float(msg.position[2]),3)
+        state[2] = round(float(msg.position[0]),3)
+        state[3] = time.to_sec()
     except:
         pass
 
@@ -69,8 +63,12 @@ eff_pub1 = rospy.Publisher('signaturebot/arm_controller/effort/pitch_joint/comma
 eff_pub2 = rospy.Publisher('signaturebot/arm_controller/effort/yaw_joint/command', Float64, queue_size=1)
 eff_pub3 = rospy.Publisher('signaturebot/arm_controller/effort/extension_joint/command', Float64, queue_size=1)
 
+#publiser to set PID force_position control and recieve rms error
 position_pub = rospy.Publisher('signaturebot/force_position/command', Twist, queue_size=10)
 error_sub = rospy.Subscriber('signaturebot/force_position/error', Float64, error_reader)
+
+#publish force vector at end effector to visualise in rviz
+wrench_pub = rospy.Publisher('signaturebot/wrench', WrenchStamped, queue_size=10)
 
 #subscribe to /joint_state to monitor joint position, velocities etc.
 joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_reader)
@@ -82,7 +80,7 @@ print('--------Active Constraint Demo--------')
 time.sleep(2)
 
 print('--------------------------------------')
-print('Moving EE into Boundary Centre..')
+print('Moving EE to Boundary Centre..')
 
 command = Twist()
 command.linear.x = centre[0]
@@ -90,8 +88,10 @@ command.linear.y = centre[1]
 command.linear.z = centre[2]
 
 position_pub.publish(command)
-while(rms_error > 1e-2):
+while(rms_error > 5.0e-3):
     pass
+
+print('Switched to User Input..')
 
 command.linear.x = 0.0
 command.linear.y = 0.0
@@ -100,13 +100,24 @@ command.linear.z = 0.0
 position_pub.publish(command)
 
 #user force gains
-kf = np.diag([0.3,0.3,0.4])
+kf = np.diag([0.2,0.2,0.4])
 #elastic force gains
-ke = np.diag([10.0,10.0,15.0])
+ke = np.diag([6.0,6.0,8.0])
 
 pose = np.zeros((3,1))
 force = np.zeros((3,1))
 efforts = np.zeros((3,1))
+
+elastic_efforts = np.zeros((3,1))
+
+#set up wrench msg
+wrench_msg = WrenchStamped()
+wrench_msg.header.frame_id = "extension_link"
+wrench_msg.wrench.torque.x = 0.0
+wrench_msg.wrench.torque.y = 0.0
+wrench_msg.wrench.torque.z = 0.0
+
+print('--------------------------------------')
 
 while not rospy.is_shutdown():
 
@@ -120,38 +131,43 @@ while not rospy.is_shutdown():
     pose[1] = robot.y
     pose[2] = robot.z
 
-    print('--------------------------------------')
-    print('EE Position: ' + str(robot.x) + ' ' + str(robot.y) + ' ' + str(robot.z))
-    #print('Joint Positions: ' + str(robot.th1) + ' ' + str(robot.th2) + ' ' + str(robot.d3))
+    #print('EE Position (mm): ' + str(robot.x*1.0e3) + ' ' + str(robot.y*1.0e3) + ' ' + str(robot.z*1.0e3))
+    #sys.stdout.write("\033[F")
+    #sys.stdout.write("\033[K")
 
     #end-effector force from user input
     user_input = np.array([[xbox[1]],[xbox[2]],[xbox[0]]])
     force = np.matmul(kf,user_input)
     G = robot.get_G()
-    #print('User Force: ' + str(force[0]) + ' ' + str(force[1]) + ' ' + str(force[2]))
-    #print('Gravity: ' + str(G[0]) + ' ' + str(G[1]) + ' ' + str(G[2]))
+
+    print('Gravity Efforts: ' + str(G[0]) + ' ' + str(G[1]) + ' ' + str(G[2]))
+    sys.stdout.write("\033[F")
+    sys.stdout.write("\033[K")
 
     #active constraint
-    elastic_efforts = np.zeros((3,1))
     elastic_force = np.zeros((3,1))
     if ( ( pow(robot.x - centre[0],2) + pow(robot.y - centre[1],2) + pow(robot.z - centre[2],2) ) >= pow(radius,2) ):
         #outside boundary
-        dx = ( centre - pose ) * ( 1 - ( radius / np.linalg.norm(centre-pose) ) )
+        dist = np.linalg.norm(centre-pose)
+        dx = ( centre - pose ) * ( 1 - ( radius / dist ) )
         elastic_force = np.matmul(ke,dx)
-        elastic_efforts = np.matmul(np.transpose(robot.get_Jv()),elastic_force)
 
-    dist = np.linalg.norm(centre-pose)
-    print('Distance from Centre: ' + str(dist) + ' Radius: ' + str(radius))
-    print('Elastic Force: ' + str(elastic_force[0]) + ' ' + str(elastic_force[1]) + ' ' + str(elastic_force[2]))
+    #publish wrench msg
+    wrench_msg.header.stamp = rospy.get_rostime()
+    #transformed from world to end effector ref frame
+    ee_force = np.matmul(robot.get_invR(),elastic_force)
+    wrench_msg.wrench.force.x = ee_force[0]
+    wrench_msg.wrench.force.y = ee_force[1]
+    wrench_msg.wrench.force.z = ee_force[2]
+    wrench_pub.publish(wrench_msg)
+
+
+    elastic_efforts = np.matmul(np.transpose(robot.get_Jv()),elastic_force)
 
     if (xbox[3]==1):
         efforts = elastic_efforts
     else:
-        efforts = elastic_efforts + np.matmul(np.transpose(robot.get_Jv()),force) + G
-
-    #print('Total Efforts: ' + str(efforts[0]) + ' ' + str(efforts[1]) + ' ' + str(efforts[2]))
-    #print('Gazebo Efforts: ' + str(state[9]) + ' ' + str(state[10]) + ' ' + str(state[11]))
-    print(' ')
+        efforts = np.matmul(np.transpose(robot.get_Jv()),force) + elastic_efforts + G
 
     #publish efforts to gazebo
     eff_pub1.publish(efforts[0])
