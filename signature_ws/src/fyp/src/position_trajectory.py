@@ -46,8 +46,8 @@ robot = signaturebot.signature_bot()
 time.sleep(3)
 print('-------------Path Visualisation----------------')
 
-initial_pos = np.array([0.16, -0.1, -0.05008], dtype="float")
-final_pos = np.array([0.14, 0.1, -0.05008], dtype="float")
+initial_pos = np.array([0.16, 0.05, -0.08], dtype="float")
+final_pos = np.array([0.16, -0.15, 0.02], dtype="float")
 
 rate = rospy.Rate(exe_rate)
 
@@ -69,7 +69,7 @@ ext_pub.publish(robot.d3)
 print('-----------------------------------------------')
 print('Moving to start position..')
 
-time.sleep(1)
+time.sleep(3)
 
 joint_pos = np.zeros((3,N))
 planned_time = np.linspace(0,T,N)

@@ -8,12 +8,18 @@ class signature_bot:
     def __init__(self):
         self.a = 0.13608
         self.b = 0.05008
+
+        self.px = 0.09680587
+        self.py = 0.060004555
+        self.pz = 0.15025
+
         self.th1 = 0
         self.th2 = 0
         self.d3 = 0
         self.x = 0
         self.y = 0
         self.z = 0
+
         self.th1_dot = 0
         self.th2_dot = 0
         self.d3_dot = 0
@@ -29,6 +35,7 @@ class signature_bot:
         self.th1_eff = 0
         self.th2_eff = 0
         self.d3_eff = 0
+
         self.m = np.array([0.034759, 0.17499, 0.13248])
         self.com = np.array([[ 1.7832e-5, -0.019758, -0.0037892], [ -0.0063839, -0.009982, 0.07262 ], [ 0.00015736, 0.087957, -0.12942 ]])
 

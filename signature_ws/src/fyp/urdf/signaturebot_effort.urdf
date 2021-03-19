@@ -110,7 +110,7 @@
       effort="100"
       velocity="1.0" />
     <dynamics
-      damping="0.0001"
+      damping="0.01"
       friction="0.015" />
   </joint>
 
@@ -185,7 +185,7 @@
       effort="100"
       velocity="1.0" />
     <dynamics
-      damping="0.0001"
+      damping="0.01"
       friction="0.015" />
   </joint>
 
@@ -260,7 +260,7 @@
       effort="100"
       velocity="0.5" />
     <dynamics
-      damping="0.0001"
+      damping="0.01"
       friction="0.015" />
   </joint>
 

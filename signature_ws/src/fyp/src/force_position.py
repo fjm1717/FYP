@@ -8,7 +8,7 @@ import signaturebot
 import numpy as np
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header, Float64
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, WrenchStamped, Wrench, Vector3
 
 state = np.zeros(3)
 target = np.zeros((3,1))
@@ -60,11 +60,14 @@ command_sub = rospy.Subscriber('signaturebot/force_position/command', Twist, com
 #subscribe to /joint_state to monitor joint position, velocities etc.
 joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_reader)
 
+#publish force vector at end effector to visualise in rviz
+wrench_pub = rospy.Publisher('signaturebot/wrench', WrenchStamped, queue_size=10)
+
 robot = signaturebot.signature_bot()
 
 kp = np.diag([12.0,15.0,18.65])
-kd = np.diag([1.0,1.0,1.5])
-ki = np.diag([0.5,0.5,2.0])
+kd = np.diag([1.0,1.0,2.0])
+ki = np.diag([0.5,0.5,1.8])
 
 pose = np.zeros((3,1))
 diff_error = np.zeros((3,1))
@@ -75,6 +78,13 @@ force = np.zeros((3,1))
 efforts = np.zeros((3,1))
 
 dt = 1.0 / exe_rate
+
+#set up wrench msg
+wrench_msg = WrenchStamped()
+wrench_msg.header.frame_id = "extension_link"
+wrench_msg.wrench.torque.x = 0.0
+wrench_msg.wrench.torque.y = 0.0
+wrench_msg.wrench.torque.z = 0.0
 
 print('----------Force Position----------')
 
@@ -105,6 +115,15 @@ while not rospy.is_shutdown():
         force = np.matmul(kp,error) + np.matmul(kd,diff_error) + np.matmul(ki,int_error)
         G = robot.get_G()
         efforts = np.matmul(np.transpose(robot.get_Jv()),force)
+
+        #publish wrench msg
+        wrench_msg.header.stamp = rospy.get_rostime()
+        #transformed from world to end effector ref frame
+        ee_force = np.matmul(robot.get_invR(),force)
+        wrench_msg.wrench.force.x = ee_force[0]
+        wrench_msg.wrench.force.y = ee_force[1]
+        wrench_msg.wrench.force.z = ee_force[2]
+        wrench_pub.publish(wrench_msg)
 
         efforts = efforts + G
 

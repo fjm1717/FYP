@@ -21,18 +21,16 @@ def joint_reader(msg):
 
     time = rospy.Duration()
     time = msg.header.stamp
-    dt = time.to_sec() - state[9]
 
     try:
         #joints published alphabetically (ext, pitch, yaw)
-        if (dt > 0):
-            state[3] = ( float(msg.position[1]) - state[0] )/dt
-            state[4] = ( float(msg.position[2]) - state[1] )/dt
-            state[5] = ( float(msg.position[0]) - state[2] )/dt
-
         state[0] = round(float(msg.position[1]),6)
         state[1] = round(float(msg.position[2]),6)
         state[2] = round(float(msg.position[0]),6)
+
+        state[3] = round(float(msg.velocity[1]),6)
+        state[4] = round(float(msg.velocity[2]),6)
+        state[5] = round(float(msg.velocity[0]),6)
 
         state[6] = round(float(msg.effort[1]),6)
         state[7] = round(float(msg.effort[2]),6)

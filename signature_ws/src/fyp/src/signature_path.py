@@ -66,8 +66,6 @@ with open(input_path) as csv_file:
 
         row_count += 1
 
-print(plan[1,:])
-
 #IK to move manipulator to starting pose
 robot.x = plan[0,0]
 robot.y = plan[1,0]
@@ -114,3 +112,6 @@ for i in range(0,N-1):
     ext_pub.publish(joint_pos[2,i])
 
     time.sleep(0.03)
+
+print('-----------------------------------------------')
+print('Done!')
