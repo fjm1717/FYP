@@ -33,7 +33,7 @@
   <!--spawn robot_description into Gazebo from parameter server-->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model signaturebot"/>
 
-  <node pkg="fyp" name="signature_path" type="signature_path.py" output="screen" launch-prefix="gnome-terminal --command"/>
+  <node pkg="fyp" name="workspace_sweep" type="workspace_sweep.py" output="screen" launch-prefix="gnome-terminal --command"/>
 
   <node
     name="rviz"

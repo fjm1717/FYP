@@ -82,7 +82,7 @@ robot = signaturebot.signature_bot()
 
 print('--------Active Constraint Demo--------')
 
-time.sleep(10)
+time.sleep(3)
 
 print('--------------------------------------')
 print('Moving EE to Boundary Centre..')
