@@ -6,7 +6,7 @@
   <!--load signaturebot URDF to parameter server as robot_description-->
   <param name="robot_description" textfile="$(find fyp)/urdf/signaturebot_effort.urdf"/>
   <!--load arm_controller and joint_limits to parameter server-->
-  <rosparam file="$(find fyp)/config/effort_controller.yaml" command="load"/>
+  <rosparam file="$(find fyp)/config/position_controller.yaml" command="load"/>
 
   <!--launch empty_world in Gazebo with arguments-->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -20,9 +20,9 @@
     output="screen" ns="/signaturebot"
     args="
     arm_controller/state
-    arm_controller/effort/pitch_joint
-    arm_controller/effort/yaw_joint
-    arm_controller/effort/extension_joint
+    arm_controller/position/pitch_joint
+    arm_controller/position/yaw_joint
+    arm_controller/position/extension_joint
     "/>
 
   <!--publish joint states to /tf for rviz etc-->
@@ -33,8 +33,15 @@
   <!--spawn robot_description into Gazebo from parameter server-->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model signaturebot"/>
 
-  <node pkg="fyp" name="position_control" type="position_control.py"/>
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find fyp)/rviz_config/path_odometry.rviz" required="true" />
 
-  <node pkg="fyp" name="trial" type="trial_script.py" output="screen" launch-prefix="gnome-terminal --command"/>
+    <node
+      name="rqt_gui"
+      pkg="rqt_gui"
+      type="rqt_gui" />
 
 </launch>

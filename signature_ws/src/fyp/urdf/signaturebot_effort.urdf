@@ -255,13 +255,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-0.005"
+      lower="0.0"
       upper="0.096"
       effort="100"
       velocity="0.5" />
     <dynamics
-      damping="0.01"
-      friction="0.015" />
+      damping="150.0"
+      friction="0.5" />
   </joint>
 
   <transmission name="tran3">

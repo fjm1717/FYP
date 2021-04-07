@@ -93,7 +93,7 @@ command.linear.y = centre[1]
 command.linear.z = centre[2]
 
 position_pub.publish(command)
-while(1): #rms_error > 5.0e-3
+while(rms_error > 5.0e-3):
     pass
 
 print('Switched to User Input..')

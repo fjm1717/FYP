@@ -8,12 +8,12 @@ import sys
 import math
 import signaturebot
 import numpy as np
-from sensor_msgs.msg import Joy, JointState
+from sensor_msgs.msg import JointState
 from std_msgs.msg import Header, Float64
 
 state = np.zeros(4)
 output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/workspace.csv'
-exe_rate = 2
+exe_rate = 12
 
 def joint_reader(msg):
     global state
@@ -47,42 +47,94 @@ print('--------------------------------------')
 robot = signaturebot.signature_bot()
 rate = rospy.Rate(exe_rate)
 
-time.sleep(3)
+time.sleep(4)
 
 #joint space locations
-th1_range = np.linspace(-1.57, 0.65, 12, endpoint=True)
-th2_range = np.linspace(-1.57, 1.57, 20, endpoint=True)
-d3_range = np.linspace(0, 0.096, 2, endpoint=True)
+th1_range = np.linspace(-1.57, 0.38, 30, endpoint=True)
+th2_range_1 = np.linspace(0, -1.57, 30, endpoint=True)
+th2_range_2 = np.linspace(0, 1.57, 30, endpoint=True)
+d3_range = np.linspace(0, 0.096, 16, endpoint=True)
 
-N = 12*20*2
+N = 10000
 
 ws = np.zeros((3,N))
 count = 0
 
 for i in th1_range:
-    for j in th2_range:
-        for k in d3_range:
+    pitch_pub.publish(i)
 
-            pitch_pub.publish(i)
+    for k in d3_range:
+        ext_pub.publish(k)
+
+        for j in th2_range_1:
             yaw_pub.publish(j)
-            ext_pub.publish(k)
+
+            if j == 0.0:
+                time.sleep(0.5)
+
+            rate.sleep()
 
             robot.th1 = state[0]
             robot.th2 = state[1]
             robot.d3 = state[2]
             robot.get_fk()
 
-            rate.sleep()
+            yaw_error = abs(j - robot.th2)
+            #if off by 1 degree -> exit loop
+            if (yaw_error > 0.02):
+                #store collision boundary
+                ws[0,count] = robot.x
+                ws[1,count] = robot.y
+                ws[2,count] = robot.z
+                count += 1
 
-            ws[0,count] = robot.x
-            ws[1,count] = robot.y
-            ws[2,count] = robot.z
+                break
 
-            print('EE Position (mm): ' + str(robot.x*1.0e3) + ' ' + str(robot.y*1.0e3) + ' ' + str(robot.z*1.0e3))
+            if k == 0.0 or k == 0.096 or i == -1.57 or i == 0.38:
+                #store boundary
+                ws[0,count] = robot.x
+                ws[1,count] = robot.y
+                ws[2,count] = robot.z
+                count += 1
+
+            print('Data Count: ' + str(count) + '/' + str(N))
             sys.stdout.write("\033[F")
             sys.stdout.write("\033[K")
 
-            count += 1
+        for j in th2_range_2:
+            yaw_pub.publish(j)
+
+            if j == 0.0:
+                time.sleep(0.5)
+
+            rate.sleep()
+
+            robot.th1 = state[0]
+            robot.th2 = state[1]
+            robot.d3 = state[2]
+            robot.get_fk()
+
+            yaw_error = abs(j - robot.th2)
+            #if off by 1 degree -> exit loop
+            if (yaw_error > 0.02):
+                #store collision boundary
+                ws[0,count] = robot.x
+                ws[1,count] = robot.y
+                ws[2,count] = robot.z
+                count += 1
+
+                break
+
+            if k == 0.0 or k == 0.096 or i == -1.57 or i == 0.38:
+                #store boundary
+                ws[0,count] = robot.x
+                ws[1,count] = robot.y
+                ws[2,count] = robot.z
+                count += 1
+
+            print('Data Count: ' + str(count) + '/' + str(N))
+            sys.stdout.write("\033[F")
+            sys.stdout.write("\033[K")
 
 print('--------------------------------------')
 
@@ -93,7 +145,8 @@ with open(output_path, mode='w') as csv_file:
     writer.writeheader()
 
     for i in range(0,N):
-        writer.writerow({'x': str(ws[0,i]), 'y': str(ws[1,i]), 'z': str(ws[2,i])})
+        if ws[0,i] != 0.0 or ws[1,i] != 0.0 or ws[2,i] != 0.0:
+            writer.writerow({'x': str(ws[0,i]), 'y': str(ws[1,i]), 'z': str(ws[2,i])})
 
     rate.sleep()
 
