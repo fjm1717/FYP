@@ -13,7 +13,7 @@ from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 import matplotlib.pyplot as plt
 
 state = np.zeros(10)
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/output.csv'
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/yz_output.csv'
 exe_rate = 200
 
 def joint_reader(msg):
@@ -55,7 +55,7 @@ command.joint_names = ['pitch', 'yaw', 'extension']
 
 print('--------------------------------------')
 
-sample_rate = 20 #input('Sample Rate: ')
+sample_rate = 50 #input('Sample Rate: ')
 
 plane = input('Plane? (0: XY / 1: YZ): ')
 if plane == 0:
@@ -64,8 +64,8 @@ if plane == 0:
     final_pos = np.array([0.14, 0.1, -0.05008], dtype="float")
 else:
     #YZ
-    initial_pos = np.array([0.16, 0.05, -0.08], dtype="float")
-    final_pos = np.array([0.16, -0.15, 0.02], dtype="float")
+    initial_pos = np.array([0.16, -0.15, -0.08], dtype="float")
+    final_pos = np.array([0.16, 0.15, -0.02], dtype="float")
 
 print('--------------------------------------')
 
@@ -252,7 +252,7 @@ with open(output_path, mode='w') as csv_file:
 print('Export Complete.')
 print('--------------------------------------')
 
-fig, axs = plt.subplots(2,2)
+fig, axs = plt.subplots(2,3)
 fig.suptitle('Kinematic Trajectory Data')
 axs[0,0].plot(planned_time.reshape(N,1),joint_pos[0,:].reshape(N,1),planned_time.reshape(N,1),joint_pos[1,:].reshape(N,1),planned_time.reshape(N,1),joint_pos[2,:].reshape(N,1))
 axs[0,0].set_title('Planned Joint Positions')
@@ -262,6 +262,9 @@ axs[1,0].plot(planned_time.reshape(N,1),joint_vel[0,:].reshape(N,1),planned_time
 axs[1,0].set_title('Planned Joint Velocities')
 axs[1,1].plot(time.reshape(data_points,1),measured_joint_vel[0,:].reshape(data_points,1),time.reshape(data_points,1),measured_joint_vel[1,:].reshape(data_points,1),time.reshape(data_points,1),measured_joint_vel[2,:].reshape(data_points,1))
 axs[1,1].set_title('Measured Joint Velocities')
+axs[1,2].plot(time.reshape(data_points,1),measured_joint_eff[0,:].reshape(data_points,1),time.reshape(data_points,1),measured_joint_eff[1,:].reshape(data_points,1),time.reshape(data_points,1),measured_joint_eff[2,:].reshape(data_points,1))
+axs[1,2].set_title('Measured Joint Efforts')
+
 
 plt.show()
 
