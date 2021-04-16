@@ -260,8 +260,8 @@
       effort="100"
       velocity="0.5" />
     <dynamics
-      damping="150.0"
-      friction="0.5" />
+      damping="190.0"
+      friction="5.5" />
   </joint>
 
   <transmission name="tran3">

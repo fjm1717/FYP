@@ -148,7 +148,7 @@ with open(output_path, mode='w') as csv_file:
         if ws[0,i] != 0.0 or ws[1,i] != 0.0 or ws[2,i] != 0.0:
             writer.writerow({'x': str(ws[0,i]), 'y': str(ws[1,i]), 'z': str(ws[2,i])})
 
-    rate.sleep()
+        rate.sleep()
 
 print('Export Complete.')
 print('--------------------------------------')

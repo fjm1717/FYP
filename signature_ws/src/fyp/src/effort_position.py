@@ -4,6 +4,7 @@ import rospy
 import time
 import copy
 import csv
+import sys
 import math
 import signaturebot
 import numpy as np
@@ -12,8 +13,9 @@ from std_msgs.msg import Header, Float64
 import matplotlib.pyplot as plt
 
 state = np.zeros(4)
-sample_rate = 200
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/horizontal_500.csv'
+sample_rate = 10
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/linear_data/horizontal/horiz_1500.csv'
+input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/linear_data/horizontal/poly_horiz_1500.csv'
 
 def joint_reader(msg):
     global state
@@ -44,7 +46,8 @@ robot = signaturebot.signature_bot()
 
 robot.th1 = 0.0
 robot.th2 = 0.0
-N = 2000
+N = 600 #number of data points
+M = 5 #number of spring constants
 
 #motor parameters
 n = 30.0/14.0
@@ -52,22 +55,23 @@ stall_torque = 49.4 #mNm
 nom_torque = 12.5 #mNm
 no_load_curr = 28.3 #mA
 start_curr = 3140 #mA
-i = 500.0 #mA
+i = 1500.0 #mA
 
-measurements = np.zeros(N)
+#extended model
+spring_constants = np.linspace(130,135,M) #N/m
+
+measurements = np.zeros((2*M,N))
 
 #encoder and pinion data
 res = 2*math.pi / 20000 #rads/count
-r = 6.25e-3 #mm
+r = 6.25e-3 #m
 
 print('----------Extension Data Collection----------')
 rate = rospy.Rate(sample_rate)
 
 time.sleep(3)
-
 pitch_pub.publish(robot.th1)
 yaw_pub.publish(robot.th2)
-ext_pub.publish(-10.0)
 
 T3 = nom_torque + ( ( stall_torque - nom_torque ) / ( start_curr - no_load_curr ) ) * ( i - no_load_curr ) #mNm
 F3 = n * T3 / (r*1.0e3) #N
@@ -75,46 +79,92 @@ F3 = n * T3 / (r*1.0e3) #N
 print('---------------------------------------------')
 print('Motor Torque: ' + str(T3) + 'mNm')
 print('Output Force: ' + str(F3) + 'N')
-
-time.sleep(1)
-
-count = 0
-robot.d3 = 0
-enc_pos = 0
-
-ext_pub.publish(F3)
-
-while robot.d3 <= 50.0e-3 and count < N:
-
-    robot.d3 = state[2]
-    enc_pos = math.floor( robot.d3 / (res*r) )
-    measurements[count] = enc_pos
-    count += 1
-
-    rate.sleep()
-
-print('50mm Extension Reached!')
-print(str(count) + ' Data Points!')
 print('---------------------------------------------')
+
+measurement_count = 0
+
+for k in spring_constants:
+
+    print('---------------------------------------------')
+    print('Spring Constant: ' + str(k) + 'N/m')
+
+    ext_pub.publish(-10.0)
+
+    time.sleep(5)
+
+    count = 0
+    robot.d3 = 0
+    enc_pos = 0
+
+    while robot.d3 <= 50.0e-3 and count < N:
+
+        robot.d3 = state[2]
+
+        F_effective = F3 - k*robot.d3
+        ext_pub.publish(F_effective)
+
+        enc_pos = math.floor( robot.d3 / (res*r) )
+        measurements[2*measurement_count,count] = enc_pos
+        measurements[2*measurement_count+1,count] = state[3]
+        count += 1
+
+        print('F_effective: ' + str(F_effective) + 'N')
+        sys.stdout.write("\033[F")
+        sys.stdout.write("\033[K")
+
+        rate.sleep()
+
+    print('---------------------------------------------')
+    print('50mm Extension Reached!')
+
+    measurement_count += 1
+
+print('---------------------------------------------')
+print('Export Complete.')
+
+#open csv to retrieve row sum
+with open(input_path) as csv_file:
+    reader = csv.reader(csv_file)
+    row_sum = sum(1 for row in reader)
+
+row_count = 0
+exp_results = np.zeros((2,row_sum))
+
+#read in actual data
+with open(input_path) as csv_file:
+    reader = csv.reader(csv_file)
+
+    for row in reader:
+        exp_results[0,row_count] = row[0]
+        exp_results[1,row_count] = row[1]
+
+        row_count += 1
+
+plt.plot(exp_results[1,:].reshape(row_sum,1),exp_results[0,:].reshape(row_sum,1))
+plt.title('Results')
+plt.xlabel('Time (s)')
+plt.ylabel('Encoder Count')
 
 #export data to output.csv
 with open(output_path, mode='w') as csv_file:
-    data = ['encoder_position']
-    writer = csv.DictWriter(csv_file, fieldnames=data)
-    writer.writeheader()
+    mywriter = csv.writer(csv_file, delimiter=',')
 
-    for i in range(0,N):
-        if measurements[i] != 0.0:
-            writer.writerow({'encoder_position': str(measurements[i])})
+    for k in range(0,M):
+        encoder_values = measurements[2*k,:].reshape(N,1)
+        time = measurements[2*k+1,:].reshape(N,1)
 
-    rate.sleep()
+        y = encoder_values[encoder_values != 0]
+        x = np.zeros((y.size,1))
+        for i in range(0,y.size):
+            x[i] = time[i] - time[0]
 
-print('Export Complete.')
+        mywriter.writerow(x)
+        mywriter.writerow(y)
 
-encoder_plot = measurements[measurements != 0]
+        #add measured values to plot
+        plt.plot(x,y)
 
-plt.plot(encoder_plot)
-plt.title('Encoder Readings')
+plt.legend(['Experimental'])
 plt.show()
 
 while not rospy.is_shutdown():

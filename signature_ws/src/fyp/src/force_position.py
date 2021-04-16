@@ -12,7 +12,7 @@ from geometry_msgs.msg import Twist, WrenchStamped, Wrench, Vector3
 
 state = np.zeros(3)
 target = np.zeros((3,1))
-exe_rate = 50
+exe_rate = 100
 
 controller = False
 
@@ -36,10 +36,9 @@ def joint_reader(msg):
     rospy.loginfo("Joint Positions: [%f, %f, %f]"%(msg.position[1], msg.position[2], msg.position[0]))
 
     try:
-        #joints published alphabetically (ext, pitch, yaw)
-        state[0] = round(float(msg.position[1]),6)
-        state[1] = round(float(msg.position[2]),6)
-        state[2] = round(float(msg.position[0]),6)
+        state[0] = round(float(msg.position[0]),6)
+        state[1] = round(float(msg.position[1]),6)
+        state[2] = round(float(msg.position[2]),6)
     except:
         print('Joint State Error')
 
@@ -58,16 +57,16 @@ rms_error = rospy.Publisher('signaturebot/force_position/error', Float64, queue_
 command_sub = rospy.Subscriber('signaturebot/force_position/command', Twist, command_reader)
 
 #subscribe to /joint_state to monitor joint position, velocities etc.
-joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_reader)
+joint_sub = rospy.Subscriber('joint_states', JointState, joint_reader)
 
 #publish force vector at end effector to visualise in rviz
 wrench_pub = rospy.Publisher('signaturebot/wrench', WrenchStamped, queue_size=10)
 
 robot = signaturebot.signature_bot()
 
-kp = np.diag([12.0,15.0,18.65])
-kd = np.diag([1.0,1.0,2.0])
-ki = np.diag([0.5,0.5,1.8])
+kp = np.diag([235.0,25.0,40.0])
+kd = np.diag([3.5,1.3,1.6])
+ki = np.diag([22.5,4.0,10.0])
 
 pose = np.zeros((3,1))
 diff_error = np.zeros((3,1))

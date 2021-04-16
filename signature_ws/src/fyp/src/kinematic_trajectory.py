@@ -265,7 +265,6 @@ axs[1,1].set_title('Measured Joint Velocities')
 axs[1,2].plot(time.reshape(data_points,1),measured_joint_eff[0,:].reshape(data_points,1),time.reshape(data_points,1),measured_joint_eff[1,:].reshape(data_points,1),time.reshape(data_points,1),measured_joint_eff[2,:].reshape(data_points,1))
 axs[1,2].set_title('Measured Joint Efforts')
 
-
 plt.show()
 
 while not rospy.is_shutdown():
