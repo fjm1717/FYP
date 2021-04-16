@@ -18,7 +18,7 @@ output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/fo
 state = np.zeros(4)
 N = 1000
 rms_error = 1.0
-exe_rate = 100
+exe_rate = 50
 
 centre = np.array([[0.175],[0.0],[-0.05008]])
 

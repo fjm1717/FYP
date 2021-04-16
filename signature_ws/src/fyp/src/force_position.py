@@ -36,9 +36,10 @@ def joint_reader(msg):
     rospy.loginfo("Joint Positions: [%f, %f, %f]"%(msg.position[1], msg.position[2], msg.position[0]))
 
     try:
-        state[0] = round(float(msg.position[0]),6)
-        state[1] = round(float(msg.position[1]),6)
-        state[2] = round(float(msg.position[2]),6)
+        #joints published alphabetically (ext, pitch, yaw)
+        state[0] = round(float(msg.position[1]),6)
+        state[1] = round(float(msg.position[2]),6)
+        state[2] = round(float(msg.position[0]),6)
     except:
         print('Joint State Error')
 
@@ -57,7 +58,7 @@ rms_error = rospy.Publisher('signaturebot/force_position/error', Float64, queue_
 command_sub = rospy.Subscriber('signaturebot/force_position/command', Twist, command_reader)
 
 #subscribe to /joint_state to monitor joint position, velocities etc.
-joint_sub = rospy.Subscriber('joint_states', JointState, joint_reader)
+joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_reader)
 
 #publish force vector at end effector to visualise in rviz
 wrench_pub = rospy.Publisher('signaturebot/wrench', WrenchStamped, queue_size=10)

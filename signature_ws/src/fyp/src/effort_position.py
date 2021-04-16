@@ -14,8 +14,8 @@ import matplotlib.pyplot as plt
 
 state = np.zeros(4)
 sample_rate = 10
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/linear_data/horizontal/horiz_1500.csv'
-input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/linear_data/horizontal/poly_horiz_1500.csv'
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/linear_data/horizontal/horiz_1000.csv'
+input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/linear_data/horizontal/poly_horiz_1000.csv'
 
 def joint_reader(msg):
     global state
@@ -55,10 +55,10 @@ stall_torque = 49.4 #mNm
 nom_torque = 12.5 #mNm
 no_load_curr = 28.3 #mA
 start_curr = 3140 #mA
-i = 1500.0 #mA
+i = 1000.0 #mA
 
 #extended model
-spring_constants = np.linspace(130,135,M) #N/m
+spring_constants = np.linspace(40.0,45.0,M) #N/m
 
 measurements = np.zeros((2*M,N))
 
@@ -90,7 +90,7 @@ for k in spring_constants:
 
     ext_pub.publish(-10.0)
 
-    time.sleep(5)
+    time.sleep(3)
 
     count = 0
     robot.d3 = 0
@@ -154,12 +154,14 @@ with open(output_path, mode='w') as csv_file:
         time = measurements[2*k+1,:].reshape(N,1)
 
         y = encoder_values[encoder_values != 0]
-        x = np.zeros((y.size,1))
-        for i in range(0,y.size):
+        Z = int(y.size)
+        y = y.reshape(Z,1)
+        x = np.zeros((Z,1))
+        for i in range(0,Z):
             x[i] = time[i] - time[0]
 
-        mywriter.writerow(x)
-        mywriter.writerow(y)
+        mywriter.writerow(x[:,0])
+        mywriter.writerow(y[:,0])
 
         #add measured values to plot
         plt.plot(x,y)
