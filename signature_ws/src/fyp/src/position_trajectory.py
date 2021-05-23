@@ -43,11 +43,11 @@ path_pub = rospy.Publisher('/path', Path, queue_size=10)
 
 robot = signaturebot.signature_bot()
 
-time.sleep(3)
+time.sleep(8)
 print('-------------Path Visualisation----------------')
 
-initial_pos = np.array([0.16, -0.15, -0.08], dtype="float")
-final_pos = np.array([0.16, 0.15, -0.02], dtype="float")
+initial_pos = np.array([0.16, -0.1, -0.05008], dtype="float")
+final_pos = np.array([0.14, 0.1, -0.05008], dtype="float")
 
 rate = rospy.Rate(exe_rate)
 

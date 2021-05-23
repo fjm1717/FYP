@@ -12,12 +12,12 @@ from sensor_msgs.msg import JointState, Joy
 from std_msgs.msg import Header, Float64
 from geometry_msgs.msg import Twist, WrenchStamped, Wrench, Vector3, PointStamped, Point
 
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/elastic_constraint_output.csv'
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/impulse_constraint_output.csv'
 
-state = np.zeros(4)
+state = np.zeros(7)
 xbox = np.zeros(6)
 rms_error = 1.0
-exe_rate = 50
+exe_rate = 120
 
 #spherical constraints
 centre = np.array([[0.175],[0.0],[-0.05008]])
@@ -43,6 +43,9 @@ def joint_reader(msg):
         state[1] = float(msg.position[2])
         state[2] = float(msg.position[0])
         state[3] = time.to_sec()
+        state[4] = float(msg.velocity[1])
+        state[5] = float(msg.velocity[2])
+        state[6] = float(msg.velocity[0])
     except:
         pass
 
@@ -80,11 +83,11 @@ joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_read
 
 robot = signaturebot.signature_bot()
 
-print('--------Elastic Constraint Demo--------')
+print('--------Active Constraint Demo--------')
 
 time.sleep(5)
 
-print('---------------------------------------')
+print('--------------------------------------')
 print('Moving EE to Boundary Centre..')
 
 command = Twist()
@@ -106,10 +109,12 @@ position_pub.publish(command)
 
 #user force gains
 kf = np.diag([2.0,1.0,1.0])
-#elastic force gains
-ke = np.diag([500.0,500.0,800.0])
+#mass matrix
+M = np.diag([4.0,4.0,4.0])
 
 pose = np.zeros((3,1))
+lin_vel = np.zeros((3,1))
+vc_vel = np.zeros((3,1))
 force = np.zeros((3,1))
 efforts = np.zeros((3,1))
 
@@ -134,7 +139,7 @@ sphere.point.y = world_centre[1] + robot.py
 sphere.point.z = world_centre[2] + robot.pz
 sphere_pub.publish(sphere)
 
-print('---------------------------------------')
+print('--------------------------------------')
 
 start_time = rospy.get_time()
 dist = 0
@@ -153,34 +158,42 @@ with open(output_path, mode='w') as csv_file:
         robot.d3 = state[2]
         robot.get_fk()
 
+        robot.th1_dot = state[4]
+        robot.th2_dot = state[5]
+        robot.d3_dot = state[6]
+        robot.vel_kin()
+
         pose[0] = robot.x
         pose[1] = robot.y
         pose[2] = robot.z
+
+        lin_vel[0] = robot.x_dot
+        lin_vel[1] = robot.y_dot
+        lin_vel[2] = robot.z_dot
 
         #end-effector force from user input
         user_input = np.array([[xbox[1]],[xbox[2]],[xbox[0]]])
         force = np.matmul(kf,user_input)
         G = robot.get_G()
 
-        #print('Grav. Efforts: ' + str(G[0]) + ' ' + str(G[1]) + ' ' + str(G[2]))
-        #sys.stdout.write("\033[F")
-        #sys.stdout.write("\033[K")
-
         #active constraint
         elastic_force = np.zeros((3,1))
         if ( ( pow(robot.x - centre[0],2) + pow(robot.y - centre[1],2) + pow(robot.z - centre[2],2) ) >= pow(radius,2) ):
             #outside boundary
-            dist = np.linalg.norm(centre-pose)
-            dx = ( centre - pose ) * ( 1 - ( radius / dist ) )
-            elastic_force = np.matmul(ke,dx)
-            dist = dist - radius
+            dist = np.linalg.norm(centre-pose) - radius
+            n = ( pose - centre ) / np.linalg.norm(pose-centre)
+            vc_vel[0] = n[0] * np.asscalar(lin_vel[0]*n[0])
+            vc_vel[1] = n[1] * np.asscalar(lin_vel[1]*n[1])
+            vc_vel[2] = n[2] * np.asscalar(lin_vel[2]*n[2])
+            impulse_force = -1*exe_rate*np.matmul(M,vc_vel)
         else:
             dist = 0
+            impulse_force = np.zeros((3,1))
 
         #publish wrench msg
         wrench_msg.header.stamp = rospy.get_rostime()
         #transformed from world to end effector ref frame
-        ee_force = np.matmul(robot.get_invR(),elastic_force)
+        ee_force = np.matmul(robot.get_invR(),impulse_force)
         wrench_msg.wrench.force.x = ee_force[0]
         wrench_msg.wrench.force.y = ee_force[1]
         wrench_msg.wrench.force.z = ee_force[2]
@@ -190,21 +203,21 @@ with open(output_path, mode='w') as csv_file:
         sphere.header.stamp = rospy.get_rostime()
         sphere_pub.publish(sphere)
 
-        elastic_efforts = np.matmul(np.transpose(robot.get_Jv()),elastic_force)
-        efforts = np.matmul(np.transpose(robot.get_Jv()),force) + elastic_efforts + G
+        impulse_efforts = np.matmul(np.transpose(robot.get_Jv()),impulse_force)
+        efforts = np.matmul(np.transpose(robot.get_Jv()),force) + impulse_efforts + G
 
         #publish efforts to gazebo
         eff_pub1.publish(efforts[0])
         eff_pub2.publish(efforts[1])
         eff_pub3.publish(efforts[2])
 
-        print('Boundary Penetration (mm): ' + str(dist*1000))
+        print('Linear Velocities (mm/s): ' + str(robot.x_dot*1000) + ' ' + str(robot.y_dot*1000) + ' ' + str(robot.z_dot*1000))
         sys.stdout.write("\033[F")
         sys.stdout.write("\033[K")
 
-        fx = np.asscalar(elastic_force[0])
-        fy = np.asscalar(elastic_force[1])
-        fz = np.asscalar(elastic_force[2])
+        fx = np.asscalar(impulse_force[0])
+        fy = np.asscalar(impulse_force[1])
+        fz = np.asscalar(impulse_force[2])
 
         time = rospy.get_time() - start_time
         #upload state to csvelastic_force

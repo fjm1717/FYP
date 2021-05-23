@@ -13,14 +13,14 @@ from std_msgs.msg import Header, Float64
 from geometry_msgs.msg import Twist
 import matplotlib.pyplot as plt
 
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/force_position_data.csv'
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/force_position/force_position_data.csv'
 
-state = np.zeros(4)
-N = 1000
+state = np.zeros(7)
+N = 600
 rms_error = 1.0
 exe_rate = 50
 
-centre = np.array([[0.175],[0.0],[-0.05008]])
+centre = np.array([[0.165],[0.0],[-0.05008]])
 
 def joint_reader(msg):
     global state
@@ -29,10 +29,13 @@ def joint_reader(msg):
     try:
         #joints published alphabetically (ext, pitch, yaw)
         time = msg.header.stamp
-        state[0] = round(float(msg.position[1]),3)
-        state[1] = round(float(msg.position[2]),3)
-        state[2] = round(float(msg.position[0]),3)
+        state[0] = round(float(msg.position[1]),4)
+        state[1] = round(float(msg.position[2]),4)
+        state[2] = round(float(msg.position[0]),4)
         state[3] = time.to_sec()
+        state[4] = round(float(msg.effort[1]),4)
+        state[5] = round(float(msg.effort[2]),4)
+        state[6] = round(float(msg.effort[0]),4)
     except:
         pass
 
@@ -63,7 +66,7 @@ robot = signaturebot.signature_bot()
 
 print('----------Force Position Data----------')
 
-time.sleep(3)
+time.sleep(10)
 
 print('---------------------------------------')
 print('Moving EE to Target..')
@@ -90,7 +93,7 @@ while count < N:
     data[2,count] = robot.z - centre[2]
     data[3,count] = state[3]
 
-    print('Data Points: ' + str(count) + '/' + str(N))
+    print('Data Points: ' + str(count) + '/' + str(N) + ' Efforts: ' + str(state[4]) + ' ' + str(state[5]) + ' ' + str(state[6]))
     sys.stdout.write("\033[F")
     sys.stdout.write("\033[K")
 
@@ -123,6 +126,7 @@ plt.xlabel('Time /secs')
 plt.legend(['x','y','z'])
 
 plt.show()
+
 
 while not rospy.is_shutdown():
     pass

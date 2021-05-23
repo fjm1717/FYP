@@ -37,9 +37,9 @@ def joint_reader(msg):
 
     try:
         #joints published alphabetically (ext, pitch, yaw)
-        state[0] = round(float(msg.position[1]),6)
-        state[1] = round(float(msg.position[2]),6)
-        state[2] = round(float(msg.position[0]),6)
+        state[0] = float(msg.position[1])
+        state[1] = float(msg.position[2])
+        state[2] = float(msg.position[0])
     except:
         print('Joint State Error')
 

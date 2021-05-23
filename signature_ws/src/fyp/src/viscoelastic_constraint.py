@@ -12,7 +12,7 @@ from sensor_msgs.msg import JointState, Joy
 from std_msgs.msg import Header, Float64
 from geometry_msgs.msg import Twist, WrenchStamped, Wrench, Vector3, PointStamped, Point
 
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/elastic_constraint_output.csv'
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/viscoelastic_constraint_output.csv'
 
 state = np.zeros(4)
 xbox = np.zeros(6)
@@ -80,11 +80,11 @@ joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_read
 
 robot = signaturebot.signature_bot()
 
-print('--------Elastic Constraint Demo--------')
+print('------Viscoelastic Constraint Demo------')
 
 time.sleep(5)
 
-print('---------------------------------------')
+print('----------------------------------------')
 print('Moving EE to Boundary Centre..')
 
 command = Twist()
@@ -108,8 +108,11 @@ position_pub.publish(command)
 kf = np.diag([2.0,1.0,1.0])
 #elastic force gains
 ke = np.diag([500.0,500.0,800.0])
+kv = np.diag([20.0,20.0,30.0])
 
 pose = np.zeros((3,1))
+dx = np.zeros((3,1))
+last_dx = np.zeros((3,1))
 force = np.zeros((3,1))
 efforts = np.zeros((3,1))
 
@@ -134,7 +137,7 @@ sphere.point.y = world_centre[1] + robot.py
 sphere.point.z = world_centre[2] + robot.pz
 sphere_pub.publish(sphere)
 
-print('---------------------------------------')
+print('----------------------------------------')
 
 start_time = rospy.get_time()
 dist = 0
@@ -172,7 +175,8 @@ with open(output_path, mode='w') as csv_file:
             #outside boundary
             dist = np.linalg.norm(centre-pose)
             dx = ( centre - pose ) * ( 1 - ( radius / dist ) )
-            elastic_force = np.matmul(ke,dx)
+            dx_dot = exe_rate * ( dx - last_dx )
+            elastic_force = np.matmul(ke,dx) + np.matmul(kv,dx_dot)
             dist = dist - radius
         else:
             dist = 0

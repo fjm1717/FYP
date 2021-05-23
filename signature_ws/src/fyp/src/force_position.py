@@ -37,9 +37,9 @@ def joint_reader(msg):
 
     try:
         #joints published alphabetically (ext, pitch, yaw)
-        state[0] = round(float(msg.position[1]),6)
-        state[1] = round(float(msg.position[2]),6)
-        state[2] = round(float(msg.position[0]),6)
+        state[0] = float(msg.position[1])
+        state[1] = float(msg.position[2])
+        state[2] = float(msg.position[0])
     except:
         print('Joint State Error')
 
@@ -65,9 +65,11 @@ wrench_pub = rospy.Publisher('signaturebot/wrench', WrenchStamped, queue_size=10
 
 robot = signaturebot.signature_bot()
 
-kp = np.diag([235.0,25.0,40.0])
-kd = np.diag([3.5,1.3,1.6])
-ki = np.diag([22.5,4.0,10.0])
+#xyz gains
+kp = np.diag([800.0,10.0,750.0])
+kd = np.diag([1.0,5.0,15.0])
+ki = np.diag([500.0,1.0,200.0])
+#ki = np.zeros((3,3))
 
 pose = np.zeros((3,1))
 diff_error = np.zeros((3,1))
@@ -130,7 +132,7 @@ while not rospy.is_shutdown():
         #publish efforts to gazebo
         pitch.publish(efforts[0])
         yaw.publish(efforts[1])
-        ext.publish(efforts[2])
+        ext.publish(efforts[2] - 44*robot.d3)
 
         rate.sleep()
 

@@ -28,7 +28,7 @@ def odom_path(msg):
         except:
             print('Path Republish Error')
 
-input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/PVT_Signature.csv'
+input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/PVT_Signature.csv'
 exe_rate = 200
 
 rospy.init_node('signature_path')

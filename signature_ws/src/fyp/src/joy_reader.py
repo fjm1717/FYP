@@ -49,14 +49,11 @@ while not rospy.is_shutdown():
         robot.th1 = 0.0
         robot.th2 = 0.0
         robot.d3 = 0.0
-        robot.get_fk()
 
     #set axis positions using controller input
-    robot.z = robot.z + xbox[0] * 0.001
-    robot.x = robot.x + xbox[1] * 0.001
-    robot.y = robot.y + xbox[2] * 0.001
-
-    robot.get_ik()
+    robot.th1 = robot.th1 - xbox[0] * 0.01
+    robot.th2 = robot.th2 + xbox[2] * 0.01
+    robot.d3 = robot.d3 + xbox[1] * 0.001
 
     #publish joint variables to arm_controller/position/joint/command
     pitch_pub.publish(robot.th1)

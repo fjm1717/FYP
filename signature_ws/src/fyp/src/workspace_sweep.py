@@ -12,7 +12,7 @@ from sensor_msgs.msg import JointState
 from std_msgs.msg import Header, Float64
 
 state = np.zeros(4)
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/workspace.csv'
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/workspace.csv'
 exe_rate = 12
 
 def joint_reader(msg):

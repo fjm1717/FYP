@@ -46,6 +46,6 @@
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args = "$(find fyp)/rviz_config/simple_pose.rviz" required="true"/>
+    args="-d $(find fyp)/rviz_config/simple_pose.rviz" required="true" />
 
 </launch>

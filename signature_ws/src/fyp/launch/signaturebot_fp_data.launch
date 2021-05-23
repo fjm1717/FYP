@@ -37,4 +37,10 @@
   <node pkg="fyp" name="force_position" type="force_position.py" />
   <node pkg="fyp" name="force_position_data" type="force_position_data.py" output="screen" launch-prefix="gnome-terminal --command" />
 
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find fyp)/rviz_config/wrench_vis.rviz" required="true" />
+
 </launch>

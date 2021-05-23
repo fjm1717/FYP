@@ -37,11 +37,16 @@
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args="-d $(find fyp)/rviz_config/path_odometry.rviz" required="true" />
+    args="-d $(find fyp)/rviz_config/simple_pose.rviz" required="true" />
 
     <node
       name="rqt_gui"
       pkg="rqt_gui"
       type="rqt_gui" />
+
+    <node
+      name="rqt_reconfigure"
+      pkg="rqt_reconfigure"
+      type="rqt_reconfigure" />
 
 </launch>

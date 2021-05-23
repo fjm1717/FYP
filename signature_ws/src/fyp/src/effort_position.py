@@ -14,8 +14,8 @@ import matplotlib.pyplot as plt
 
 state = np.zeros(4)
 sample_rate = 10
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/linear_data/horizontal/horiz_1000.csv'
-input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/trajectory_output/linear_data/horizontal/poly_horiz_1000.csv'
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/linear_data/horizontal/2000_44.csv'
+input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/linear_data/horizontal/poly_horiz_2000.csv'
 
 def joint_reader(msg):
     global state
@@ -46,8 +46,8 @@ robot = signaturebot.signature_bot()
 
 robot.th1 = 0.0
 robot.th2 = 0.0
-N = 600 #number of data points
-M = 5 #number of spring constants
+N = 680 #number of data points
+M = 1 #number of spring constants
 
 #motor parameters
 n = 30.0/14.0
@@ -55,10 +55,10 @@ stall_torque = 49.4 #mNm
 nom_torque = 12.5 #mNm
 no_load_curr = 28.3 #mA
 start_curr = 3140 #mA
-i = 1000.0 #mA
+i = 2000.0 #mA
 
 #extended model
-spring_constants = np.linspace(40.0,45.0,M) #N/m
+spring_constants = np.linspace(44.0,44.0,M) #N/m
 
 measurements = np.zeros((2*M,N))
 

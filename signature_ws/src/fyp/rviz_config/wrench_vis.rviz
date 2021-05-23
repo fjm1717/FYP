@@ -128,7 +128,7 @@ Visualization Manager:
       Arrow Width: 0.019999999552965164
       Class: rviz/WrenchStamped
       Enabled: true
-      Force Arrow Scale: 0.25
+      Force Arrow Scale: 0.05000000074505806
       Force Color: 237; 212; 0
       Hide Small Values: false
       History Length: 1
@@ -183,18 +183,18 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.06041082739830017
-        Y: -0.024269981309771538
-        Z: 0.08598923683166504
+        X: 0.09869129210710526
+        Y: -0.009518874809145927
+        Z: 0.10699629783630371
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.06039777770638466
+      Pitch: 0.09539774805307388
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.5103974342346191
+      Yaw: 1.6703975200653076
     Saved: ~
 Window Geometry:
   Displays:
