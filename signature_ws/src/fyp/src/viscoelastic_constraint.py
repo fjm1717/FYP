@@ -105,10 +105,11 @@ command.linear.z = 0.0
 position_pub.publish(command)
 
 #user force gains
-kf = np.diag([2.0,1.0,1.0])
+kf = np.diag([1.0,1.0,1.0])
+ext_scaling = 8.0
 #elastic force gains
-ke = np.diag([500.0,500.0,800.0])
-kv = np.diag([20.0,20.0,30.0])
+ke = np.diag([800.0,800.0,1000.0])
+kv = np.diag([2.0,2.0,2.0])
 
 pose = np.zeros((3,1))
 dx = np.zeros((3,1))
@@ -194,8 +195,10 @@ with open(output_path, mode='w') as csv_file:
         sphere.header.stamp = rospy.get_rostime()
         sphere_pub.publish(sphere)
 
-        elastic_efforts = np.matmul(np.transpose(robot.get_Jv()),elastic_force)
-        efforts = np.matmul(np.transpose(robot.get_Jv()),force) + elastic_efforts + G
+        viscoelastic_efforts = np.matmul(np.transpose(robot.get_Jv()),elastic_force)
+        user_effort = np.matmul(np.transpose(robot.get_Jv()),force)
+        user_effort[2] = ext_scaling*user_effort[2]
+        efforts = user_effort + viscoelastic_efforts + G
 
         #publish efforts to gazebo
         eff_pub1.publish(efforts[0])

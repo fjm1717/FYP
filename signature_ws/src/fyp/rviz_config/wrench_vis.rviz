@@ -128,7 +128,7 @@ Visualization Manager:
       Arrow Width: 0.019999999552965164
       Class: rviz/WrenchStamped
       Enabled: true
-      Force Arrow Scale: 0.05000000074505806
+      Force Arrow Scale: 0.029999999329447746
       Force Color: 237; 212; 0
       Hide Small Values: false
       History Length: 1
