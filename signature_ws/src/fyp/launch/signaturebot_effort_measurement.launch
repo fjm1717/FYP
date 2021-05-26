@@ -35,4 +35,10 @@
 
   <node pkg="fyp" name="effort_position" type="effort_position.py" output="screen" launch-prefix="gnome-terminal --command"/>
 
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find fyp)/rviz_config/simple_pose.rviz" required="true" />
+
 </launch>

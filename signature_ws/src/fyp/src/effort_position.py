@@ -47,7 +47,7 @@ robot = signaturebot.signature_bot()
 robot.th1 = 0.0
 robot.th2 = 0.0
 N = 680 #number of data points
-M = 1 #number of spring constants
+M = 3 #number of spring constants
 
 #motor parameters
 n = 30.0/14.0
@@ -55,10 +55,10 @@ stall_torque = 49.4 #mNm
 nom_torque = 12.5 #mNm
 no_load_curr = 28.3 #mA
 start_curr = 3140 #mA
-i = 2000.0 #mA
+i = 1000.0 #mA
 
 #extended model
-spring_constants = np.linspace(44.0,44.0,M) #N/m
+spring_constants = np.linspace(42.0,44.0,M) #N/m
 
 measurements = np.zeros((2*M,N))
 
@@ -69,7 +69,7 @@ r = 6.25e-3 #m
 print('----------Extension Data Collection----------')
 rate = rospy.Rate(sample_rate)
 
-time.sleep(3)
+time.sleep(15)
 pitch_pub.publish(robot.th1)
 yaw_pub.publish(robot.th2)
 
@@ -77,6 +77,7 @@ T3 = nom_torque + ( ( stall_torque - nom_torque ) / ( start_curr - no_load_curr 
 F3 = n * T3 / (r*1.0e3) #N
 
 print('---------------------------------------------')
+print('Motor Current: ' + str(i) + 'mA')
 print('Motor Torque: ' + str(T3) + 'mNm')
 print('Output Force: ' + str(F3) + 'N')
 print('---------------------------------------------')
@@ -108,7 +109,7 @@ for k in spring_constants:
         measurements[2*measurement_count+1,count] = state[3]
         count += 1
 
-        print('F_effective: ' + str(F_effective) + 'N')
+        print('Encoder Position: ' + str(enc_pos))
         sys.stdout.write("\033[F")
         sys.stdout.write("\033[K")
 

@@ -12,7 +12,16 @@ from sensor_msgs.msg import JointState, Joy
 from std_msgs.msg import Header, Float64
 from geometry_msgs.msg import Twist, WrenchStamped, Wrench, Vector3, PointStamped, Point
 
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/viscoelastic_constraint_output.csv'
+plane = 'yz'
+
+if plane == 'xy':
+    output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/planar_constraint_data_xy.csv'
+elif plane == 'xz':
+    output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/planar_constraint_data_xz.csv'
+elif plane == 'yz':
+    output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/planar_constraint_data_yz.csv'
+else:
+    pass
 
 state = np.zeros(4)
 xbox = np.zeros(6)
@@ -83,11 +92,21 @@ robot = signaturebot.signature_bot()
 print('------Viscoelastic Constraint Demo------')
 
 #user force gains
-kf = np.diag([1.0,1.0,1.0])
+if plane == 'xy':
+    kf = np.diag([1.0,1.0,0.0])
+elif plane == 'xz':
+    kf = np.diag([1.0,0.0,1.0])
+elif plane == 'yz':
+    kf = np.diag([0.0,1.0,1.0])
+else:
+    kf = np.diag([1.0,1.0,1.0])
+
 Q = np.diag([1.0, 1.0, 7.5])
 #elastic force gains
-ke = np.diag([820.0,820.0,950.0])
-kv = np.diag([2.2,2.2,2.6])
+ke = np.diag([1500.0,1200.0,1200.0])
+kv = np.diag([2.6,2.2,2.6])
+#planar constraint
+k = 200
 
 pose = np.zeros((3,1))
 dx = np.zeros((3,1))
@@ -142,7 +161,7 @@ start_time = rospy.get_time()
 dist = 0
 
 with open(output_path, mode='w') as csv_file:
-    data = ['x','y','z','fx','fy','fz','time','dist']
+    data = ['p','q','pitch_eff','yaw_eff','ext_eff','dev']
     writer = csv.DictWriter(csv_file, fieldnames=data)
     writer.writeheader()
 
@@ -159,6 +178,19 @@ with open(output_path, mode='w') as csv_file:
         pose[1] = robot.y
         pose[2] = robot.z
 
+        if plane == 'xy':
+            p = robot.x
+            q = robot.y
+        elif plane == 'xz':
+            p = robot.x
+            q = robot.z
+        elif plane == 'yz':
+            p = robot.y
+            q = robot.z
+        else:
+            p = 0
+            q = 0
+
         #end-effector force from user input
         user_input = np.array([[xbox[1]],[xbox[2]],[xbox[0]]])
         force = np.matmul(kf,user_input)
@@ -169,6 +201,7 @@ with open(output_path, mode='w') as csv_file:
         #sys.stdout.write("\033[K")
 
         #active constraint
+        planar_force = np.zeros((3,1))
         viscoelastic_force = np.zeros((3,1))
         if ( ( pow(robot.x - centre[0],2) + pow(robot.y - centre[1],2) + pow(robot.z - centre[2],2) ) >= pow(radius,2) ):
             #outside boundary
@@ -193,9 +226,22 @@ with open(output_path, mode='w') as csv_file:
         sphere.header.stamp = rospy.get_rostime()
         sphere_pub.publish(sphere)
 
+        if plane == 'xy':
+            fz = -k*( robot.z - np.asscalar(centre[2]) )
+            planar_force = np.array([[0],[0],[fz]])
+        elif plane == 'xz':
+            fy = -k*( robot.y - np.asscalar(centre[1]) )
+            planar_force = np.array([[0],[fy],[0]])
+        elif plane == 'yz':
+            fx = -k*( robot.x - np.asscalar(centre[0]) )
+            planar_force = np.array([[fx],[0],[0]])
+        else:
+            pass
+
         viscoelastic_efforts = np.matmul(np.transpose(robot.get_Jv()),viscoelastic_force)
+        planar_efforts = np.matmul(np.transpose(robot.get_Jv()),planar_force)
         user_effort = np.matmul(np.transpose(robot.get_Jv()),force)
-        efforts = np.matmul(Q,user_effort) + viscoelastic_efforts + G
+        efforts = np.matmul(Q,user_effort) + viscoelastic_efforts + G + np.matmul(Q,planar_efforts)
 
         #publish efforts to gazebo
         eff_pub1.publish(efforts[0])
@@ -206,13 +252,13 @@ with open(output_path, mode='w') as csv_file:
         sys.stdout.write("\033[F")
         sys.stdout.write("\033[K")
 
-        fx = np.asscalar(viscoelastic_force[0])
-        fy = np.asscalar(viscoelastic_force[1])
-        fz = np.asscalar(viscoelastic_force[2])
+        eff_1 = np.asscalar(viscoelastic_efforts[0])
+        eff_2 = np.asscalar(viscoelastic_efforts[1])
+        eff_3 = np.asscalar(viscoelastic_efforts[2])
 
-        time = rospy.get_time() - start_time
         #upload state to csvelastic_force
-        writer.writerow({'x': str(robot.x), 'y': str(robot.y), 'z': str(robot.z), 'fx': str(fx), 'fy': str(fy), 'fz': str(fz), 'time': str(time), 'dist': str(dist)})
+        if dist != 0:
+            writer.writerow({'p': str(p), 'q': str(q), 'pitch_eff': str(eff_1), 'yaw_eff': str(eff_2), 'ext_eff': str(eff_3), 'dev': str(dist)})
 
         rate.sleep()
 

@@ -2,6 +2,7 @@
 
 import rospy
 import math
+import sys
 import signaturebot
 import numpy as np
 from sensor_msgs.msg import Joy
@@ -33,13 +34,9 @@ ext_pub = rospy.Publisher('signaturebot/arm_controller/position/extension_joint/
 robot = signaturebot.signature_bot()
 robot.get_fk()
 
-print('-----------------------------')
-print('x: ' + str(robot.x) + ' y: ' + str(robot.y) + ' z: ' + str(robot.z))
-print('-----------------------------')
-print('th1: ' + str(robot.th1) + ' th2: ' + str(robot.th2) + ' d3: ' + str(robot.d3))
-print('-----------------------------')
-
 rate = rospy.Rate(50)
+
+print('------------Joy Demonstration-----------')
 
 while not rospy.is_shutdown():
     #loop until node shutdown
@@ -54,16 +51,15 @@ while not rospy.is_shutdown():
     robot.th1 = robot.th1 - xbox[0] * 0.01
     robot.th2 = robot.th2 + xbox[2] * 0.01
     robot.d3 = robot.d3 + xbox[1] * 0.001
+    robot.get_fk()
 
     #publish joint variables to arm_controller/position/joint/command
     pitch_pub.publish(robot.th1)
     yaw_pub.publish(robot.th2)
     ext_pub.publish(robot.d3)
 
-    print('------------------------------')
-    print('x: ' + str(robot.x) + ' y: ' + str(robot.y) + ' z: ' + str(robot.z))
-    print('------------------------------')
-    print('th1: ' + str(robot.th1) + ' th2: ' + str(robot.th2) + ' d3: ' + str(robot.d3))
-    print('------------------------------')
+    print('Current State: ' + 'th1: ' + str(round(robot.th1,2)) + ' th2: ' + str(round(robot.th2,2)) + ' d3: ' + str(round(robot.d3,3)))
+    sys.stdout.write("\033[F")
+    sys.stdout.write("\033[K")
 
     rate.sleep()
