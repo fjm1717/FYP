@@ -84,10 +84,10 @@ print('------Viscoelastic Constraint Demo------')
 
 #user force gains
 kf = np.diag([1.0,1.0,1.0])
-Q = np.diag([1.0, 1.0, 7.5])
-#elastic force gains
-ke = np.diag([820.0,820.0,950.0])
-kv = np.diag([2.2,2.2,2.6])
+Q = np.diag([1.0,1.0,6.5])
+#viscoelastic force gains
+ke = np.diag([1800.0,1600.0,1550.0])
+kv = np.diag([2.2,2.0,2.4])
 
 pose = np.zeros((3,1))
 dx = np.zeros((3,1))
@@ -195,7 +195,7 @@ with open(output_path, mode='w') as csv_file:
 
         viscoelastic_efforts = np.matmul(np.transpose(robot.get_Jv()),viscoelastic_force)
         user_effort = np.matmul(np.transpose(robot.get_Jv()),force)
-        efforts = np.matmul(Q,user_effort) + viscoelastic_efforts + G
+        efforts = np.matmul(Q,user_effort+viscoelastic_efforts) + G
 
         #publish efforts to gazebo
         eff_pub1.publish(efforts[0])

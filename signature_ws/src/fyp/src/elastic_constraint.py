@@ -105,10 +105,10 @@ command.linear.z = 0.0
 position_pub.publish(command)
 
 #user force gains
-kf = np.diag([2.0,1.0,1.0])
-ext_scaling = 8.0
+kf = np.diag([1.0,1.0,1.0])
+Q = np.diag([1.0,1.0,6.85])
 #elastic force gains
-ke = np.diag([500.0,500.0,800.0])
+ke = np.diag([1400.0,1300.0,1200.0])
 
 pose = np.zeros((3,1))
 force = np.zeros((3,1))
@@ -193,8 +193,7 @@ with open(output_path, mode='w') as csv_file:
 
         elastic_efforts = np.matmul(np.transpose(robot.get_Jv()),elastic_force)
         user_effort = np.matmul(np.transpose(robot.get_Jv()),force)
-        user_effort[2] = ext_scaling*user_effort[2]
-        efforts = user_effort + elastic_efforts + G
+        efforts = np.matmul(Q,user_effort+elastic_efforts) + G
 
         #publish efforts to gazebo
         eff_pub1.publish(efforts[0])

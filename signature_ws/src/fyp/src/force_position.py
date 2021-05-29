@@ -65,11 +65,13 @@ wrench_pub = rospy.Publisher('signaturebot/wrench', WrenchStamped, queue_size=10
 
 robot = signaturebot.signature_bot()
 
-#xyz gains
-kp = np.diag([800.0,10.0,750.0])
-kd = np.diag([1.0,5.0,15.0])
-ki = np.diag([500.0,1.0,200.0])
+Q = np.diag([1.0, 1.0, 1.0])
 #ki = np.zeros((3,3))
+
+#xyz gains
+kp = np.diag([1450.0,50.0,450.0])
+kd = np.diag([2.8,3.0,3.4])
+ki = np.diag([680.0,10.0,150.0])
 
 pose = np.zeros((3,1))
 diff_error = np.zeros((3,1))
@@ -117,6 +119,7 @@ while not rospy.is_shutdown():
         force = np.matmul(kp,error) + np.matmul(kd,diff_error) + np.matmul(ki,int_error)
         G = robot.get_G()
         efforts = np.matmul(np.transpose(robot.get_Jv()),force)
+        scaled_efforts = np.matmul(Q,efforts)
 
         #publish wrench msg
         wrench_msg.header.stamp = rospy.get_rostime()
@@ -130,9 +133,9 @@ while not rospy.is_shutdown():
         efforts = efforts + G
 
         #publish efforts to gazebo
-        pitch.publish(efforts[0])
-        yaw.publish(efforts[1])
-        ext.publish(efforts[2] - 44*robot.d3)
+        pitch.publish(scaled_efforts[0])
+        yaw.publish(scaled_efforts[1])
+        ext.publish(scaled_efforts[2])
 
         rate.sleep()
 

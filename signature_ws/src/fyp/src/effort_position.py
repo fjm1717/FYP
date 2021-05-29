@@ -13,9 +13,9 @@ from std_msgs.msg import Header, Float64
 import matplotlib.pyplot as plt
 
 state = np.zeros(4)
-sample_rate = 10
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/linear_data/horizontal/2000_44.csv'
-input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/linear_data/horizontal/poly_horiz_2000.csv'
+sample_rate = 20
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/linear_data/horizontal/250.csv'
+input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/linear_data/horizontal/poly_horiz_250.csv'
 
 def joint_reader(msg):
     global state
@@ -46,8 +46,8 @@ robot = signaturebot.signature_bot()
 
 robot.th1 = 0.0
 robot.th2 = 0.0
-N = 680 #number of data points
-M = 3 #number of spring constants
+N = 15 #number of data points
+M = 1 #number of spring constants
 
 #motor parameters
 n = 30.0/14.0
@@ -55,10 +55,10 @@ stall_torque = 49.4 #mNm
 nom_torque = 12.5 #mNm
 no_load_curr = 28.3 #mA
 start_curr = 3140 #mA
-i = 1000.0 #mA
+i = 250.0 #mA
 
 #extended model
-spring_constants = np.linspace(42.0,44.0,M) #N/m
+spring_constants = np.linspace(0.0,0.0,M) #N/m
 
 measurements = np.zeros((2*M,N))
 
@@ -69,7 +69,7 @@ r = 6.25e-3 #m
 print('----------Extension Data Collection----------')
 rate = rospy.Rate(sample_rate)
 
-time.sleep(15)
+time.sleep(4)
 pitch_pub.publish(robot.th1)
 yaw_pub.publish(robot.th2)
 

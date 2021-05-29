@@ -12,7 +12,7 @@ from sensor_msgs.msg import JointState, Joy
 from std_msgs.msg import Header, Float64
 from geometry_msgs.msg import Twist, WrenchStamped, Wrench, Vector3, PointStamped, Point
 
-plane = 'yz'
+plane = 'xz'
 
 if plane == 'xy':
     output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/planar_constraint_data_xy.csv'
@@ -26,7 +26,7 @@ else:
 state = np.zeros(4)
 xbox = np.zeros(6)
 rms_error = 1.0
-exe_rate = 50
+exe_rate = 60
 
 #spherical constraints
 centre = np.array([[0.175],[0.0],[-0.05008]])
@@ -89,7 +89,7 @@ joint_sub = rospy.Subscriber('signaturebot/joint_states', JointState, joint_read
 
 robot = signaturebot.signature_bot()
 
-print('------Viscoelastic Constraint Demo------')
+print('----------Planar Constraint Demo----------')
 
 #user force gains
 if plane == 'xy':
@@ -101,10 +101,10 @@ elif plane == 'yz':
 else:
     kf = np.diag([1.0,1.0,1.0])
 
-Q = np.diag([1.0, 1.0, 7.5])
-#elastic force gains
-ke = np.diag([1500.0,1200.0,1200.0])
-kv = np.diag([2.6,2.2,2.6])
+Q = np.diag([1.0, 1.0, 6.5])
+#viscoelastic force gains
+ke = np.diag([1850.0,1600.0,1550.0])
+kv = np.diag([2.0,2.0,2.25])
 #planar constraint
 k = 200
 
@@ -161,7 +161,7 @@ start_time = rospy.get_time()
 dist = 0
 
 with open(output_path, mode='w') as csv_file:
-    data = ['p','q','pitch_eff','yaw_eff','ext_eff','dev']
+    data = ['p','q','force','dev']
     writer = csv.DictWriter(csv_file, fieldnames=data)
     writer.writeheader()
 
@@ -241,7 +241,9 @@ with open(output_path, mode='w') as csv_file:
         viscoelastic_efforts = np.matmul(np.transpose(robot.get_Jv()),viscoelastic_force)
         planar_efforts = np.matmul(np.transpose(robot.get_Jv()),planar_force)
         user_effort = np.matmul(np.transpose(robot.get_Jv()),force)
-        efforts = np.matmul(Q,user_effort) + viscoelastic_efforts + G + np.matmul(Q,planar_efforts)
+        efforts = np.matmul(Q,user_effort+planar_efforts+viscoelastic_efforts) + G
+
+        norm_force = np.linalg.norm(viscoelastic_force)
 
         #publish efforts to gazebo
         eff_pub1.publish(efforts[0])
@@ -249,16 +251,14 @@ with open(output_path, mode='w') as csv_file:
         eff_pub3.publish(efforts[2])
 
         print('Boundary Penetration (mm): ' + str(dist*1000))
+        #print('User Force (N): ' + str(norm_force))
+        #print('Total Efforts: ' + str(efforts[0]*1000) + ' ' + str(efforts[1]*1000) + ' ' + str(efforts[2]))
         sys.stdout.write("\033[F")
         sys.stdout.write("\033[K")
 
-        eff_1 = np.asscalar(viscoelastic_efforts[0])
-        eff_2 = np.asscalar(viscoelastic_efforts[1])
-        eff_3 = np.asscalar(viscoelastic_efforts[2])
-
-        #upload state to csvelastic_force
+        #upload state to csv
         if dist != 0:
-            writer.writerow({'p': str(p), 'q': str(q), 'pitch_eff': str(eff_1), 'yaw_eff': str(eff_2), 'ext_eff': str(eff_3), 'dev': str(dist)})
+            writer.writerow({'p': str(p), 'q': str(q), 'force': str(norm_force), 'dev': str(dist)})
 
         rate.sleep()
 

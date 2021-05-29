@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/force_position/force_position_data.csv'
 
 state = np.zeros(7)
-N = 600
+N = 400
 rms_error = 1.0
 exe_rate = 50
 
@@ -66,7 +66,7 @@ robot = signaturebot.signature_bot()
 
 print('----------Force Position Data----------')
 
-time.sleep(10)
+time.sleep(6)
 
 print('---------------------------------------')
 print('Moving EE to Target..')

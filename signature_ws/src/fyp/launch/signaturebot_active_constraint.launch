@@ -41,7 +41,7 @@
   </node>
 
   <node pkg="fyp" name="force_position" type="force_position.py" />
-  <node pkg="fyp" name="active_constraint_demo" type="planar_constraint.py" output="screen" launch-prefix="gnome-terminal --command" />
+  <node pkg="fyp" name="active_constraint_demo" type="viscoelastic_constraint.py" output="screen" launch-prefix="gnome-terminal --command" />
 
   <node
     name="rviz"
