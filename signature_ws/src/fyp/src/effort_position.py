@@ -14,8 +14,8 @@ import matplotlib.pyplot as plt
 
 state = np.zeros(4)
 sample_rate = 20
-output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/linear_data/horizontal/250.csv'
-input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/linear_data/horizontal/poly_horiz_250.csv'
+output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/linear_data/750.csv'
+input_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/linear_data/poly_horiz_750.csv'
 
 def joint_reader(msg):
     global state
@@ -46,8 +46,8 @@ robot = signaturebot.signature_bot()
 
 robot.th1 = 0.0
 robot.th2 = 0.0
-N = 15 #number of data points
-M = 1 #number of spring constants
+N = 20 #number of data points
+M = 5 #number of spring constants
 
 #motor parameters
 n = 30.0/14.0
@@ -55,10 +55,10 @@ stall_torque = 49.4 #mNm
 nom_torque = 12.5 #mNm
 no_load_curr = 28.3 #mA
 start_curr = 3140 #mA
-i = 250.0 #mA
+i = 750.0 #mA
 
 #extended model
-spring_constants = np.linspace(0.0,0.0,M) #N/m
+spring_constants = np.linspace(1.0,5.0,M) #N/m
 
 measurements = np.zeros((2*M,N))
 
@@ -69,7 +69,7 @@ r = 6.25e-3 #m
 print('----------Extension Data Collection----------')
 rate = rospy.Rate(sample_rate)
 
-time.sleep(4)
+time.sleep(6)
 pitch_pub.publish(robot.th1)
 yaw_pub.publish(robot.th2)
 
@@ -91,7 +91,7 @@ for k in spring_constants:
 
     ext_pub.publish(-10.0)
 
-    time.sleep(3)
+    time.sleep(4)
 
     count = 0
     robot.d3 = 0
@@ -119,6 +119,7 @@ for k in spring_constants:
     print('50mm Extension Reached!')
 
     measurement_count += 1
+    ext_pub.publish(-10.0)
 
 print('---------------------------------------------')
 print('Export Complete.')

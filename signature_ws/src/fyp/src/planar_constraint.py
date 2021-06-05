@@ -101,12 +101,20 @@ elif plane == 'yz':
 else:
     kf = np.diag([1.0,1.0,1.0])
 
-Q = np.diag([1.0, 1.0, 6.5])
+Q = np.diag([1.0, 1.0, 4.8])
 #viscoelastic force gains
-ke = np.diag([1850.0,1600.0,1550.0])
-kv = np.diag([2.0,2.0,2.25])
+ke = np.diag([1870.0,1720.0,1660.0])
+kv = np.diag([2.0,2.0,1.8])
 #planar constraint
 k = 200
+
+#motor parameters
+n = 30.0/14.0
+stall_torque = 49.4 #mNm
+nom_torque = 0 #12.5 #mNm
+no_load_curr = 28.3 #mA
+start_curr = 3140 #mA
+r = 6.25e-3 #m
 
 pose = np.zeros((3,1))
 dx = np.zeros((3,1))
@@ -161,7 +169,7 @@ start_time = rospy.get_time()
 dist = 0
 
 with open(output_path, mode='w') as csv_file:
-    data = ['p','q','force','dev']
+    data = ['p','q','force','dev','ext_curr','pitch','yaw','ext']
     writer = csv.DictWriter(csv_file, fieldnames=data)
     writer.writeheader()
 
@@ -241,24 +249,36 @@ with open(output_path, mode='w') as csv_file:
         viscoelastic_efforts = np.matmul(np.transpose(robot.get_Jv()),viscoelastic_force)
         planar_efforts = np.matmul(np.transpose(robot.get_Jv()),planar_force)
         user_effort = np.matmul(np.transpose(robot.get_Jv()),force)
-        efforts = np.matmul(Q,user_effort+planar_efforts+viscoelastic_efforts) + G
+        scaled_visco = np.matmul(Q,viscoelastic_efforts)
+        scaled_user = np.matmul(Q,user_effort)
+        efforts = np.matmul(Q,planar_efforts) + G + scaled_visco + scaled_user
 
         norm_force = np.linalg.norm(viscoelastic_force)
+
+        tau1 = np.asscalar(scaled_visco[0])
+        tau2 = np.asscalar(scaled_visco[1])
+        F3 = np.asscalar(scaled_visco[2])
+
+        #extension motor current
+        T3 = F3 * (r*1.0e3) / n #mNm
+        i = ( abs(T3) - nom_torque ) * ( ( start_curr - no_load_curr ) / ( stall_torque - nom_torque ) ) + no_load_curr #mA
 
         #publish efforts to gazebo
         eff_pub1.publish(efforts[0])
         eff_pub2.publish(efforts[1])
         eff_pub3.publish(efforts[2])
 
+        #print('Extension Motor Current (mA): ' + str(i))
+        #print('Extension Force (N): ' + str(scaled_user[2]))
         print('Boundary Penetration (mm): ' + str(dist*1000))
-        #print('User Force (N): ' + str(norm_force))
-        #print('Total Efforts: ' + str(efforts[0]*1000) + ' ' + str(efforts[1]*1000) + ' ' + str(efforts[2]))
-        sys.stdout.write("\033[F")
-        sys.stdout.write("\033[K")
+
+        if dist*1000 < 1.0:
+            sys.stdout.write("\033[F")
+            sys.stdout.write("\033[K")
 
         #upload state to csv
         if dist != 0:
-            writer.writerow({'p': str(p), 'q': str(q), 'force': str(norm_force), 'dev': str(dist)})
+            writer.writerow({'p': str(p), 'q': str(q), 'force': str(norm_force), 'dev': str(dist), 'ext_curr': str(i), 'pitch': str(tau1), 'yaw': str(tau2), 'ext': str(F3)})
 
         rate.sleep()
 

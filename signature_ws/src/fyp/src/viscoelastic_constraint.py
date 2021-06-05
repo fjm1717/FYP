@@ -17,7 +17,7 @@ output_path = '/home/spyros/Spyros/FYP/signature_ws/src/fyp/data/viscoelastic_co
 state = np.zeros(4)
 xbox = np.zeros(6)
 rms_error = 1.0
-exe_rate = 50
+exe_rate = 60
 
 #spherical constraints
 centre = np.array([[0.175],[0.0],[-0.05008]])
@@ -84,10 +84,10 @@ print('------Viscoelastic Constraint Demo------')
 
 #user force gains
 kf = np.diag([1.0,1.0,1.0])
-Q = np.diag([1.0,1.0,6.5])
+Q = np.diag([1.0,1.0,4.8])
 #viscoelastic force gains
-ke = np.diag([1800.0,1600.0,1550.0])
-kv = np.diag([2.2,2.0,2.4])
+ke = np.diag([1870.0,1720.0,1660.0])
+kv = np.diag([2.0,2.0,1.8])
 
 pose = np.zeros((3,1))
 dx = np.zeros((3,1))
@@ -203,8 +203,10 @@ with open(output_path, mode='w') as csv_file:
         eff_pub3.publish(efforts[2])
 
         print('Boundary Penetration (mm): ' + str(dist*1000))
-        sys.stdout.write("\033[F")
-        sys.stdout.write("\033[K")
+
+        if dist*1000 < 1.0:
+            sys.stdout.write("\033[F")
+            sys.stdout.write("\033[K")
 
         fx = np.asscalar(viscoelastic_force[0])
         fy = np.asscalar(viscoelastic_force[1])

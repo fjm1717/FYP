@@ -82,7 +82,7 @@ robot = signaturebot.signature_bot()
 
 print('--------Elastic Constraint Demo--------')
 
-time.sleep(5)
+time.sleep(6)
 
 print('---------------------------------------')
 print('Moving EE to Boundary Centre..')
@@ -108,7 +108,7 @@ position_pub.publish(command)
 kf = np.diag([1.0,1.0,1.0])
 Q = np.diag([1.0,1.0,6.85])
 #elastic force gains
-ke = np.diag([1400.0,1300.0,1200.0])
+ke = np.diag([1000.0,800.0,750.0])
 
 pose = np.zeros((3,1))
 force = np.zeros((3,1))

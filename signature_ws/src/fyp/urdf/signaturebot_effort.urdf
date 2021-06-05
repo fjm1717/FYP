@@ -259,15 +259,9 @@
       upper="0.096"
       effort="100"
       velocity="0.5" />
-    <!--dynamics
-      damping="145.0"
-      friction="5.5" /-->
-    <!--dynamics
-      damping="10.0"
-      friction="1.0" /-->
     <dynamics
       damping="85.0"
-      friction="3.45" />
+      friction="3.48" />
   </joint>
 
   <transmission name="tran3">
